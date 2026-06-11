@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolos de Redes</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#4CAF50,#2E7D32);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#main-wrapper{
+width:95%;
+max-width:650px;
+}
+
+#quiz-container{
+background:#fff;
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:fadeIn .4s;
+}
+
+h2{
+margin-bottom:10px;
+color:#2E7D32;
+}
+
+#progress-text{
+margin-bottom:10px;
+font-size:14px;
+color:#555;
+}
+
+#progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#4CAF50;
+transition:.3s;
+}
+
+#question-container{
+font-weight:bold;
+margin-bottom:20px;
+}
+
+#options-container{
+display:grid;
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.option{
+width:100%;
+background:#4CAF50;
+color:#fff;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+font-size:16px;
+}
+
+.option:hover{
+background:#388E3C;
+transform:scale(1.02);
+}
+
+.option:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.correct{
+background:#2E7D32!important;
+}
+
+.wrong{
+background:#C62828!important;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+}
+
+#restart-btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+background:#2E7D32;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+display:none;
+}
+
+#restart-btn:hover{
+background:#1B5E20;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(min-width:600px){
+#options-container{
+grid-template-columns:1fr 1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+
+<div id="quiz-container">
+
+<h2>Protocolos de Redes</h2>
+
+<div id="progress-text"></div>
+
+<div id="progress-bar">
+<div id="progress"></div>
+</div>
+
+<div id="question-container"></div>
+
+<div id="options-container"></div>
+
+<p id="result"></p>
+
+<button id="restart-btn">Refazer Simulado</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+{
+question: "O que significa a sigla TCP em protocolos de rede?",
+options: ["Transmission Control Protocol", "Time Clock Protocol", "Terminal Connection Protocol", "Text Compression Protocol"],
+correctAnswer: 0
+},
+{
+question: "Qual é a função principal do protocolo IP em uma rede?",
+options: ["Controle de tráfego", "Encaminhamento de dados", "Compactação de dados", "Criptografia de dados"],
+correctAnswer: 1
+},
+{
+question: "O que é um endereço MAC em redes de computadores?",
+options: ["Máscara de Acesso Controlado", "Módulo de Acesso Central", "Media Access Control", "Modulação de Acesso à Conexão"],
+correctAnswer: 2
+},
+{
+question: "Qual é a diferença entre TCP e UDP?",
+options: ["TCP é orientado à conexão, UDP não é", "TCP é mais rápido que UDP", "UDP é orientado à conexão, TCP não é", "TCP e UDP são idênticos em funcionalidade"],
+correctAnswer: 0
+},
+{
+question: "O que é um protocolo de roteamento em redes?",
+options: ["Um protocolo para configurar roteadores", "Um protocolo para controlar o tráfego de dados", "Um protocolo para enviar e receber emails", "Um protocolo para gerenciar endereços IP"],
+correctAnswer: 0
+},
+{
+question: "Qual é a finalidade do protocolo DNS?",
+options: ["Roteamento de pacotes", "Resolução de nomes para endereços IP", "Controle de qualidade de serviço", "Transferência de arquivos"],
+correctAnswer: 1
+},
+{
+question: "O que é o protocolo DHCP e qual é sua função?",
+options: ["Protocolo de Controle Dinâmico de Hosts, responsável pela segurança da rede", "Protocolo de Configuração Dinâmica de Hosts, responsável pela atribuição automática de endereços IP", "Protocolo de Roteamento Dinâmico, responsável pelo gerenciamento de rotas na rede", "Protocolo de Segurança de Conexão Dinâmica, responsável pela criptografia de dados"],
+correctAnswer: 1
+},
+{
+question: "O que é NAT em redes de computadores?",
+options: ["New Address Translation", "Network Address Translation", "Node Access Technology", "National Authentication Token"],
+correctAnswer: 1
+},
+{
+question: "O que é um firewall em termos de redes de computadores?",
+options: ["Um dispositivo para amplificar o sinal de rede", "Uma barreira física que protege os servidores", "Um software ou hardware que impede ou permite o tráfego de dados", "Uma ferramenta para monitorar a largura de banda da rede"],
+correctAnswer: 2
+},
+{
+question: "Qual é a principal função do protocolo ARP?",
+options: ["Roteamento de pacotes", "Resolução de endereços IP para nomes", "Resolução de endereços MAC para endereços IP", "Controle de congestionamento de rede"],
+correctAnswer: 2
+},
+{
+question: "O que é um protocolo de tunelamento?",
+options: ["Um protocolo para criar túneis em redes subterrâneas", "Um protocolo para encapsular um protocolo em outro para transmissão através de uma rede", "Um protocolo para criar redes virtuais privadas", "Um protocolo para aumentar a largura de banda da rede"],
+correctAnswer: 1
+},
+{
+question: "O que significa QoS em redes?",
+options: ["Quality of Service", "Quick Online Support", "Quantum Operating System", "Query of Standards"],
+correctAnswer: 0
+},
+{
+question: "Qual é a diferença entre um switch e um hub em uma rede local?",
+options: ["Ambos são dispositivos idênticos", "Um switch filtra o tráfego de rede, enquanto um hub não o faz", "Um hub é mais rápido que um switch", "Um switch só suporta conexões sem fio"],
+correctAnswer: 1
+},
+{
+question: "O que é o protocolo ICMP e para que ele é usado?",
+options: ["Internet Control Message Protocol, usado para diagnóstico de rede e relatórios de erro", "Internet Communication Management Protocol, usado para gerenciar comunicações online", "Integrated Control and Monitoring Protocol, usado para controle e monitoramento integrados", "Internet Configuration and Management Protocol, usado para configurar dispositivos de rede"],
+correctAnswer: 0
+},
+{
+question: "O que é o protocolo FTP e qual é sua função?",
+options: ["File Transfer Protocol, usado para transmissão de arquivos", "Fast Transmission Protocol, usado para transferência rápida de dados", "File Tracking Protocol, usado para rastrear mudanças em arquivos", "File Type Protocol, usado para identificar o tipo de arquivo"],
+correctAnswer: 0
+},
+{
+question: "O que é o protocolo SSL/TLS e para que serve?",
+options: ["Secure Socket Layer/Transport Layer Security, usado para criptografar comunicações na web", "Simple Service Locator/Transport Layer Security", "System Security Layer/Transmission Level Security", "Software Service Locator/Total Link Security"],
+correctAnswer: 0
+},
+{
+question: "O que é um endereço IPv6 e por que foi desenvolvido?",
+options: ["Um endereço de Internet versão 6 para substituir o IPv4 devido à escassez de endereços", "Para melhorar a velocidade da conexão", "Para redes virtuais privadas", "Para suportar apenas dispositivos sem fio"],
+correctAnswer: 0
+},
+{
+question: "O que é um ataque DDoS em termos de redes?",
+options: ["Direto e Descentralizado Sobrecarregamento", "Distribuição de Dados e Operações Seguras", "Denegação de Serviço Distribuída", "Duplicação de Sessões e Operações Seguras"],
+correctAnswer: 2
+},
+{
+question: "Qual protocolo é utilizado para envio de e-mails?",
+options: ["SMTP", "FTP", "DNS", "ARP"],
+correctAnswer: 0
+},
+{
+question: "Qual protocolo é utilizado para receber e-mails em clientes de correio eletrônico?",
+options: ["POP3 ou IMAP", "HTTP", "ICMP", "DHCP"],
+correctAnswer: 0
+}
+];
+
+let currentQuestion=0;
+let score=0;
+
+function loadQuestion(){
+
+const questionContainer=document.getElementById("question-container");
+const optionsContainer=document.getElementById("options-container");
+const progressText=document.getElementById("progress-text");
+const progress=document.getElementById("progress");
+
+progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
+
+progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
+
+questionContainer.textContent=questions[currentQuestion].question;
+
+optionsContainer.innerHTML="";
+
+questions[currentQuestion].options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.textContent=option;
+
+button.classList.add("option");
+
+button.dataset.index=index;
+
+button.onclick=selectOption;
+
+optionsContainer.appendChild(button);
+
+});
+
+}
+
+function selectOption(event){
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+const selected=parseInt(event.target.dataset.index);
+
+const correct=questions[currentQuestion].correctAnswer;
+
+let delay;
+
+if(selected===correct){
+
+event.target.classList.add("correct");
+
+document.getElementById("result").textContent="Correto!";
+
+score++;
+
+delay=1000;
+
+}else{
+
+event.target.classList.add("wrong");
+
+buttons[correct].classList.add("correct");
+
+document.getElementById("result").textContent=
+`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
+
+delay=2000;
+
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+
+document.getElementById("result").textContent="";
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},delay);
+
+}
+
+function showResult(){
+
+document.getElementById("progress").style.width="100%";
+
+document.getElementById("question-container").textContent="Resultado Final";
+
+document.getElementById("options-container").innerHTML="";
+
+document.getElementById("result").textContent=
+`Você acertou ${score} de ${questions.length} perguntas!`;
+
+document.getElementById("restart-btn").style.display="inline-block";
+
+}
+
+document.getElementById("restart-btn").onclick=function(){
+
+currentQuestion=0;
+
+score=0;
+
+this.style.display="none";
+
+loadQuestion();
+
+};
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

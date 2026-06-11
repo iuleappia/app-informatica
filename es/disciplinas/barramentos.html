@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buses de Datos</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Buses de Datos</h1>
+
+<p>
+Los buses de datos son responsables de la comunicación entre los diferentes componentes de un sistema computacional. 🔌 Permiten el intercambio de datos, instrucciones y señales de control entre el procesador, la memoria y los dispositivos de entrada y salida.
+</p>
+
+<h2>🤔 ¿Qué son los Buses de Datos?</h2>
+
+<p>
+Los buses son conjuntos de líneas de comunicación que conectan los principales componentes de la computadora. A través de ellos, la información puede ser transmitida entre la CPU, la memoria y otros dispositivos, garantizando el funcionamiento integrado del sistema.
+</p>
+
+<h2>📚 ¿Por qué conocer los Buses de Datos?</h2>
+
+<ul>
+<li><span class="highlight">Comunicación entre componentes:</span> Los buses permiten que diferentes partes de la computadora intercambien información.</li>
+
+<li><span class="highlight">Organización del sistema:</span> Estructuran la forma en que los datos circulan dentro de la computadora.</li>
+
+<li><span class="highlight">Rendimiento del hardware:</span> La velocidad y la capacidad de los buses influyen directamente en el rendimiento del sistema.</li>
+</ul>
+
+<h2>📋 Tipos de Buses</h2>
+
+<ul>
+<li><span class="highlight">Bus de Datos:</span> Responsable de transportar los datos entre el procesador, la memoria y los dispositivos.</li>
+
+<li><span class="highlight">Bus de Direcciones:</span> Indica la posición de memoria donde los datos deben ser leídos o escritos.</li>
+
+<li><span class="highlight">Bus de Control:</span> Transporta señales de control que coordinan las operaciones entre los componentes del sistema.</li>
+</ul>
+
+<h2>🎓 Importancia de los Buses</h2>
+
+<p>
+Los buses son fundamentales para el funcionamiento de la computadora, ya que garantizan la comunicación eficiente entre todos los componentes del sistema. Sin ellos, el procesador no podría acceder a la memoria ni interactuar con los dispositivos conectados.
+</p>
+
+<h2>🌟 Conclusión</h2>
+
+<p>
+Los buses de datos son esenciales para el intercambio de información dentro del sistema. Permiten que los componentes trabajen juntos de forma organizada, garantizando el funcionamiento correcto y eficiente de la computadora.
+</p>
+
+<a href="../simulados/simulado_barramentos.html">
+<button id="start-button">
+🚀 Iniciar Simulacro
+</button>
+</a>
+
+</body>
+</html>

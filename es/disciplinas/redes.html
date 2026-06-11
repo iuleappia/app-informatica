@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes de Computadoras</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Redes de Computadoras</h1>
+
+<p>
+Las redes de computadoras permiten la conexión entre diferentes dispositivos para compartir información, recursos y servicios. 🌐 Posibilitan que computadoras, smartphones y otros equipos se comuniquen entre sí, formando sistemas interconectados.
+</p>
+
+<h2>🤔 ¿Qué son las Redes de Computadoras?</h2>
+
+<p>
+Una red de computadoras es un conjunto de dispositivos conectados entre sí mediante cables, señales inalámbricas u otros medios de comunicación. Esta conexión permite el intercambio de datos, el acceso a información y el compartir recursos entre los usuarios.
+</p>
+
+<h2>📚 ¿Por qué conocer las Redes de Computadoras?</h2>
+
+<ul>
+<li><span class="highlight">Compartir información:</span> Las redes permiten que archivos y datos sean accedidos por diferentes usuarios en diversos dispositivos.</li>
+
+<li><span class="highlight">Comunicación rápida:</span> A través de las redes, es posible enviar mensajes, realizar llamadas y acceder a servicios en línea de forma instantánea.</li>
+
+<li><span class="highlight">Acceso a internet:</span> Las redes son responsables de conectar dispositivos al mayor sistema de comunicación del mundo, internet.</li>
+</ul>
+
+<h2>📋 Principales Tipos de Redes</h2>
+
+<ul>
+<li><span class="highlight">LAN (Red de Área Local):</span> Conecta computadoras en un área limitada, como hogares, escuelas o empresas.</li>
+
+<li><span class="highlight">MAN (Red de Área Metropolitana):</span> Abarca un área mayor, como una ciudad o región urbana.</li>
+
+<li><span class="highlight">WAN (Red de Área Amplia):</span> Interconecta redes en grandes distancias, como países o continentes. Internet es el mayor ejemplo de WAN.</li>
+
+<li><span class="highlight">Red inalámbrica (Wi-Fi):</span> Permite la conexión entre dispositivos sin necesidad de cables físicos.</li>
+</ul>
+
+<h2>🎓 Importancia de las Redes</h2>
+
+<p>
+Las redes de computadoras son fundamentales para la comunicación moderna, permitiendo el acceso a la información, la colaboración entre personas y el funcionamiento de diversos servicios digitales utilizados a diario.
+</p>
+
+<h2>🌟 Conclusión</h2>
+
+<p>
+Las redes de computadoras son esenciales para el mundo digital actual. Conectan personas, dispositivos y sistemas, haciendo posible el intercambio de información y el acceso a servicios que forman parte de nuestra rutina.
+</p>
+
+<a href="../simulados/simulado_redes.html">
+<button id="start-button">
+🚀 Iniciar Simulacro
+</button>
+</a>
+
+</body>
+</html>

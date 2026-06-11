@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitetura</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#4CAF50,#2E7D32);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#main-wrapper{
+width:95%;
+max-width:650px;
+}
+
+#quiz-container{
+background:#fff;
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:fadeIn .4s;
+}
+
+h2{
+margin-bottom:10px;
+color:#2E7D32;
+}
+
+#progress-text{
+margin-bottom:10px;
+font-size:14px;
+color:#555;
+}
+
+#progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#4CAF50;
+transition:.3s;
+}
+
+#question-container{
+font-weight:bold;
+margin-bottom:20px;
+}
+
+#options-container{
+display:grid;
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.option{
+width:100%;
+background:#4CAF50;
+color:#fff;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+font-size:16px;
+}
+
+.option:hover{
+background:#388E3C;
+transform:scale(1.02);
+}
+
+.option:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.correct{
+background:#2E7D32!important;
+}
+
+.wrong{
+background:#C62828!important;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+}
+
+#restart-btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+background:#2E7D32;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+display:none;
+}
+
+#restart-btn:hover{
+background:#1B5E20;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(min-width:600px){
+#options-container{
+grid-template-columns:1fr 1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+
+<div id="quiz-container">
+
+<h2>Arquitetura</h2>
+
+<div id="progress-text"></div>
+
+<div id="progress-bar">
+<div id="progress"></div>
+</div>
+
+<div id="question-container"></div>
+
+<div id="options-container"></div>
+
+<p id="result"></p>
+
+<button id="restart-btn">Refazer Simulado</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+{
+question: "No modelo de Von Neumann, qual característica é fundamental?",
+options: ["Memória separada para dados e instruções", "Memória única para dados e instruções", "Processador sem registradores", "Uso exclusivo de memória cache"],
+correctAnswer: 1
+},
+{
+question: "Qual componente é responsável por executar instruções em um computador?",
+options: ["HD", "CPU", "Fonte de alimentação", "Placa de rede"],
+correctAnswer: 1
+},
+{
+question: "Qual unidade da CPU realiza operações matemáticas e lógicas?",
+options: ["Unidade de Controle", "ULA", "Barramento de dados", "Memória cache"],
+correctAnswer: 1
+},
+{
+question: "O que são registradores em um processador?",
+options: ["Memórias externas de grande capacidade", "Áreas de armazenamento muito rápidas dentro da CPU", "Dispositivos de entrada de dados", "Memórias usadas apenas para backup"],
+correctAnswer: 1
+},
+{
+question: "Na hierarquia de memória, qual é a memória mais rápida?",
+options: ["HD", "RAM", "Cache", "SSD"],
+correctAnswer: 2
+},
+{
+question: "Qual memória é considerada volátil?",
+options: ["ROM", "HD", "RAM", "SSD"],
+correctAnswer: 2
+},
+{
+question: "Qual dispositivo é usado para armazenamento permanente de dados?",
+options: ["RAM", "Cache", "Registradores", "HD ou SSD"],
+correctAnswer: 3
+},
+{
+question: "Na hierarquia de memória, qual é mais rápida que a RAM e mais lenta que os registradores?",
+options: ["Cache", "HD", "SSD", "Memória virtual"],
+correctAnswer: 0
+},
+{
+question: "Qual é a função da Unidade de Controle dentro da CPU?",
+options: ["Executar cálculos matemáticos", "Gerar gráficos", "Controlar a execução das instruções", "Armazenar arquivos"],
+correctAnswer: 2
+},
+{
+question: "O que caracteriza a arquitetura RISC?",
+options: ["Grande quantidade de instruções complexas", "Conjunto reduzido de instruções simples", "Ausência de registradores", "Uso exclusivo de memória RAM"],
+correctAnswer: 1
+},
+{
+question: "O que caracteriza a arquitetura CISC?",
+options: ["Instruções simples e poucas", "Conjunto complexo de instruções", "Ausência de memória cache", "Processadores sem pipeline"],
+correctAnswer: 1
+},
+{
+question: "Qual das alternativas representa corretamente a hierarquia de memória do mais rápido para o mais lento?",
+options: ["HD → RAM → Cache → Registradores", "Registradores → Cache → RAM → HD/SSD", "RAM → Registradores → Cache → HD", "Cache → HD → RAM → Registradores"],
+correctAnswer: 1
+},
+{
+question: "Qual é a principal função da memória cache?",
+options: ["Armazenar arquivos do usuário", "Acelerar o acesso a dados frequentemente usados", "Substituir o HD", "Armazenar o sistema operacional permanentemente"],
+correctAnswer: 1
+},
+{
+question: "No modelo de Von Neumann, qual componente armazena instruções e dados?",
+options: ["Memória principal", "CPU", "ULA", "Registrador de controle"],
+correctAnswer: 0
+},
+{
+question: "Qual componente executa operações como soma, subtração e comparações?",
+options: ["ULA", "Cache", "Barramento", "Fonte"],
+correctAnswer: 0
+},
+{
+question: "Qual tipo de memória mantém os dados mesmo sem energia?",
+options: ["RAM", "Cache", "Registradores", "HD ou SSD"],
+correctAnswer: 3
+},
+{
+question: "Qual é a principal diferença entre RISC e CISC?",
+options: ["RISC possui instruções simples e CISC possui instruções complexas", "RISC usa HD e CISC usa SSD", "RISC não usa memória", "CISC não usa registradores"],
+correctAnswer: 0
+},
+{
+question: "Qual componente da CPU armazena temporariamente dados que estão sendo processados?",
+options: ["Registradores", "HD", "Fonte", "Placa-mãe"],
+correctAnswer: 0
+},
+{
+question: "O que significa a sigla CPU?",
+options: ["Central Processing Unit", "Computer Processing Unit", "Central Peripheral Unit", "Control Processing Unit"],
+correctAnswer: 0
+},
+{
+question: "Qual é a principal vantagem do SSD em relação ao HD?",
+options: ["Maior tamanho físico", "Maior velocidade de acesso aos dados", "Uso exclusivo em servidores", "Menor capacidade de armazenamento"],
+correctAnswer: 1
+}
+];
+
+let currentQuestion=0;
+let score=0;
+
+function loadQuestion(){
+
+const questionContainer=document.getElementById("question-container");
+const optionsContainer=document.getElementById("options-container");
+const progressText=document.getElementById("progress-text");
+const progress=document.getElementById("progress");
+
+progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
+
+progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
+
+questionContainer.textContent=questions[currentQuestion].question;
+
+optionsContainer.innerHTML="";
+
+questions[currentQuestion].options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.textContent=option;
+
+button.classList.add("option");
+
+button.dataset.index=index;
+
+button.onclick=selectOption;
+
+optionsContainer.appendChild(button);
+
+});
+
+}
+
+function selectOption(event){
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+const selected=parseInt(event.target.dataset.index);
+
+const correct=questions[currentQuestion].correctAnswer;
+
+let delay;
+
+if(selected===correct){
+
+event.target.classList.add("correct");
+
+document.getElementById("result").textContent="Correto!";
+
+score++;
+
+delay=1000;
+
+}else{
+
+event.target.classList.add("wrong");
+
+buttons[correct].classList.add("correct");
+
+document.getElementById("result").textContent=
+`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
+
+delay=2000;
+
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+
+document.getElementById("result").textContent="";
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},delay);
+
+}
+
+function showResult(){
+
+document.getElementById("progress").style.width="100%";
+
+document.getElementById("question-container").textContent="Resultado Final";
+
+document.getElementById("options-container").innerHTML="";
+
+document.getElementById("result").textContent=
+`Você acertou ${score} de ${questions.length} perguntas!`;
+
+document.getElementById("restart-btn").style.display="inline-block";
+
+}
+
+document.getElementById("restart-btn").onclick=function(){
+
+currentQuestion=0;
+
+score=0;
+
+this.style.display="none";
+
+loadQuestion();
+
+};
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

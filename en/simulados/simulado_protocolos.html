@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Protocols</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Network Protocols</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Retake Quiz</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"What does the acronym TCP stand for in network protocols?",options:["Transmission Control Protocol","Time Clock Protocol","Terminal Connection Protocol","Text Compression Protocol"],correctAnswer:0},
+{question:"What is the main function of the IP protocol in a network?",options:["Traffic control","Data routing","Data compression","Data encryption"],correctAnswer:1},
+{question:"What is a MAC address in computer networks?",options:["Mask of Controlled Access","Central Access Module","Media Access Control","Modulation of Access Connection"],correctAnswer:2},
+{question:"What is the difference between TCP and UDP?",options:["TCP is connection-oriented, UDP is not","TCP is faster than UDP","UDP is connection-oriented, TCP is not","TCP and UDP are identical in functionality"],correctAnswer:0},
+{question:"What is a routing protocol in networks?",options:["A protocol for configuring routers","A protocol for controlling data traffic","A protocol for sending and receiving emails","A protocol for managing IP addresses"],correctAnswer:0},
+{question:"What is the purpose of the DNS protocol?",options:["Packet routing","Name resolution to IP addresses","Quality of service control","File transfer"],correctAnswer:1},
+{question:"What is the DHCP protocol and what is its function?",options:["Dynamic Host Control Protocol, responsible for network security","Dynamic Host Configuration Protocol, responsible for automatically assigning IP addresses","Dynamic Routing Protocol, responsible for managing routes in the network","Dynamic Connection Security Protocol, responsible for data encryption"],correctAnswer:1},
+{question:"What is NAT in computer networks?",options:["New Address Translation","Network Address Translation","Node Access Technology","National Authentication Token"],correctAnswer:1},
+{question:"What is a firewall in terms of computer networks?",options:["A device to amplify the network signal","A physical barrier protecting servers","Software or hardware that blocks or allows data traffic","A tool for monitoring network bandwidth"],correctAnswer:2},
+{question:"What is the main function of the ARP protocol?",options:["Packet routing","Resolving IP addresses to names","Resolving MAC addresses to IP addresses","Network congestion control"],correctAnswer:2},
+{question:"What is a tunneling protocol?",options:["A protocol for creating tunnels in underground networks","A protocol for encapsulating one protocol inside another for transmission across a network","A protocol for creating virtual private networks","A protocol for increasing network bandwidth"],correctAnswer:1},
+{question:"What does QoS stand for in networks?",options:["Quality of Service","Quick Online Support","Quantum Operating System","Query of Standards"],correctAnswer:0},
+{question:"What is the difference between a switch and a hub in a local network?",options:["Both are identical devices","A switch filters network traffic, while a hub does not","A hub is faster than a switch","A switch only supports wireless connections"],correctAnswer:1},
+{question:"What is the ICMP protocol and what is it used for?",options:["Internet Control Message Protocol, used for network diagnostics and error reporting","Internet Communication Management Protocol, used to manage online communications","Integrated Control and Monitoring Protocol, used for integrated control and monitoring","Internet Configuration and Management Protocol, used to configure network devices"],correctAnswer:0},
+{question:"What is the FTP protocol and what is its function?",options:["File Transfer Protocol, used for file transmission","Fast Transmission Protocol, used for rapid data transfer","File Tracking Protocol, used for tracking file changes","File Type Protocol, used for identifying file types"],correctAnswer:0},
+{question:"What is the SSL/TLS protocol and what is it used for?",options:["Secure Socket Layer/Transport Layer Security, used to encrypt web communications","Simple Service Locator/Transport Layer Security","System Security Layer/Transmission Level Security","Software Service Locator/Total Link Security"],correctAnswer:0},
+{question:"What is an IPv6 address and why was it developed?",options:["An Internet version 6 address to replace IPv4 due to address exhaustion","To improve connection speed","For virtual private networks","To support only wireless devices"],correctAnswer:0},
+{question:"What is a DDoS attack in terms of networks?",options:["Direct and Decentralized Overloading","Data Distribution and Secure Operations","Distributed Denial of Service","Duplication of Sessions and Secure Operations"],correctAnswer:2},
+{question:"Which protocol is used for sending emails?",options:["SMTP","FTP","DNS","ARP"],correctAnswer:0},
+{question:"Which protocol is used to receive emails in mail clients?",options:["POP3 or IMAP","HTTP","ICMP","DHCP"],correctAnswer:0}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Final Result";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

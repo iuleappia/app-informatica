@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algoritmo e Programação</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#4CAF50,#2E7D32);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#main-wrapper{
+width:95%;
+max-width:650px;
+}
+
+#quiz-container{
+background:#fff;
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:fadeIn .4s;
+}
+
+h2{
+margin-bottom:10px;
+color:#2E7D32;
+}
+
+#progress-text{
+margin-bottom:10px;
+font-size:14px;
+color:#555;
+}
+
+#progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#4CAF50;
+transition:.3s;
+}
+
+#question-container{
+font-weight:bold;
+margin-bottom:20px;
+}
+
+#options-container{
+display:grid;
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.option{
+width:100%;
+background:#4CAF50;
+color:#fff;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+font-size:16px;
+}
+
+.option:hover{
+background:#388E3C;
+transform:scale(1.02);
+}
+
+.option:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.correct{
+background:#2E7D32!important;
+}
+
+.wrong{
+background:#C62828!important;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+}
+
+#restart-btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+background:#2E7D32;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+display:none;
+}
+
+#restart-btn:hover{
+background:#1B5E20;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(min-width:600px){
+#options-container{
+grid-template-columns:1fr 1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+
+<div id="quiz-container">
+
+<h2>Algoritmo e Programação</h2>
+
+<div id="progress-text"></div>
+
+<div id="progress-bar">
+<div id="progress"></div>
+</div>
+
+<div id="question-container"></div>
+
+<div id="options-container"></div>
+
+<p id="result"></p>
+
+<button id="restart-btn">Refazer Simulado</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+    {
+    question: "O que é um algoritmo?",
+    options: ["Um tipo de hardware", "Um conjunto de instruções passo a passo para resolver um problema", "Uma linguagem de programação", "Um dispositivo de armazenamento de dados"],
+    correctAnswer: 1
+  },
+  {
+    question: "Qual é a função principal de um algoritmo?",
+    options: ["Processar dados de entrada", "Armazenar informações permanentemente", "Executar operações matemáticas complexas", "Resolver um problema de forma eficiente"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é a complexidade de um algoritmo?",
+    options: ["A quantidade de código escrito", "O tempo e o espaço necessários para executar o algoritmo", "O número de instruções por segundo", "A habilidade do algoritmo de se adaptar a diferentes problemas"],
+    correctAnswer: 1
+  },
+  {
+    question: "Em programação, o que é uma variável?",
+    options: ["Um valor constante", "Um tipo de dado", "Um local de armazenamento para dados", "Uma expressão matemática"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é uma estrutura de controle em algoritmos?",
+    options: ["Um dispositivo de entrada", "Um conjunto de instruções condicionais ou de repetição", "Um tipo de dado", "Uma unidade de processamento central"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é a recursividade em algoritmos?",
+    options: ["Um tipo de laço de repetição", "Uma técnica onde uma função chama a si mesma", "Um método para armazenar dados permanentemente", "Um conceito relacionado à complexidade de código"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é uma busca linear?",
+    options: ["Um tipo de estrutura de controle", "Um método de ordenação de dados", "Uma técnica para encontrar um elemento em uma lista percorrendo-a sequencialmente", "Uma forma de criptografia"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é um algoritmo de ordenação?",
+    options: ["Um método para organizar dados em uma estrutura hierárquica", "Um tipo de busca", "Um conjunto de instruções para imprimir resultados na tela", "Um método para organizar elementos em uma ordem específica"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é um loop infinito em programação?",
+    options: ["Um erro de sintaxe", "Uma instrução que nunca é executada", "Uma estrutura de controle que repete indefinidamente", "Uma condição sempre falsa"],
+    correctAnswer: 2
+  },
+  {
+    question: "Qual é a importância da eficiência em algoritmos?",
+    options: ["A eficiência não é relevante", "Afeta apenas a legibilidade do código", "Influencia no consumo de recursos, como tempo e espaço", "É importante apenas para algoritmos simples"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é um pseudocódigo?",
+    options: ["Um tipo de linguagem de programação", "Um código-fonte real", "Uma representação de algoritmos usando uma mistura de linguagem natural e elementos de programação", "Uma técnica de criptografia"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é uma estrutura de dados em algoritmos?",
+    options: ["Um conjunto de variáveis", "Uma maneira de organizar e armazenar dados para que possam ser utilizados eficientemente", "Um tipo de instrução condicional", "Um método de ordenação"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é a notação Big-O?",
+    options: ["Uma linguagem de programação", "Uma forma de representar algoritmos usando desenhos", "Uma notação usada para descrever o desempenho ou complexidade de um algoritmo em termos de tempo ou espaço", "Um tipo de estrutura de controle"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é um algoritmo de busca binária?",
+    options: ["Um método para buscar informações na internet", "Um tipo de busca em uma lista ordenada dividindo-a pela metade", "Uma técnica para buscar dados em ordem inversa", "Uma estrutura de controle condicional"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é um algoritmo guloso (greedy algorithm)?",
+    options: ["Um algoritmo que sempre escolhe a opção que parece ser a melhor no momento", "Um algoritmo que evita tomar decisões", "Um algoritmo que requer muitos recursos", "Um método de ordenação eficiente"],
+    correctAnswer: 0
+  },
+  {
+    question: "O que é a análise de tempo em algoritmos?",
+    options: ["Uma análise da eficiência do código em termos de desempenho", "Uma análise da quantidade de código escrito", "Um método de criptografia", "Um tipo de busca"],
+    correctAnswer: 0
+  },
+  {
+    question: "O que é um algoritmo de ordenação por inserção?",
+    options: ["Um método para organizar dados aleatórios", "Um algoritmo que insere dados em uma lista de forma aleatória", "Um método de ordenação que constrói uma sequência ordenada de elementos um de cada vez", "Uma técnica de busca"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é um grafo em algoritmos?",
+    options: ["Um tipo de variável", "Uma estrutura de controle de fluxo", "Uma representação visual de dados", "Um conjunto de vértices e arestas que conectam esses vértices"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é a recursão de cauda?",
+    options: ["Uma técnica para buscar dados na parte inferior de uma lista", "Um tipo de loop", "Uma forma de chamar a função recursiva no final da execução", "Uma estrutura de dados complexa"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é um algoritmo de ordenação rápida (quicksort)?",
+    options: ["Um método para organizar dados de forma lenta", "Um tipo de busca em uma lista ordenada", "Um algoritmo de ordenação eficiente que usa uma abordagem de divisão e conquista", "Uma técnica de criptografia"],
+    correctAnswer: 2
+  },
+{
+        question: "O que é um algoritmo na programação?",
+        options: ["Um tipo de linguagem de programação", "Um conjunto de instruções passo a passo para resolver um problema", "Uma variável de armazenamento temporário", "Um tipo de bug no código"],
+        correctAnswer: 1
+    },
+    {
+        question: "Qual é a diferença entre uma linguagem de programação de alto nível e uma de baixo nível?",
+        options: ["A de alto nível é mais rápida", "A de baixo nível é mais fácil de aprender", "A de alto nível é mais próxima da linguagem humana", "A de baixo nível é mais utilizada em programação web"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é um loop em programação?",
+        options: ["Uma instrução condicional", "Um tipo de variável", "Um bloco de código que é executado repetidamente", "Um tipo de erro de sintaxe"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é um array em programação?",
+        options: ["Uma função matemática", "Um tipo de loop", "Uma estrutura de dados que armazena elementos do mesmo tipo", "Uma variável de ponto flutuante"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é versionamento de código?",
+        options: ["Uma forma de codificar em diferentes linguagens", "Um processo de controle de mudanças no código-fonte ao longo do tempo", "Uma técnica para otimização de código", "Um método de depuração de código"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é orientação a objetos na programação?",
+        options: ["Um tipo de linguagem de programação", "Um paradigma de programação baseado em objetos", "Um método de compressão de código", "Uma técnica de criptografia"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é Git e para que serve?",
+        options: ["Uma linguagem de programação", "Um sistema de gerenciamento de banco de dados", "Uma ferramenta de controle de versão de código", "Uma técnica de otimização de algoritmos"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que são APIs (Interfaces de Programação de Aplicações)?",
+        options: ["Algoritmos de inteligência artificial", "Um tipo de linguagem de programação", "Conjuntos de regras para comunicação entre software", "Um método de criptografia de dados"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é uma chave primária em bancos de dados?",
+        options: ["A primeira linha de dados em uma tabela", "Um tipo de índice em um livro", "Um campo que identifica exclusivamente cada registro em uma tabela", "Uma variável de armazenamento temporário"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é um paradigma de programação funcional?",
+        options: ["Um método de programação baseado em funções matemáticas", "Uma forma de codificar em diferentes linguagens", "Um tipo de algoritmo de busca", "Um método de depuração de código"],
+        correctAnswer: 0
+    },
+    {
+        question: "O que é XSS (Cross-Site Scripting) em segurança da web?",
+        options: ["Um tipo de linguagem de programação", "Uma técnica de otimização de código", "Uma vulnerabilidade que permite a injeção de scripts maliciosos em páginas web", "Um método de criptografia de dados"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é um framework de desenvolvimento?",
+        options: ["Uma linguagem de programação", "Uma ferramenta que fornece estrutura e funcionalidades básicas para o desenvolvimento de software", "Um tipo de algoritmo de ordenação", "Um método de compressão de código"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é a recursividade em programação?",
+        options: ["Um tipo de loop", "Um método de otimização de código", "Um bloco de código que se chama a si mesmo", "Uma técnica para depuração de código"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que são variáveis de ambiente?",
+        options: ["Variáveis que mudam durante a execução do programa", "Variáveis que armazenam senhas de usuário", "Variáveis usadas apenas em algoritmos de inteligência artificial", "Variáveis de ponto flutuante"],
+        correctAnswer: 0
+    },
+    {
+        question: "O que é DevOps?",
+        options: ["Um tipo de linguagem de programação", "Uma cultura e conjunto de práticas que visam unificar desenvolvimento e operações de TI", "Um método de criptografia de dados", "Uma técnica de compressão de código"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é Big O notation na análise de algoritmos?",
+        options: ["Uma linguagem de programação", "Uma forma de medir o desempenho e a eficiência de algoritmos", "Um tipo de loop", "Uma técnica para otimização de código"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é um servidor web?",
+        options: ["Um tipo de linguagem de programação", "Um software que hospeda e fornece conteúdo para sites", "Um tipo de algoritmo de ordenação", "Uma variável de armazenamento temporário"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é integração contínua?",
+        options: ["Um tipo de linguagem de programação", "Um método de criptografia de dados", "Um processo automatizado de testes e integração de código", "Uma técnica para depuração de código"],
+        correctAnswer: 2
+    },
+    {
+        question: "O que é Docker e para que serve?",
+        options: ["Uma linguagem de programação", "Uma ferramenta de virtualização de contêineres", "Um método de otimização de código", "Um tipo de algoritmo de busca"],
+        correctAnswer: 1
+    },
+    {
+        question: "O que é um bug de software?",
+        options: ["Um tipo de loop infinito", "Uma falha ou erro no código que causa comportamento inesperado", "Uma variável de ambiente", "Um tipo de linguagem de programação"],
+        correctAnswer: 1
+    }
+];
+
+let currentQuestion=0;
+let score=0;
+
+function loadQuestion(){
+
+const questionContainer=document.getElementById("question-container");
+const optionsContainer=document.getElementById("options-container");
+const progressText=document.getElementById("progress-text");
+const progress=document.getElementById("progress");
+
+progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
+
+progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
+
+questionContainer.textContent=questions[currentQuestion].question;
+
+optionsContainer.innerHTML="";
+
+questions[currentQuestion].options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.textContent=option;
+
+button.classList.add("option");
+
+button.dataset.index=index;
+
+button.onclick=selectOption;
+
+optionsContainer.appendChild(button);
+
+});
+
+}
+
+function selectOption(event){
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+const selected=parseInt(event.target.dataset.index);
+
+const correct=questions[currentQuestion].correctAnswer;
+
+let delay;
+
+if(selected===correct){
+
+event.target.classList.add("correct");
+
+document.getElementById("result").textContent="Correto!";
+
+score++;
+
+delay=1000;
+
+}else{
+
+event.target.classList.add("wrong");
+
+buttons[correct].classList.add("correct");
+
+document.getElementById("result").textContent=
+`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
+
+delay=2000;
+
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+
+document.getElementById("result").textContent="";
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},delay);
+
+}
+
+function showResult(){
+
+document.getElementById("progress").style.width="100%";
+
+document.getElementById("question-container").textContent="Resultado Final";
+
+document.getElementById("options-container").innerHTML="";
+
+document.getElementById("result").textContent=
+`Você acertou ${score} de ${questions.length} perguntas!`;
+
+document.getElementById("restart-btn").style.display="inline-block";
+
+}
+
+document.getElementById("restart-btn").onclick=function(){
+
+currentQuestion=0;
+
+score=0;
+
+this.style.display="none";
+
+loadQuestion();
+
+};
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

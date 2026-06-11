@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Buses</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Data Buses</h1>
+
+<p>
+Data buses are responsible for communication between the different components of a computing system. 🔌 They allow the exchange of data, instructions, and control signals between the processor, memory, and input/output devices.
+</p>
+
+<h2>🤔 What are Data Buses?</h2>
+
+<p>
+Buses are sets of communication lines that connect the main components of a computer. Through them, information can be transmitted between the CPU, memory, and other devices, ensuring the integrated operation of the system.
+</p>
+
+<h2>📚 Why Learn About Data Buses?</h2>
+
+<ul>
+<li><span class="highlight">Communication between components:</span> Buses allow different parts of the computer to exchange information.</li>
+
+<li><span class="highlight">System organization:</span> They structure the way data flows inside the computer.</li>
+
+<li><span class="highlight">Hardware performance:</span> The speed and capacity of buses directly influence system performance.</li>
+</ul>
+
+<h2>📋 Types of Buses</h2>
+
+<ul>
+<li><span class="highlight">Data Bus:</span> Responsible for transporting data between the processor, memory, and devices.</li>
+
+<li><span class="highlight">Address Bus:</span> Indicates the memory location where data should be read from or written to.</li>
+
+<li><span class="highlight">Control Bus:</span> Carries control signals that coordinate operations between system components.</li>
+</ul>
+
+<h2>🎓 Importance of Data Buses</h2>
+
+<p>
+Buses are fundamental to computer operation, as they ensure efficient communication between all system components. Without them, the processor could not access memory or interact with connected devices.
+</p>
+
+<h2>🌟 Conclusion</h2>
+
+<p>
+Data buses are essential for the exchange of information within a system. They allow components to work together in an organized way, ensuring the correct and efficient operation of the computer.
+</p>
+
+<a href="../simulados/simulado_barramentos.html">
+<button id="start-button">
+🚀 Start Practice Test
+</button>
+</a>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Protocols</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Network Protocols</h1>
+
+<p>
+Network protocols are sets of rules that enable communication between devices on a computer network. 🌐 They define how data should be transmitted, received, and interpreted between computers and other connected equipment.
+</p>
+
+<h2>🤔 What are Network Protocols?</h2>
+
+<p>
+Network protocols are standards that establish how devices exchange information. They determine aspects such as message format, transmission speed, error control, and the organization of data sent over the network.
+</p>
+
+<h2>📚 Why Learn About Network Protocols?</h2>
+
+<ul>
+<li><span class="highlight">Communication between devices:</span> Protocols ensure that computers and equipment can exchange information correctly.</li>
+
+<li><span class="highlight">Standardization:</span> They allow devices from different manufacturers to communicate using common rules.</li>
+
+<li><span class="highlight">How the internet works:</span> All internet communication depends on protocols to transmit data between servers and users.</li>
+</ul>
+
+<h2>📋 Main Network Protocols</h2>
+
+<ul>
+<li><span class="highlight">HTTP:</span> Used for transferring web pages between servers and browsers.</li>
+
+<li><span class="highlight">HTTPS:</span> A secure version of HTTP that uses encryption to protect transmitted data.</li>
+
+<li><span class="highlight">FTP:</span> A protocol used for transferring files between computers on a network.</li>
+
+<li><span class="highlight">TCP/IP:</span> A set of protocols responsible for the basic communication of the internet.</li>
+</ul>
+
+<h2>🎓 Importance of Protocols</h2>
+
+<p>
+Protocols are essential to ensuring that networks function correctly. They organize communication between devices, allowing data to be sent and received safely and efficiently.
+</p>
+
+<h2>🌟 Conclusion</h2>
+
+<p>
+Network protocols are fundamental to digital communication. Thanks to them, connected devices can exchange information and access internet services in an organized and standardized way.
+</p>
+
+<a href="../simulados/simulado_protocolos.html">
+<button id="start-button">
+🚀 Start Practice Test
+</button>
+</a>
+
+</body>
+</html>

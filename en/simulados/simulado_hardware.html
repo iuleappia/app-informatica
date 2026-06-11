@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Hardware</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Retake Quiz</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"Which component is responsible for executing instructions and performing the main processing of a computer?",options:["a) RAM Memory","b) Processor (CPU)","c) Hard Drive","d) Network Card"],correctAnswer:1},
+{question:"What is the main function of RAM in a computer?",options:["a) Permanently store data","b) Perform mathematical calculations","c) Temporarily store data and programs in use","d) Connect external devices"],correctAnswer:2},
+{question:"Which device is responsible for permanently storing files and programs?",options:["a) Cache memory","b) Registers","c) HDD or SSD","d) BIOS"],correctAnswer:2},
+{question:"What is the main function of the motherboard in a computer?",options:["a) Process graphics","b) Connect and enable communication between components","c) Store the operating system","d) Control internet access"],correctAnswer:1},
+{question:"Which component is responsible for processing graphics and images?",options:["a) GPU or graphics card","b) RAM Memory","c) Chipset","d) BIOS"],correctAnswer:0},
+{question:"What characterizes an SSD compared to a traditional HDD?",options:["a) Uses magnetic disks","b) Is slower at accessing data","c) Uses flash memory and has greater speed","d) Cannot store files"],correctAnswer:2},
+{question:"Which motherboard component controls communication between the processor, memory, and peripherals?",options:["a) Chipset","b) Power supply","c) Cache memory","d) Cooler"],correctAnswer:0},
+{question:"What is the function of the power supply in a computer?",options:["a) Store data","b) Supply electrical power to the components","c) Control the operating system","d) Process graphics"],correctAnswer:1},
+{question:"Which type of device is considered an input peripheral?",options:["a) Monitor","b) Printer","c) Keyboard","d) Speaker"],correctAnswer:2},
+{question:"Which device is considered an output peripheral?",options:["a) Mouse","b) Keyboard","c) Scanner","d) Monitor"],correctAnswer:3},
+{question:"What is BIOS in a computer?",options:["a) Basic system that initializes the hardware","b) A type of RAM memory","c) A storage device","d) Antivirus software"],correctAnswer:0},
+{question:"What is the function of cache memory in a processor?",options:["a) Store user files","b) Speed up access to frequently used data","c) Replace RAM","d) Store the operating system"],correctAnswer:1},
+{question:"What is a bus in a computer?",options:["a) A storage device","b) A communication path between components","c) A type of processor","d) An operating system program"],correctAnswer:1},
+{question:"Which bus is responsible for transporting data between computer components?",options:["a) Control bus","b) Address bus","c) Data bus","d) Graphics bus"],correctAnswer:2},
+{question:"What technology allows using multiple disks to improve performance or data security?",options:["a) RAID","b) BIOS","c) GPU","d) HDMI"],correctAnswer:0},
+{question:"Which port is widely used to connect peripherals like keyboards, mice, and USB drives?",options:["a) HDMI","b) USB","c) VGA","d) PS/2"],correctAnswer:1},
+{question:"Which port is primarily used for transmitting high-definition digital video?",options:["a) HDMI","b) USB","c) Ethernet","d) Serial"],correctAnswer:0},
+{question:"Which component is responsible for maintaining the proper temperature of the processor?",options:["a) Cooler","b) Chipset","c) BIOS","d) Bus"],correctAnswer:0},
+{question:"Which device allows connecting the computer to a network or the internet?",options:["a) Network card","b) Graphics card","c) RAM Memory","d) Processor"],correctAnswer:0},
+{question:"What is the main difference between an HDD and an SSD?",options:["a) The SSD uses mechanical parts","b) The HDD is faster than the SSD","c) The SSD uses flash memory and has faster data access","d) The SSD cannot store files"],correctAnswer:2}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Final Result";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Computer Science</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Introduction to Computer Science</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Retake Quiz</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"Which of the following programs is a web browser?",options:["Google Chrome","Microsoft Word","Excel","PowerPoint"],correctAnswer:0},
+{question:"What is the main function of a web browser?",options:["Edit text documents","Access web pages","Create spreadsheets","Install programs"],correctAnswer:1},
+{question:"Which Microsoft Office program is used to create spreadsheets?",options:["Word","PowerPoint","Excel","Access"],correctAnswer:2},
+{question:"In Microsoft Word, what is the program's main function?",options:["Create presentations","Edit text and documents","Create databases","Manage networks"],correctAnswer:1},
+{question:"Which Office program is used to create slide presentations?",options:["Excel","PowerPoint","Word","Outlook"],correctAnswer:1},
+{question:"Which operating system was developed by Microsoft?",options:["Linux","Windows","Android","macOS"],correctAnswer:1},
+{question:"What is the function of an operating system?",options:["Create web pages","Manage the computer's hardware and software","Edit videos","Create spreadsheets"],correctAnswer:1},
+{question:"Which of the following is an operating system?",options:["Windows","Google Chrome","Word","Excel"],correctAnswer:0},
+{question:"What does the acronym URL stand for in internet usage?",options:["The address of a resource on the internet","Text editing program","Operating system","Type of virus"],correctAnswer:0},
+{question:"What is the function of a search engine like Google?",options:["Edit documents","Search for information on the internet","Create spreadsheets","Install programs"],correctAnswer:1},
+{question:"Which of these is a web browser?",options:["Mozilla Firefox","Microsoft Excel","Adobe Photoshop","Notepad"],correctAnswer:0},
+{question:"What is the common shortcut to copy text on Windows?",options:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + Z"],correctAnswer:0},
+{question:"What is the common shortcut to paste copied content?",options:["Ctrl + A","Ctrl + C","Ctrl + V","Ctrl + S"],correctAnswer:2},
+{question:"In Excel, a cell is:",options:["A chart","A space where data is entered","A file","A slide"],correctAnswer:1},
+{question:"What do you need to access the internet?",options:["Only a keyboard","A network connection","Only a monitor","A printer"],correctAnswer:1},
+{question:"Which of these services allows you to send electronic messages?",options:["Email","Spreadsheet","Slide","Operating system"],correctAnswer:0},
+{question:"What is the function of the 'Refresh' button in a browser?",options:["Close the browser","Reload the current page","Save the page","Print the page"],correctAnswer:1},
+{question:"What is a download?",options:["Sending a file to the internet","Saving a file from the internet to your device","Deleting files","Creating files"],correctAnswer:1},
+{question:"What is the function of the Recycle Bin in the operating system?",options:["Temporarily store deleted files","Create backups","Install programs","Open web pages"],correctAnswer:0},
+{question:"Which of these is a mobile operating system?",options:["Android","Excel","Word","PowerPoint"],correctAnswer:0}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Final Result";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

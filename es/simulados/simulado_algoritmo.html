@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algoritmos y Programación</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Algoritmos y Programación</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Repetir Simulacro</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"¿Qué es un algoritmo?",options:["Un tipo de hardware","Un conjunto de instrucciones paso a paso para resolver un problema","Un lenguaje de programación","Un dispositivo de almacenamiento de datos"],correctAnswer:1},
+{question:"¿Cuál es la función principal de un algoritmo?",options:["Procesar datos de entrada","Almacenar información permanentemente","Ejecutar operaciones matemáticas complejas","Resolver un problema de forma eficiente"],correctAnswer:3},
+{question:"¿Qué es la complejidad de un algoritmo?",options:["La cantidad de código escrito","El tiempo y el espacio necesarios para ejecutar el algoritmo","El número de instrucciones por segundo","La habilidad del algoritmo de adaptarse a diferentes problemas"],correctAnswer:1},
+{question:"En programación, ¿qué es una variable?",options:["Un valor constante","Un tipo de dato","Un lugar de almacenamiento para datos","Una expresión matemática"],correctAnswer:2},
+{question:"¿Qué es una estructura de control en algoritmos?",options:["Un dispositivo de entrada","Un conjunto de instrucciones condicionales o de repetición","Un tipo de dato","Una unidad de procesamiento central"],correctAnswer:1},
+{question:"¿Qué es la recursividad en algoritmos?",options:["Un tipo de bucle de repetición","Una técnica donde una función se llama a sí misma","Un método para almacenar datos permanentemente","Un concepto relacionado con la complejidad del código"],correctAnswer:1},
+{question:"¿Qué es una búsqueda lineal?",options:["Un tipo de estructura de control","Un método de ordenación de datos","Una técnica para encontrar un elemento en una lista recorriéndola secuencialmente","Una forma de cifrado"],correctAnswer:2},
+{question:"¿Qué es un algoritmo de ordenación?",options:["Un método para organizar datos en una estructura jerárquica","Un tipo de búsqueda","Un conjunto de instrucciones para imprimir resultados en pantalla","Un método para organizar elementos en un orden específico"],correctAnswer:3},
+{question:"¿Qué es un bucle infinito en programación?",options:["Un error de sintaxis","Una instrucción que nunca se ejecuta","Una estructura de control que se repite indefinidamente","Una condición siempre falsa"],correctAnswer:2},
+{question:"¿Cuál es la importancia de la eficiencia en algoritmos?",options:["La eficiencia no es relevante","Afecta solo la legibilidad del código","Influye en el consumo de recursos como tiempo y espacio","Es importante solo para algoritmos simples"],correctAnswer:2},
+{question:"¿Qué es un pseudocódigo?",options:["Un tipo de lenguaje de programación","Un código fuente real","Una representación de algoritmos usando una mezcla de lenguaje natural y elementos de programación","Una técnica de cifrado"],correctAnswer:3},
+{question:"¿Qué es una estructura de datos en algoritmos?",options:["Un conjunto de variables","Una manera de organizar y almacenar datos para que puedan ser usados eficientemente","Un tipo de instrucción condicional","Un método de ordenación"],correctAnswer:1},
+{question:"¿Qué es la notación Big-O?",options:["Un lenguaje de programación","Una forma de representar algoritmos usando dibujos","Una notación para describir el rendimiento o la complejidad de un algoritmo en términos de tiempo o espacio","Un tipo de estructura de control"],correctAnswer:2},
+{question:"¿Qué es un algoritmo de búsqueda binaria?",options:["Un método para buscar información en internet","Un tipo de búsqueda en una lista ordenada dividiéndola por la mitad","Una técnica para buscar datos en orden inverso","Una estructura de control condicional"],correctAnswer:1},
+{question:"¿Qué es un algoritmo codicioso (greedy algorithm)?",options:["Un algoritmo que siempre elige la opción que parece ser la mejor en el momento","Un algoritmo que evita tomar decisiones","Un algoritmo que requiere muchos recursos","Un método de ordenación eficiente"],correctAnswer:0},
+{question:"¿Qué es el análisis de tiempo en algoritmos?",options:["Un análisis de la eficiencia del código en términos de rendimiento","Un análisis de la cantidad de código escrito","Un método de cifrado","Un tipo de búsqueda"],correctAnswer:0},
+{question:"¿Qué es un algoritmo de ordenación por inserción?",options:["Un método para organizar datos aleatorios","Un algoritmo que inserta datos en una lista de forma aleatoria","Un método de ordenación que construye una secuencia ordenada de elementos uno a la vez","Una técnica de búsqueda"],correctAnswer:2},
+{question:"¿Qué es un grafo en algoritmos?",options:["Un tipo de variable","Una estructura de control de flujo","Una representación visual de datos","Un conjunto de vértices y aristas que conectan esos vértices"],correctAnswer:3},
+{question:"¿Qué es la recursión de cola?",options:["Una técnica para buscar datos en la parte inferior de una lista","Un tipo de bucle","Una forma de llamar a la función recursiva al final de la ejecución","Una estructura de datos compleja"],correctAnswer:2},
+{question:"¿Qué es un algoritmo de ordenación rápida (quicksort)?",options:["Un método para organizar datos de forma lenta","Un tipo de búsqueda en una lista ordenada","Un algoritmo de ordenación eficiente que usa un enfoque de dividir y conquistar","Una técnica de cifrado"],correctAnswer:2}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Pregunta ${currentQuestion+1} de ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="¡Correcto!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrecto. Respuesta correcta: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Resultado Final";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`¡Acertaste ${score} de ${questions.length} preguntas!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

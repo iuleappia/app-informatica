@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware de Computadoras</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Hardware de Computadoras</h1>
+
+<p>
+El hardware corresponde a todas las partes físicas de una computadora, es decir, todo aquello que se puede tocar. 🖥️ Es responsable de ejecutar las tareas solicitadas por los programas y permitir que el usuario interactúe con el sistema.
+</p>
+
+<h2>🤔 ¿Qué es el Hardware?</h2>
+
+<p>
+El hardware es el conjunto de componentes físicos que forman una computadora. Estos componentes trabajan juntos para procesar datos, almacenar información y permitir la comunicación entre el usuario y la máquina.
+</p>
+
+<h2>📚 ¿Por qué conocer el Hardware?</h2>
+
+<ul>
+<li><span class="highlight">Comprensión del funcionamiento de la computadora:</span> Conocer el hardware ayuda a entender cómo la computadora ejecuta tareas y procesa información.</li>
+
+<li><span class="highlight">Mantenimiento y solución de problemas:</span> Saber identificar los componentes facilita la detección de fallas y posibles mejoras en el equipo.</li>
+
+<li><span class="highlight">Mejor rendimiento:</span> Con conocimiento de hardware, es posible elegir piezas adecuadas y mejorar el rendimiento de la computadora.</li>
+</ul>
+
+<h2>📋 Principales Componentes de Hardware</h2>
+
+<ul>
+<li><span class="highlight">Procesador (CPU):</span> Considerado el "cerebro" de la computadora, es responsable de ejecutar instrucciones y procesar datos.</li>
+
+<li><span class="highlight">Memoria RAM:</span> Almacena temporalmente los datos que están siendo utilizados por el sistema y los programas.</li>
+
+<li><span class="highlight">Disco Duro o SSD:</span> Responsable del almacenamiento permanente de archivos, programas y del sistema operativo.</li>
+
+<li><span class="highlight">Placa base (Motherboard):</span> Es la placa principal de la computadora, responsable de conectar y permitir la comunicación entre todos los componentes.</li>
+
+<li><span class="highlight">Dispositivos de entrada:</span> Permiten que el usuario envíe información a la computadora, como teclado, ratón y micrófono.</li>
+
+<li><span class="highlight">Dispositivos de salida:</span> Muestran los resultados del procesamiento, como monitor, impresora y altavoces.</li>
+</ul>
+
+<h2>🎓 Importancia del Hardware</h2>
+
+<p>
+Sin el hardware, ningún software podría funcionar. Proporciona toda la estructura física necesaria para que los programas se ejecuten y para que el usuario pueda utilizar la computadora de forma eficiente.
+</p>
+
+<h2>🌟 Conclusión</h2>
+
+<p>
+El hardware es la base física de cualquier sistema computacional. Conocer sus principales componentes y sus funciones ayuda a entender mejor cómo funcionan las computadoras y cómo podemos utilizarlas de forma más eficiente en el día a día.
+</p>
+
+<a href="../simulados/simulado_hardware.html">
+<button id="start-button">
+🚀 Iniciar Simulacro
+</button>
+</a>
+
+</body>
+</html>

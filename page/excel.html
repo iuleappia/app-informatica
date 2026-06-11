@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funções do Excel</title>
+
+<style>
+
+body{
+font-family: "Segoe UI", Arial, sans-serif;
+margin:0;
+background:#f4f6fb;
+color:#333;
+}
+
+/* TOPO */
+
+header{
+background:#0d6efd;
+color:white;
+padding:14px 20px;
+text-align:center;
+box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+header h1{
+margin:0;
+font-size:20px;
+}
+
+h1{
+text-align:center;
+margin-top:20px;
+margin-bottom:5px;
+font-size:26px;
+}
+
+header p{
+margin:5px 0 0 0;
+font-size:14px;
+opacity:0.9;
+}
+
+.logo-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1100px;
+margin:auto;
+}
+
+.idiomas{
+display:flex;
+gap:6px;
+}
+
+.lang-btn{
+color:rgba(255,255,255,0.7);
+text-decoration:none;
+font-size:13px;
+font-weight:bold;
+padding:4px 8px;
+border-radius:6px;
+transition:background 0.2s;
+}
+
+.lang-btn:hover{
+background:rgba(255,255,255,0.15);
+color:#fff;
+}
+
+.lang-btn.active{
+background:rgba(255,255,255,0.25);
+color:#fff;
+}
+
+/* CONTEÚDO */
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:10px 20px;
+}
+
+/* SEÇÕES */
+
+h2{
+margin-top:10px;
+background:#eaf1ff;
+padding:10px 15px;
+border-left:5px solid #0d6efd;
+border-radius:4px;
+font-size:20px;
+}
+
+/* TABELA */
+
+.tabela-container{
+overflow-x:auto;
+margin-top:10px;
+border-radius:8px;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+min-width:750px;
+}
+
+th, td{
+padding:10px 12px;
+border-bottom:1px solid #e5e5e5;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#0d6efd;
+color:white;
+position:sticky;
+top:0;
+z-index:2;
+}
+
+tr:nth-child(even){
+background:#f8f9fc;
+}
+
+tr:hover{
+background:#eef3ff;
+}
+
+/* FUNÇÃO EM DESTAQUE */
+
+td:first-child{
+font-weight:bold;
+color:#0d6efd;
+}
+
+/* RODAPÉ INFORMATIVO */
+
+.info{
+text-align:center;
+font-size:13px;
+color:#666;
+margin-top:5px;
+}
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+header h1{
+font-size:22px;
+}
+
+th, td{
+font-size:13px;
+padding:8px;
+}
+
+}
+
+</style>
+<script>
+(function(){
+  if(localStorage.getItem('userLang')) return;
+  var lang=(navigator.language||navigator.userLanguage||'').toLowerCase();
+  if(lang.startsWith('es')) window.location.replace('../es/excel.html');
+  else if(lang.startsWith('en')) window.location.replace('../en/excel.html');
+})();
+</script>
+</head>
+
+<body>
+
+<header>
+<div class="logo-bar">
+<h1>📊 Funções do Excel</h1>
+<div class="idiomas">
+<a href="excel.html" class="lang-btn active" onclick="localStorage.setItem('userLang','pt')">🇧🇷 PT</a>
+<a href="../es/excel.html" class="lang-btn" onclick="localStorage.setItem('userLang','es')">🇪🇸 ES</a>
+<a href="../en/excel.html" class="lang-btn" onclick="localStorage.setItem('userLang','en')">🇺🇸 EN</a>
+</div>
+</div>
+</header>
+
+<div class="container">
+
+<h2>Matemática e Trigonometria</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>ABS</td><td>Retorna o valor absoluto de um número.</td><td>=ABS(número)</td><td>=ABS(-5)</td><td>5</td></tr>
+  <tr><td>ACOS</td><td>Retorna o arco cosseno de um número.</td><td>=ACOS(número)</td><td>=ACOS(0.5)</td><td>1.0472</td></tr>
+  <tr><td>ACOSH</td><td>Retorna o arco cosseno hiperbólico de um número.</td><td>=ACOSH(número)</td><td>=ACOSH(2)</td><td>1.31696</td></tr>
+  <tr><td>ACOT</td><td>Retorna o arco cotangente de um número.</td><td>=ACOT(número)</td><td>=ACOT(1)</td><td>0.7854</td></tr>
+  <tr><td>ACOTH</td><td>Retorna o arco cotangente hiperbólico de um número.</td><td>=ACOTH(número)</td><td>=ACOTH(2)</td><td>0.5493</td></tr>
+  <tr><td>AGGREGATE</td><td>Retorna um agregado usando uma função especificada.</td><td>=AGGREGATE(função; opções; intervalo)</td><td>=AGGREGATE(9;4;A1:A10)</td><td>Soma ignorando erros</td></tr>
+  <tr><td>ARABIC</td><td>Converte um número romano em número árabe.</td><td>=ARABIC(número_roma)</td><td>=ARABIC("XV")</td><td>15</td></tr>
+  <tr><td>ASIN</td><td>Retorna o arco seno de um número.</td><td>=ASIN(número)</td><td>=ASIN(0.5)</td><td>0.5236</td></tr>
+  <tr><td>ASINH</td><td>Retorna o arco seno hiperbólico de um número.</td><td>=ASINH(número)</td><td>=ASINH(1)</td><td>0.8814</td></tr>
+  <tr><td>ATAN</td><td>Retorna o arco tangente de um número.</td><td>=ATAN(número)</td><td>=ATAN(1)</td><td>0.7854</td></tr>
+  <tr><td>ATAN2</td><td>Retorna o arco tangente dos pontos x e y.</td><td>=ATAN2(y; x)</td><td>=ATAN2(1;1)</td><td>0.7854</td></tr>
+  <tr><td>ATANH</td><td>Retorna o arco tangente hiperbólico de um número.</td><td>=ATANH(número)</td><td>=ATANH(0.5)</td><td>0.5493</td></tr>
+  <tr><td>AVEDEV</td><td>Retorna a média dos desvios absolutos.</td><td>=AVEDEV(número1; ...)</td><td>=AVEDEV(1;2;3)</td><td>0.667</td></tr>
+  <tr><td>BASE</td><td>Converte um número para uma base numérica especificada.</td><td>=BASE(número; base; [min_dígitos])</td><td>=BASE(10;2)</td><td>1010</td></tr>
+  <tr><td>CEILING</td><td>Arredonda número para cima até o múltiplo mais próximo.</td><td>=CEILING(número; múltiplo)</td><td>=CEILING(4.3;1)</td><td>5</td></tr>
+  <tr><td>CEILING.MATH</td><td>Arredonda número para cima até o múltiplo mais próximo (mais opções).</td><td>=CEILING.MATH(número; [múltiplo]; [modo])</td><td>=CEILING.MATH(4.3;1)</td><td>5</td></tr>
+  <tr><td>CEILING.PRECISE</td><td>Arredonda número para cima até o múltiplo mais próximo (preciso).</td><td>=CEILING.PRECISE(número; [múltiplo])</td><td>=CEILING.PRECISE(4.3;1)</td><td>5</td></tr>
+  <tr><td>COMBIN</td><td>Retorna o número de combinações.</td><td>=COMBIN(número; número_escolhido)</td><td>=COMBIN(5;3)</td><td>10</td></tr>
+  <tr><td>COMBINA</td><td>Retorna o número de combinações com repetição.</td><td>=COMBINA(número; número_escolhido)</td><td>=COMBINA(5;3)</td><td>35</td></tr>
+  <tr><td>COS</td><td>Retorna o cosseno de um ângulo.</td><td>=COS(número)</td><td>=COS(PI()/3)</td><td>0.5</td></tr>
+  <tr><td>COT</td><td>Retorna a cotangente de um ângulo.</td><td>=COT(número)</td><td>=COT(PI()/4)</td><td>1</td></tr>
+  <tr><td>CSC</td><td>Retorna a cosecante de um ângulo.</td><td>=CSC(número)</td><td>=CSC(PI()/2)</td><td>1</td></tr>
+  <tr><td>DECIMAL</td><td>Converte um número de base qualquer para decimal.</td><td>=DECIMAL(número; base)</td><td>=DECIMAL("101";2)</td><td>5</td></tr>
+  <tr><td>DEGREES</td><td>Converte radianos para graus.</td><td>=DEGREES(ângulo)</td><td>=DEGREES(PI())</td><td>180</td></tr>
+  <tr><td>EVEN</td><td>Arredonda número para o inteiro par mais próximo.</td><td>=EVEN(número)</td><td>=EVEN(3)</td><td>4</td></tr>
+  <tr><td>EXP</td><td>Retorna e elevado à potência de um número.</td><td>=EXP(número)</td><td>=EXP(1)</td><td>2.7183</td></tr>
+  <tr><td>FACT</td><td>Retorna o fatorial de um número.</td><td>=FACT(número)</td><td>=FACT(5)</td><td>120</td></tr>
+  <tr><td>FACTDOUBLE</td><td>Retorna o fatorial duplo de um número.</td><td>=FACTDOUBLE(número)</td><td>=FACTDOUBLE(5)</td><td>15</td></tr>
+  <tr><td>FLOOR</td><td>Arredonda número para baixo até o múltiplo mais próximo.</td><td>=FLOOR(número; significância)</td><td>=FLOOR(4.7; 1)</td><td>4</td></tr>
+  <tr><td>GCD</td><td>Retorna o máximo divisor comum.</td><td>=GCD(número1; número2)</td><td>=GCD(24; 36)</td><td>12</td></tr>
+  <tr><td>INT</td><td>Arredonda um número para baixo até o inteiro mais próximo.</td><td>=INT(número)</td><td>=INT(4.9)</td><td>4</td></tr>
+  <tr><td>LCM</td><td>Retorna o mínimo múltiplo comum.</td><td>=LCM(número1; número2)</td><td>=LCM(3;4)</td><td>12</td></tr>
+  <tr><td>LN</td><td>Retorna o logaritmo natural de um número.</td><td>=LN(número)</td><td>=LN(2.7183)</td><td>1</td></tr>
+  <tr><td>LOG</td><td>Retorna o logaritmo de um número em uma base especificada.</td><td>=LOG(número; [base])</td><td>=LOG(100;10)</td><td>2</td></tr>
+  <tr><td>LOG10</td><td>Retorna o logaritmo de base 10 de um número.</td><td>=LOG10(número)</td><td>=LOG10(100)</td><td>2</td></tr>
+  <tr><td>MDETERM</td><td>Retorna o determinante de uma matriz.</td><td>=MDETERM(matriz)</td><td>=MDETERM({{1,2};{3,4}})</td><td>-2</td></tr>
+  <tr><td>MINVERSE</td><td>Retorna a inversa de uma matriz.</td><td>=MINVERSE(matriz)</td><td>=MINVERSE({{1,2};{3,4}})</td><td>matriz inversa</td></tr>
+  <tr><td>MMULT</td><td>Retorna o produto matricial de duas matrizes.</td><td>=MMULT(matriz1; matriz2)</td><td>=MMULT({{1,2};{3,4}};{{5,6};{7,8}})</td><td>produto</td></tr>
+  <tr><td>MOD</td><td>Retorna o resto da divisão.</td><td>=MOD(número; divisor)</td><td>=MOD(10;3)</td><td>1</td></tr>
+  <tr><td>MROUND</td><td>Arredonda para o múltiplo mais próximo.</td><td>=MROUND(número; múltiplo)</td><td>=MROUND(10;3)</td><td>9</td></tr>
+  <tr><td>MULTINOMIAL</td><td>Retorna o multinomial de um conjunto de números.</td><td>=MULTINOMIAL(n1; n2; ...)</td><td>=MULTINOMIAL(2;3;4)</td><td>1260</td></tr>
+  <tr><td>MUNIT</td><td>Retorna a matriz identidade.</td><td>=MUNIT(dimensão)</td><td>=MUNIT(2)</td><td>{{1,0},{0,1}}</td></tr>
+  <tr><td>ODD</td><td>Arredonda número para cima até o ímpar mais próximo.</td><td>=ODD(número)</td><td>=ODD(2.5)</td><td>3</td></tr>
+  <tr><td>PI</td><td>Retorna o valor de pi.</td><td>=PI()</td><td>=PI()</td><td>3.1416</td></tr>
+  <tr><td>POWER</td><td>Retorna o resultado de um número elevado a uma potência.</td><td>=POWER(base; expoente)</td><td>=POWER(2;3)</td><td>8</td></tr>
+  <tr><td>PRODUCT</td><td>Multiplica todos os números fornecidos como argumentos.</td><td>=PRODUCT(número1; número2...)</td><td>=PRODUCT(2;3;4)</td><td>24</td></tr>
+  <tr><td>QUOTIENT</td><td>Retorna a parte inteira da divisão.</td><td>=QUOTIENT(número1; número2)</td><td>=QUOTIENT(10;3)</td><td>3</td></tr>
+  <tr><td>RADIANS</td><td>Converte graus em radianos.</td><td>=RADIANS(graus)</td><td>=RADIANS(180)</td><td>3.1416</td></tr>
+  <tr><td>RAND</td><td>Retorna um número aleatório entre 0 e 1.</td><td>=RAND()</td><td>=RAND()</td><td>0.1234 (varia)</td></tr>
+  <tr><td>RANDBETWEEN</td><td>Retorna um número inteiro aleatório entre dois valores.</td><td>=RANDBETWEEN(inferior; superior)</td><td>=RANDBETWEEN(1;100)</td><td>42 (varia)</td></tr>
+  <tr><td>ROMAN</td><td>Converte um número para numeral romano.</td><td>=ROMAN(número)</td><td>=ROMAN(15)</td><td>XV</td></tr>
+  <tr><td>ROUND</td><td>Arredonda um número para um número específico de dígitos.</td><td>=ROUND(número; núm_dígitos)</td><td>=ROUND(3.14159;2)</td><td>3.14</td></tr>
+  <tr><td>ROUNDDOWN</td><td>Arredonda um número para baixo.</td><td>=ROUNDDOWN(número; núm_dígitos)</td><td>=ROUNDDOWN(3.9;0)</td><td>3</td></tr>
+  <tr><td>ROUNDUP</td><td>Arredonda um número para cima.</td><td>=ROUNDUP(número; núm_dígitos)</td><td>=ROUNDUP(3.1;0)</td><td>4</td></tr>
+  <tr><td>SEC</td><td>Retorna a secante de um ângulo.</td><td>=SEC(número)</td><td>=SEC(PI()/3)</td><td>2</td></tr>
+  <tr><td>SECH</td><td>Retorna a secante hiperbólica de um número.</td><td>=SECH(número)</td><td>=SECH(0)</td><td>1</td></tr>
+  <tr><td>SERIESSUM</td><td>Retorna a soma de uma série de potências baseada em uma fórmula.</td><td>=SERIESSUM(x; n; m; coeficientes)</td><td>=SERIESSUM(1;0;1;{1,2,3})</td><td>6</td></tr>
+  <tr><td>SIGN</td><td>Retorna o sinal de um número.</td><td>=SIGN(número)</td><td>=SIGN(-10)</td><td>-1</td></tr>
+  <tr><td>SIN</td><td>Retorna o seno de um ângulo (em radianos).</td><td>=SIN(número)</td><td>=SIN(PI()/2)</td><td>1</td></tr>
+  <tr><td>SINH</td><td>Retorna o seno hiperbólico de um número.</td><td>=SINH(número)</td><td>=SINH(0)</td><td>0</td></tr>
+  <tr><td>SQRT</td><td>Retorna a raiz quadrada de um número.</td><td>=SQRT(número)</td><td>=SQRT(16)</td><td>4</td></tr>
+  <tr><td>SQRTPI</td><td>Retorna a raiz quadrada de (número × PI).</td><td>=SQRTPI(número)</td><td>=SQRTPI(2)</td><td>2.5066</td></tr>
+  <tr><td>SUBTOTAL</td><td>Retorna subtotal de uma lista ou banco de dados.</td><td>=SUBTOTAL(função; intervalo)</td><td>=SUBTOTAL(9;A1:A10)</td><td>Soma</td></tr>
+  <tr><td>SUM</td><td>Adiciona todos os números fornecidos como argumentos.</td><td>=SUM(número1; número2; ...)</td><td>=SUM(1;2;3)</td><td>6</td></tr>
+  <tr><td>SUMIF</td><td>Soma valores com base em um critério.</td><td>=SUMIF(intervalo; critério; [intervalo_soma])</td><td>=SUMIF(A1:A5;">2")</td><td>soma de valores > 2</td></tr>
+  <tr><td>SUMIFS</td><td>Soma valores com base em vários critérios.</td><td>=SUMIFS(intervalo_soma; intervalo_crit1; critério1; ...)</td><td>=SUMIFS(A1:A5;B1:B5;">2")</td><td>soma múltiplos critérios</td></tr>
+  <tr><td>SUMPRODUCT</td><td>Retorna a soma do produto de intervalos ou matrizes correspondentes.</td><td>=SUMPRODUCT(array1; [array2]; ...)</td><td>=SUMPRODUCT({1,2};{3,4})</td><td>11</td></tr>
+  <tr><td>SUMSQ</td><td>Retorna a soma dos quadrados dos argumentos.</td><td>=SUMSQ(número1; número2; ...)</td><td>=SUMSQ(2;3)</td><td>13</td></tr>
+  <tr><td>SUMX2MY2</td><td>Soma das diferenças dos quadrados dos pares de números.</td><td>=SUMX2MY2(array_x; array_y)</td><td>=SUMX2MY2({2;3};{1;1})</td><td>9</td></tr>
+  <tr><td>SUMX2PY2</td><td>Soma dos quadrados dos pares de números.</td><td>=SUMX2PY2(array_x; array_y)</td><td>=SUMX2PY2({2;3};{1;1})</td><td>15</td></tr>
+  <tr><td>SUMXMY2</td><td>Soma dos quadrados das diferenças dos pares de números.</td><td>=SUMXMY2(array_x; array_y)</td><td>=SUMXMY2({2;3};{1;1})</td><td>5</td></tr>
+  <tr><td>TAN</td><td>Retorna a tangente de um ângulo (em radianos).</td><td>=TAN(número)</td><td>=TAN(PI()/4)</td><td>1</td></tr>
+  <tr><td>TANH</td><td>Retorna a tangente hiperbólica de um número.</td><td>=TANH(número)</td><td>=TANH(1)</td><td>0.7616</td></tr>
+  <tr><td>TRUNC</td><td>Trunca um número removendo sua parte fracionária.</td><td>=TRUNC(número; [núm_dígitos])</td><td>=TRUNC(8.9)</td><td>8</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Estatística</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>AVERAGE</td><td>Calcula a média dos valores.</td><td>=AVERAGE(número1; número2; ...)</td><td>=AVERAGE(2;4;6)</td><td>4</td></tr>
+  <tr><td>AVERAGEA</td><td>Calcula a média incluindo textos como 0.</td><td>=AVERAGEA(valor1; valor2; ...)</td><td>=AVERAGEA(2;"texto";4)</td><td>2</td></tr>
+  <tr><td>AVERAGEIF</td><td>Calcula a média dos valores que atendem a um critério.</td><td>=AVERAGEIF(intervalo; critério; [intervalo_média])</td><td>=AVERAGEIF(A1:A5;">2")</td><td>média de valores > 2</td></tr>
+  <tr><td>AVERAGEIFS</td><td>Calcula a média com base em vários critérios.</td><td>=AVERAGEIFS(intervalo_média; intervalo_crit1; critério1; ...)</td><td>=AVERAGEIFS(A1:A5;B1:B5;">2")</td><td>média com múltiplos critérios</td></tr>
+  <tr><td>BETA.DIST</td><td>Retorna a função de distribuição beta.</td><td>=BETA.DIST(x; alfa; beta; cumulativo; [A]; [B])</td><td>=BETA.DIST(0.5;2;3;TRUE)</td><td>0.6875</td></tr>
+  <tr><td>BETA.INV</td><td>Retorna o inverso da função de distribuição beta.</td><td>=BETA.INV(probabilidade; alfa; beta; [A]; [B])</td><td>=BETA.INV(0.6875;2;3)</td><td>0.5</td></tr>
+  <tr><td>BINOM.DIST</td><td>Retorna a distribuição binomial.</td><td>=BINOM.DIST(núm_s; ensaios; prob_s; cumulativo)</td><td>=BINOM.DIST(6;10;0.5;FALSE)</td><td>0.205</td></tr>
+  <tr><td>BINOM.DIST.RANGE</td><td>Retorna a probabilidade de um número de sucessos.</td><td>=BINOM.DIST.RANGE(trials; prob_s; número_s; [número_s2])</td><td>=BINOM.DIST.RANGE(10;0.5;5;8)</td><td>0.623</td></tr>
+  <tr><td>BINOM.INV</td><td>Retorna o menor valor para o qual a distribuição cumulativa é maior ou igual ao critério.</td><td>=BINOM.INV(ensaios; probabilidade; alfa)</td><td>=BINOM.INV(10;0.5;0.5)</td><td>5</td></tr>
+  <tr><td>CEILING.MATH</td><td>Arredonda para cima até o múltiplo mais próximo.</td><td>=CEILING.MATH(número; [significância]; [modo])</td><td>=CEILING.MATH(4.3)</td><td>5</td></tr>
+  <tr><td>CHISQ.DIST</td><td>Retorna a distribuição qui-quadrado.</td><td>=CHISQ.DIST(x; graus_liberdade; cumulativo)</td><td>=CHISQ.DIST(3;2;TRUE)</td><td>0.7769</td></tr>
+  <tr><td>CHISQ.DIST.RT</td><td>Distribuição qui-quadrado à direita.</td><td>=CHISQ.DIST.RT(x; graus_liberdade)</td><td>=CHISQ.DIST.RT(3;2)</td><td>0.2231</td></tr>
+  <tr><td>CHISQ.INV</td><td>Inverso da função de distribuição qui-quadrado.</td><td>=CHISQ.INV(probabilidade; graus_liberdade)</td><td>=CHISQ.INV(0.9;2)</td><td>4.605</td></tr>
+  <tr><td>CHISQ.INV.RT</td><td>Inverso da função qui-quadrado à direita.</td><td>=CHISQ.INV.RT(probabilidade; graus_liberdade)</td><td>=CHISQ.INV.RT(0.1;2)</td><td>4.605</td></tr>
+  <tr><td>CHISQ.TEST</td><td>Teste de independência qui-quadrado.</td><td>=CHISQ.TEST(matriz1; matriz2)</td><td>=CHISQ.TEST({1,2};{3,4})</td><td>p-valor</td></tr>
+  <tr><td>CONFIDENCE.NORM</td><td>Intervalo de confiança usando distribuição normal.</td><td>=CONFIDENCE.NORM(α;σ;n)</td><td>=CONFIDENCE.NORM(0.05;2;50)</td><td>0.5548</td></tr>
+  <tr><td>CONFIDENCE.T</td><td>Intervalo de confiança usando distribuição t.</td><td>=CONFIDENCE.T(α;σ;n)</td><td>=CONFIDENCE.T(0.05;2;50)</td><td>0.569</td></tr>
+  <tr><td>CORREL</td><td>Retorna o coeficiente de correlação.</td><td>=CORREL(matriz1; matriz2)</td><td>=CORREL({1,2,3};{2,4,6})</td><td>1</td></tr>
+  <tr><td>COUNT</td><td>Conta os números em uma lista de argumentos.</td><td>=COUNT(valor1; valor2; ...)</td><td>=COUNT(1;"texto";3)</td><td>2</td></tr>
+  <tr><td>COUNTA</td><td>Conta valores não vazios.</td><td>=COUNTA(valor1; valor2; ...)</td><td>=COUNTA(1;"texto";"")</td><td>2</td></tr>
+  <tr><td>COUNTBLANK</td><td>Conta células em branco.</td><td>=COUNTBLANK(intervalo)</td><td>=COUNTBLANK(A1:A5)</td><td>1</td></tr>
+  <tr><td>COUNTIF</td><td>Conta células que atendem a um critério.</td><td>=COUNTIF(intervalo; critério)</td><td>=COUNTIF(A1:A5;">2")</td><td>3</td></tr>
+  <tr><td>COUNTIFS</td><td>Conta com vários critérios.</td><td>=COUNTIFS(intervalo1; critério1; ...)</td><td>=COUNTIFS(A1:A5;">2";B1:B5;"<5")</td><td>2</td></tr>
+  <tr><td>COVARIANCE.P</td><td>Calcula a covariância da população entre duas variáveis.</td><td>=COVARIANCE.P(matriz1; matriz2)</td><td>=COVARIANCE.P({2,4,6};{1,3,5})</td><td>4</td></tr>
+  <tr><td>COVARIANCE.S</td><td>Calcula a covariância amostral entre duas variáveis.</td><td>=COVARIANCE.S(matriz1; matriz2)</td><td>=COVARIANCE.S({2,4,6};{1,3,5})</td><td>4</td></tr>
+  <tr><td>DEVSQ</td><td>Retorna a soma dos quadrados dos desvios da média.</td><td>=DEVSQ(número1; número2; ...)</td><td>=DEVSQ(2;4;6)</td><td>16</td></tr>
+  <tr><td>EXPON.DIST</td><td>Retorna a distribuição exponencial.</td><td>=EXPON.DIST(x; lambda; cumulativo)</td><td>=EXPON.DIST(2;0.5;TRUE)</td><td>0.6321</td></tr>
+  <tr><td>F.DIST</td><td>Retorna a distribuição F.</td><td>=F.DIST(x; graus_liberdade1; graus_liberdade2; cumulativo)</td><td>=F.DIST(2;5;2;TRUE)</td><td>0.7769</td></tr>
+  <tr><td>F.INV</td><td>Retorna o inverso da distribuição F.</td><td>=F.INV(probabilidade; graus_liberdade1; graus_liberdade2)</td><td>=F.INV(0.95;5;2)</td><td>19.296</td></tr>
+  <tr><td>F.TEST</td><td>Retorna o resultado de um teste F.</td><td>=F.TEST(array1; array2)</td><td>=F.TEST({4,5,6};{1,2,3})</td><td>0.1</td></tr>
+  <tr><td>FISHER</td><td>Retorna a transformação de Fisher.</td><td>=FISHER(x)</td><td>=FISHER(0.5)</td><td>0.5493</td></tr>
+  <tr><td>FISHERINV</td><td>Retorna o inverso da transformação de Fisher.</td><td>=FISHERINV(y)</td><td>=FISHERINV(0.5493)</td><td>0.5</td></tr>
+  <tr><td>FORECAST</td><td>Prevê um valor usando regressão linear.</td><td>=FORECAST(x; matriz_y; matriz_x)</td><td>=FORECAST(5;{2,3,4};{1,2,3})</td><td>5</td></tr>
+  <tr><td>FREQUENCY</td><td>Calcula a frequência com que os valores ocorrem em intervalos.</td><td>=FREQUENCY(dados; classes)</td><td>=FREQUENCY({1,2,3};{2,3})</td><td>{2;1}</td></tr>
+  <tr><td>GAMMA</td><td>Retorna o valor da função gama.</td><td>=GAMMA(número)</td><td>=GAMMA(5)</td><td>24</td></tr>
+  <tr><td>GAMMA.INV</td><td>Retorna o inverso da distribuição gama.</td><td>=GAMMA.INV(probabilidade; alfa; beta)</td><td>=GAMMA.INV(0.5;2;2)</td><td>2.77</td></tr>
+  <tr><td>GAMMALN</td><td>Retorna o logaritmo natural da função gama.</td><td>=GAMMALN(número)</td><td>=GAMMALN(5)</td><td>3.178</td></tr>
+  <tr><td>GEOMEAN</td><td>Retorna a média geométrica.</td><td>=GEOMEAN(número1; número2; ...)</td><td>=GEOMEAN(4;16)</td><td>8</td></tr>
+  <tr><td>HARMEAN</td><td>Retorna a média harmônica.</td><td>=HARMEAN(número1; número2; ...)</td><td>=HARMEAN(4;16)</td><td>6.4</td></tr>
+  <tr><td>INTERCEPT</td><td>Retorna o ponto de interseção da linha de regressão linear.</td><td>=INTERCEPT(y_conhecido; x_conhecido)</td><td>=INTERCEPT({2,3,4};{1,2,3})</td><td>1</td></tr>
+  <tr><td>ISOWEEKNUM</td><td>Retorna o número da semana ISO do ano.</td><td>=ISOWEEKNUM(data)</td><td>=ISOWEEKNUM(\"2024-01-01\")</td><td>1</td></tr>
+  <tr><td>KURT</td><td>Retorna a curtose de um conjunto de dados.</td><td>=KURT(número1; número2; ...)</td><td>=KURT({1,2,3,4,5})</td><td>-1.3</td></tr>
+  <tr><td>LINEST</td><td>Retorna estatísticas da linha de melhor ajuste.</td><td>=LINEST(y_conhecido; x_conhecido)</td><td>=LINEST({2,3,4};{1,2,3})</td><td>coeficientes</td></tr>
+  <tr><td>LOGEST</td><td>Retorna estatísticas de uma curva exponencial.</td><td>=LOGEST(y_conhecido; x_conhecido)</td><td>=LOGEST({2,3,4};{1,2,3})</td><td>coeficientes</td></tr>
+  <tr><td>MAX</td><td>Retorna o maior valor entre os argumentos.</td><td>=MAX(número1; número2; ...)</td><td>=MAX(1;5;3)</td><td>5</td></tr>
+  <tr><td>MAXA</td><td>Retorna o maior valor entre os argumentos, incluindo textos e valores lógicos.</td><td>=MAXA(valor1; valor2; ...)</td><td>=MAXA(1;TRUE;"3")</td><td>3</td></tr>
+  <tr><td>MEDIAN</td><td>Retorna a mediana dos números fornecidos.</td><td>=MEDIAN(número1; número2; ...)</td><td>=MEDIAN(1;3;5)</td><td>3</td></tr>
+  <tr><td>MIN</td><td>Retorna o menor valor entre os argumentos.</td><td>=MIN(número1; número2; ...)</td><td>=MIN(1;5;3)</td><td>1</td></tr>
+  <tr><td>MINA</td><td>Retorna o menor valor, incluindo valores lógicos e texto.</td><td>=MINA(valor1; valor2; ...)</td><td>=MINA(1;FALSE;"3")</td><td>0</td></tr>
+  <tr><td>MODE.MULT</td><td>Retorna uma matriz com os valores mais frequentes.</td><td>=MODE.MULT(número1; número2; ...)</td><td>=MODE.MULT({1;2;2;3;3})</td><td>2;3</td></tr>
+  <tr><td>MODE.SNGL</td><td>Retorna o valor mais frequente.</td><td>=MODE.SNGL(número1; número2; ...)</td><td>=MODE.SNGL(1;2;2;3)</td><td>2</td></tr>
+  <tr><td>NEGBINOM.DIST</td><td>Retorna a distribuição binomial negativa.</td><td>=NEGBINOM.DIST(número_f; número_s; probabilidade_s; cumulativo)</td><td>=NEGBINOM.DIST(10;5;0.25;TRUE)</td><td>0.95</td></tr>
+  <tr><td>NORM.DIST</td><td>Retorna a distribuição normal.</td><td>=NORM.DIST(x; média; desvio; cumulativo)</td><td>=NORM.DIST(42;40;1.5;TRUE)</td><td>0.9088</td></tr>
+  <tr><td>NORM.S.INV</td><td>Retorna o inverso da distribuição normal padrão.</td><td>=NORM.S.INV(probabilidade)</td><td>=NORM.S.INV(0.95)</td><td>1.6449</td></tr>
+  <tr><td>PEARSON</td><td>Retorna o coeficiente de correlação de Pearson.</td><td>=PEARSON(matriz1; matriz2)</td><td>=PEARSON({1;2;3};{4;5;6})</td><td>1</td></tr>
+  <tr><td>PERCENTILE.EXC</td><td>Retorna o k-ésimo percentil, excluindo os extremos.</td><td>=PERCENTILE.EXC(matriz; k)</td><td>=PERCENTILE.EXC({1;2;3;4;5};0.4)</td><td>2.6</td></tr>
+  <tr><td>PERCENTILE.INC</td><td>Retorna o k-ésimo percentil, incluindo os extremos.</td><td>=PERCENTILE.INC(matriz; k)</td><td>=PERCENTILE.INC({1;2;3;4;5};0.4)</td><td>3</td></tr>
+  <tr><td>PERMUT</td><td>Retorna o número de permutações possíveis.</td><td>=PERMUT(número; número_escolhido)</td><td>=PERMUT(6;3)</td><td>120</td></tr>
+  <tr><td>PHI</td><td>Retorna a densidade da função de distribuição normal padrão.</td><td>=PHI(x)</td><td>=PHI(1)</td><td>0.2419</td></tr>
+  <tr><td>POISSON.DIST</td><td>Retorna a distribuição de Poisson.</td><td>=POISSON.DIST(x; média; cumulativo)</td><td>=POISSON.DIST(3;2.5;TRUE)</td><td>0.7576</td></tr>
+  <tr><td>PROB</td><td>Retorna a probabilidade associada a um intervalo de valores.</td><td>=PROB(x_intervalo; prob_intervalo; limite_inferior; [limite_superior])</td><td>=PROB({1;2;3;4};{0.1;0.2;0.3;0.4};2;3)</td><td>0.5</td></tr>
+  <tr><td>QUARTILE.EXC</td><td>Retorna o quartil de um conjunto de dados, excluindo os extremos.</td><td>=QUARTILE.EXC(matriz; quartil)</td><td>=QUARTILE.EXC({1;2;3;4;5};1)</td><td>2</td></tr>
+  <tr><td>QUARTILE.INC</td><td>Retorna o quartil de um conjunto de dados, incluindo os extremos.</td><td>=QUARTILE.INC(matriz; quartil)</td><td>=QUARTILE.INC({1;2;3;4;5};1)</td><td>2</td></tr>
+  <tr><td>RANK.AVG</td><td>Retorna a classificação de um número, média em caso de empates.</td><td>=RANK.AVG(número; referência; [ordem])</td><td>=RANK.AVG(3;{1;2;3;4;5})</td><td>3</td></tr>
+  <tr><td>RANK.EQ</td><td>Retorna a classificação de um número, primeira posição em caso de empate.</td><td>=RANK.EQ(número; referência; [ordem])</td><td>=RANK.EQ(3;{1;2;3;4;5})</td><td>3</td></tr>
+  <tr><td>RSQ</td><td>Retorna o quadrado do coeficiente de correlação de Pearson.</td><td>=RSQ(matriz1; matriz2)</td><td>=RSQ({1;2;3};{4;5;6})</td><td>1</td></tr>
+  <tr><td>SKEW</td><td>Retorna a assimetria de uma distribuição.</td><td>=SKEW(número1; número2; ...)</td><td>=SKEW({1;2;3;4;5})</td><td>0</td></tr>
+  <tr><td>SLOPE</td><td>Retorna a inclinação da linha de regressão linear.</td><td>=SLOPE(y_conhecido; x_conhecido)</td><td>=SLOPE({2;3;4};{1;2;3})</td><td>1</td></tr>
+  <tr><td>SMALL</td><td>Retorna o k-ésimo menor valor de um conjunto.</td><td>=SMALL(matriz; k)</td><td>=SMALL({5;1;3};2)</td><td>3</td></tr>
+  <tr><td>STDEV.P</td><td>Retorna o desvio padrão da população.</td><td>=STDEV.P(número1; número2; ...)</td><td>=STDEV.P(2;4;6)</td><td>1.6329</td></tr>
+  <tr><td>STDEV.S</td><td>Retorna o desvio padrão da amostra.</td><td>=STDEV.S(número1; número2; ...)</td><td>=STDEV.S(2;4;6)</td><td>2</td></tr>
+  <tr><td>STDEVA</td><td>Desvio padrão da amostra incluindo valores lógicos e texto.</td><td>=STDEVA(valor1; valor2; ...)</td><td>=STDEVA(2;4;6;TRUE)</td><td>1.8708</td></tr>
+  <tr><td>STDEVPA</td><td>Desvio padrão da população incluindo valores lógicos e texto.</td><td>=STDEVPA(valor1; valor2; ...)</td><td>=STDEVPA(2;4;6;TRUE)</td><td>1.5</td></tr>
+  <tr><td>VAR.P</td><td>Retorna a variância da população.</td><td>=VAR.P(número1; número2; ...)</td><td>=VAR.P(2;4;6)</td><td>2.6667</td></tr>
+  <tr><td>VAR.S</td><td>Retorna a variância da amostra.</td><td>=VAR.S(número1; número2; ...)</td><td>=VAR.S(2;4;6)</td><td>4</td></tr>
+  <tr><td>VARA</td><td>Variância da amostra com valores lógicos e texto.</td><td>=VARA(valor1; valor2; ...)</td><td>=VARA(2;4;6;TRUE)</td><td>3.5</td></tr>
+  <tr><td>VARPA</td><td>Variância da população com valores lógicos e texto.</td><td>=VARPA(valor1; valor2; ...)</td><td>=VARPA(2;4;6;TRUE)</td><td>2.25</td></tr>
+  <tr><td>WEIBULL.DIST</td><td>Retorna a distribuição de Weibull.</td><td>=WEIBULL.DIST(x; alfa; beta; cumulativo)</td><td>=WEIBULL.DIST(105;20;100;TRUE)</td><td>0.9296</td></tr>
+  <tr><td>Z.TEST</td><td>Retorna o valor do teste z.</td><td>=Z.TEST(matriz; x; [sigma])</td><td>=Z.TEST({1;2;3;4;5};4)</td><td>0.1841</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Texto</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>ARRAYTOTEXT</td><td>Converte uma matriz ou intervalo em texto.</td><td>=ARRAYTOTEXT(matriz; [formato])</td><td>=ARRAYTOTEXT(A1:A3)</td><td>"valor1, valor2, valor3"</td></tr>
+  <tr><td>ASC</td><td>Converte caracteres de largura dupla em largura simples.</td><td>=ASC(texto)</td><td>=ASC("ｱ")</td><td>"ア"</td></tr>
+  <tr><td>CHAR</td><td>Retorna o caractere referente a um número.</td><td>=CHAR(número)</td><td>=CHAR(65)</td><td>"A"</td></tr>
+  <tr><td>CLEAN</td><td>Remove todos os caracteres não imprimíveis de texto.</td><td>=CLEAN(texto)</td><td>=CLEAN("Texto"&CARACT(7))</td><td>"Texto"</td></tr>
+  <tr><td>CODE</td><td>Retorna o código numérico do primeiro caractere de um texto.</td><td>=CODE(texto)</td><td>=CODE("A")</td><td>65</td></tr>
+  <tr><td>CONCAT</td><td>Concatena uma lista ou intervalo de textos.</td><td>=CONCAT(texto1; [texto2]; ...)</td><td>=CONCAT(A1:A3)</td><td>"Texto1Texto2Texto3"</td></tr>
+  <tr><td>CONCATENATE</td><td>Junta até 255 textos em um só.</td><td>=CONCATENATE(texto1; texto2; ...)</td><td>=CONCATENATE("Bom ";"dia")</td><td>"Bom dia"</td></tr>
+  <tr><td>DBCS</td><td>Converte caracteres de largura simples em largura dupla.</td><td>=DBCS(texto)</td><td>=DBCS("A")</td><td>"Ａ"</td></tr>
+  <tr><td>DOLLAR</td><td>Converte um número em texto com formato monetário.</td><td>=DOLLAR(número; [decimais])</td><td>=DOLLAR(1234.56; 2)</td><td>"R$1.234,56"</td></tr>
+  <tr><td>EXACT</td><td>Verifica se dois textos são exatamente iguais.</td><td>=EXACT(texto1; texto2)</td><td>=EXACT("Texto";"texto")</td><td>FALSO</td></tr>
+  <tr><td>FIND</td><td>Retorna a posição de um texto dentro de outro (diferencia maiúsculas de minúsculas).</td><td>=FIND(texto_procurado; dentro_texto; [início])</td><td>=FIND("a";"Casa")</td><td>2</td></tr>
+  <tr><td>FINDB</td><td>Versão de FIND que considera bytes em idiomas de byte duplo.</td><td>=FINDB(texto_procurado; dentro_texto; [início])</td><td>=FINDB("字";"文字")</td><td>2</td></tr>
+  <tr><td>FIXED</td><td>Formata um número como texto com casas decimais fixas.</td><td>=FIXED(número; [decimais]; [sem_separador])</td><td>=FIXED(1234.567; 2)</td><td>"1.234,57"</td></tr>
+  <tr><td>LEFT</td><td>Retorna os primeiros caracteres de um texto.</td><td>=LEFT(texto; [núm_caract])</td><td>=LEFT("Texto"; 3)</td><td>"Tex"</td></tr>
+  <tr><td>LEN</td><td>Conta o número de caracteres em um texto.</td><td>=LEN(texto)</td><td>=LEN("Excel")</td><td>5</td></tr>
+  <tr><td>LOWER</td><td>Converte todo o texto para minúsculas.</td><td>=LOWER(texto)</td><td>=LOWER("EXCEL")</td><td>"excel"</td></tr>
+  <tr><td>MID</td><td>Extrai caracteres de um texto a partir de uma posição específica.</td><td>=MID(texto; início; núm_caract)</td><td>=MID("Excel";2;3)</td><td>"xce"</td></tr>
+  <tr><td>NUMBERVALUE</td><td>Converte texto para número, com separadores personalizados.</td><td>=NUMBERVALUE(texto; [separador_decimal]; [separador_milhar])</td><td>=NUMBERVALUE("1.234,56";",";".")</td><td>1234.56</td></tr>
+  <tr><td>PHONETIC</td><td>Extrai os caracteres fonéticos de uma célula com caracteres japoneses.</td><td>=PHONETIC(referência)</td><td>=PHONETIC(A1)</td><td>"Fonetização"</td></tr>
+  <tr><td>PROPER</td><td>Coloca a primeira letra de cada palavra em maiúscula.</td><td>=PROPER(texto)</td><td>=PROPER("exemplo de texto")</td><td>"Exemplo De Texto"</td></tr>
+  <tr><td>REPLACE</td><td>Substitui parte de um texto por outro.</td><td>=REPLACE(texto_antigo; início; núm_caract; novo_texto)</td><td>=REPLACE("123456";1;3;"abc")</td><td>"abc456"</td></tr>
+  <tr><td>REPT</td><td>Repete um texto um número específico de vezes.</td><td>=REPT(texto; núm_vezes)</td><td>=REPT("A";4)</td><td>"AAAA"</td></tr>
+  <tr><td>RIGHT</td><td>Retorna os últimos caracteres de um texto.</td><td>=RIGHT(texto; [núm_caract])</td><td>=RIGHT("Texto";2)</td><td>"to"</td></tr>
+  <tr><td>SEARCH</td><td>Retorna a posição de um texto dentro de outro (não diferencia maiúsculas).</td><td>=SEARCH(texto_procurado; dentro_texto; [início])</td><td>=SEARCH("a";"Casa")</td><td>2</td></tr>
+  <tr><td>SUBSTITUTE</td><td>Substitui texto existente por novo texto.</td><td>=SUBSTITUTE(texto; texto_antigo; novo_texto; [núm_ocorrência])</td><td>=SUBSTITUTE("1-2-3";"-";".")</td><td>"1.2.3"</td></tr>
+  <tr><td>T</td><td>Retorna o texto se for texto, senão retorna "".</td><td>=T(valor)</td><td>=T("Texto")</td><td>"Texto"</td></tr>
+  <tr><td>TEXT</td><td>Formata um número e converte em texto.</td><td>=TEXT(valor; formato_texto)</td><td>=TEXT(1234.5;"R$ #.##0,00")</td><td>"R$ 1.234,50"</td></tr>
+  <tr><td>TEXTAFTER</td><td>Retorna o texto após um delimitador.</td><td>=TEXTAFTER(texto; delimitador)</td><td>=TEXTAFTER("email@dominio.com";"@")</td><td>"dominio.com"</td></tr>
+  <tr><td>TEXTBEFORE</td><td>Retorna o texto antes de um delimitador.</td><td>=TEXTBEFORE(texto; delimitador)</td><td>=TEXTBEFORE("email@dominio.com";"@")</td><td>"email"</td></tr>
+  <tr><td>TEXTJOIN</td><td>Concatena texto com delimitador.</td><td>=TEXTJOIN(delimitador; ignorar_vazio; texto1; ...)</td><td>=TEXTJOIN(", ";TRUE;"A";"B";"C")</td><td>"A, B, C"</td></tr>
+  <tr><td>TEXTSPLIT</td><td>Divide texto usando delimitadores.</td><td>=TEXTSPLIT(texto; delimitador_col; [delimitador_linha])</td><td>=TEXTSPLIT("A,B,C";",")</td><td>"A" "B" "C"</td></tr>
+  <tr><td>TRIM</td><td>Remove espaços extras de um texto.</td><td>=TRIM(texto)</td><td>=TRIM(" texto com espaços ")</td><td>"texto com espaços"</td></tr>
+  <tr><td>UNICHAR</td><td>Retorna o caractere Unicode correspondente a um número.</td><td>=UNICHAR(número)</td><td>=UNICHAR(9731)</td><td>"☃"</td></tr>
+  <tr><td>UNICODE</td><td>Retorna o número Unicode do primeiro caractere de um texto.</td><td>=UNICODE(texto)</td><td>=UNICODE("A")</td><td>65</td></tr>
+  <tr><td>UPPER</td><td>Converte todo o texto para maiúsculas.</td><td>=UPPER(texto)</td><td>=UPPER("texto")</td><td>"TEXTO"</td></tr>
+  <tr><td>VALUE</td><td>Converte texto que representa um número em valor numérico.</td><td>=VALUE(texto)</td><td>=VALUE("123")</td><td>123</td></tr>
+  <tr><td>VALUETOTEXT</td><td>Converte um valor em texto de forma explícita.</td><td>=VALUETOTEXT(valor)</td><td>=VALUETOTEXT(123)</td><td>"123"</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Data e Hora</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>COUPDAYBS</td><td>Retorna o número de dias desde o início do período de cupom até a data de liquidação.</td><td>=COUPDAYBS(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYBS(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>91</td></tr>
+  <tr><td>COUPDAYS</td><td>Retorna o número de dias no período de cupom que contém a data de liquidação.</td><td>=COUPDAYS(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYS(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>182</td></tr>
+  <tr><td>COUPDAYSNC</td><td>Retorna o número de dias desde a data de liquidação até a próxima data de cupom.</td><td>=COUPDAYSNC(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYSNC(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>91</td></tr>
+  <tr><td>COUPNCD</td><td>Retorna a próxima data de cupom após a data de liquidação.</td><td>=COUPNCD(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPNCD(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>01/09/2025</td></tr>
+  <tr><td>COUPNUM</td><td>Retorna o número de períodos de cupom entre a data de liquidação e vencimento.</td><td>=COUPNUM(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPNUM(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>10</td></tr>
+  <tr><td>COUPPCD</td><td>Retorna a data de cupom anterior à data de liquidação.</td><td>=COUPPCD(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPPCD(DATE(2025;6;1); DATE(2030;6;1); 2)</td><td>01/03/2025</td></tr>
+  <tr><td>DATE</td><td>Retorna o número de série de uma data específica.</td><td>=DATE(ano; mês; dia)</td><td>=DATE(2025;6;23)</td><td>45399</td></tr>
+  <tr><td>DATEDIF</td><td>Calcula a diferença entre duas datas.</td><td>=DATEDIF(data_inicial; data_final; unidade)</td><td>=DATEDIF("01/01/2020";"01/01/2025";"y")</td><td>5</td></tr>
+  <tr><td>DATEVALUE</td><td>Converte uma data em texto para número de série.</td><td>=DATEVALUE(texto_data)</td><td>=DATEVALUE("23/06/2025")</td><td>45399</td></tr>
+  <tr><td>DAY</td><td>Retorna o dia de uma data.</td><td>=DAY(data)</td><td>=DAY("23/06/2025")</td><td>23</td></tr>
+  <tr><td>DAYS</td><td>Retorna o número de dias entre duas datas.</td><td>=DAYS(data_fim; data_início)</td><td>=DAYS("23/06/2025";"01/01/2025")</td><td>173</td></tr>
+  <tr><td>DAYS360</td><td>Calcula o número de dias entre duas datas com base em um ano de 360 dias.</td><td>=DAYS360(data_inicial; data_final; [método])</td><td>=DAYS360("01/01/2025";"31/12/2025")</td><td>360</td></tr>
+  <tr><td>EDATE</td><td>Retorna a data correspondente a meses antes/depois de uma data inicial.</td><td>=EDATE(data_inicial; meses)</td><td>=EDATE("01/01/2025";6)</td><td>01/07/2025</td></tr>
+  <tr><td>EOMONTH</td><td>Retorna o último dia do mês, antes ou depois da data inicial.</td><td>=EOMONTH(data_inicial; meses)</td><td>=EOMONTH("15/06/2025";1)</td><td>31/07/2025</td></tr>
+  <tr><td>HOUR</td><td>Retorna a hora de uma hora específica.</td><td>=HOUR(hora)</td><td>=HOUR("13:45")</td><td>13</td></tr>
+  <tr><td>ISOWEEKNUM</td><td>Retorna o número da semana ISO do ano.</td><td>=ISOWEEKNUM(data)</td><td>=ISOWEEKNUM("01/01/2025")</td><td>1</td></tr>
+  <tr><td>MINUTE</td><td>Retorna os minutos de uma hora.</td><td>=MINUTE(hora)</td><td>=MINUTE("13:45")</td><td>45</td></tr>
+  <tr><td>MONTH</td><td>Retorna o mês de uma data.</td><td>=MONTH(data)</td><td>=MONTH("23/06/2025")</td><td>6</td></tr>
+  <tr><td>NETWORKDAYS</td><td>Retorna o número de dias úteis entre duas datas.</td><td>=NETWORKDAYS(data_inicial; data_final; [feriados])</td><td>=NETWORKDAYS("01/06/2025";"30/06/2025")</td><td>21</td></tr>
+  <tr><td>NETWORKDAYS.INTL</td><td>Retorna os dias úteis entre datas com fins de semana personalizados.</td><td>=NETWORKDAYS.INTL(início; fim; [fim_de_semana]; [feriados])</td><td>=NETWORKDAYS.INTL("01/06/2025";"30/06/2025";1)</td><td>21</td></tr>
+  <tr><td>NOW</td><td>Retorna a data e hora atual.</td><td>=NOW()</td><td>=NOW()</td><td>23/06/2025 11:00 (varia)</td></tr>
+  <tr><td>SECOND</td><td>Retorna os segundos de uma hora.</td><td>=SECOND(hora)</td><td>=SECOND("12:34:56")</td><td>56</td></tr>
+  <tr><td>TIME</td><td>Retorna a hora baseada em horas, minutos e segundos.</td><td>=TIME(hora; minuto; segundo)</td><td>=TIME(13;30;0)</td><td>13:30</td></tr>
+  <tr><td>TIMEVALUE</td><td>Converte uma hora em texto para número decimal.</td><td>=TIMEVALUE(texto_hora)</td><td>=TIMEVALUE("13:30")</td><td>0,5625</td></tr>
+  <tr><td>TODAY</td><td>Retorna a data atual.</td><td>=TODAY()</td><td>=TODAY()</td><td>23/06/2025</td></tr>
+  <tr><td>WEEKDAY</td><td>Retorna o número correspondente ao dia da semana.</td><td>=WEEKDAY(data; [tipo])</td><td>=WEEKDAY("23/06/2025";2)</td><td>1 (segunda-feira)</td></tr>
+  <tr><td>WEEKNUM</td><td>Retorna o número da semana no ano.</td><td>=WEEKNUM(data; [tipo])</td><td>=WEEKNUM("23/06/2025";2)</td><td>26</td></tr>
+  <tr><td>WORKDAY</td><td>Retorna a data após um número de dias úteis.</td><td>=WORKDAY(data_inicial; dias; [feriados])</td><td>=WORKDAY("01/06/2025";10)</td><td>13/06/2025</td></tr>
+  <tr><td>WORKDAY.INTL</td><td>Retorna a data após dias úteis personalizados.</td><td>=WORKDAY.INTL(data_inicial; dias; [fim_de_semana]; [feriados])</td><td>=WORKDAY.INTL("01/06/2025";10;11)</td><td>14/06/2025</td></tr>
+  <tr><td>YEAR</td><td>Retorna o ano de uma data.</td><td>=YEAR(data)</td><td>=YEAR("23/06/2025")</td><td>2025</td></tr>
+  <tr><td>YEARFRAC</td><td>Retorna a fração do ano entre duas datas.</td><td>=YEARFRAC(data_inicial; data_final; [base])</td><td>=YEARFRAC("01/01/2025";"30/06/2025")</td><td>0,5</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Lógicas</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>AND</td><td>Retorna VERDADEIRO se todos os argumentos forem VERDADEIROS.</td><td>=AND(lógico1; lógico2; ...)</td><td>=AND(2>1; 3>2)</td><td>VERDADEIRO</td></tr>
+  <tr><td>FALSE</td><td>Retorna o valor lógico FALSO.</td><td>=FALSE()</td><td>=FALSE()</td><td>FALSO</td></tr>
+  <tr><td>IF</td><td>Executa um teste lógico e retorna um valor para VERDADEIRO e outro para FALSO.</td><td>=IF(teste_lógico; valor_se_verdadeiro; valor_se_falso)</td><td>=IF(2>1;"Sim";"Não")</td><td>Sim</td></tr>
+  <tr><td>IFERROR</td><td>Retorna um valor especificado se a fórmula gerar erro.</td><td>=IFERROR(valor; valor_se_erro)</td><td>=IFERROR(1/0;"Erro!")</td><td>Erro!</td></tr>
+  <tr><td>IFNA</td><td>Retorna um valor se a fórmula resultar em #N/D.</td><td>=IFNA(valor; valor_se_n/d)</td><td>=IFNA(VLOOKUP("X";A1:B5;2;FALSE);"Não encontrado")</td><td>Não encontrado</td></tr>
+  <tr><td>IFS</td><td>Retorna um valor correspondente à primeira condição VERDADEIRA.</td><td>=IFS(condição1; valor1; condição2; valor2; ...)</td><td>=IFS(A1=1;"Um";A1=2;"Dois")</td><td>Um (ou Dois)</td></tr>
+  <tr><td>NOT</td><td>Inverte o valor lógico de seu argumento.</td><td>=NOT(lógico)</td><td>=NOT(TRUE)</td><td>FALSO</td></tr>
+  <tr><td>OR</td><td>Retorna VERDADEIRO se qualquer argumento for VERDADEIRO.</td><td>=OR(lógico1; lógico2; ...)</td><td>=OR(1>2; 3>2)</td><td>VERDADEIRO</td></tr>
+  <tr><td>SWITCH</td><td>Compara uma expressão com uma lista de valores e retorna o resultado correspondente.</td><td>=SWITCH(expressão; valor1; resultado1; [valor2; resultado2]; ...)</td><td>=SWITCH(2; 1;"Um"; 2;"Dois"; "Outro")</td>   <td>Dois</td></tr>
+  <tr><td>TRUE</td><td>Retorna o valor lógico VERDADEIRO.</td><td>=TRUE()</td><td>=TRUE()</td><td>VERDADEIRO</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Pesquisa e Referência</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>ADDRESS</td><td>Retorna uma referência de célula como texto.</td><td>=ADDRESS(linha; coluna; [abs_num]; [a1]; [planilha])</td><td>=ADDRESS(1;2)</td><td>$B$1</td></tr>
+  <tr><td>AREAS</td><td>Retorna o número de áreas em uma referência.</td><td>=AREAS(ref)</td><td>=AREAS((A1:B2;D4:E5))</td><td>2</td></tr>
+  <tr><td>CHOOSE</td><td>Escolhe um valor de uma lista com base em um índice.</td><td>=CHOOSE(número_índice; valor1; valor2; ...)</td><td>=CHOOSE(2;"Maçã";"Banana";"Cereja")</td><td>Banana</td></tr>
+  <tr><td>CHOOSECOLS</td><td>Retorna colunas específicas de uma matriz.</td><td>=CHOOSECOLS(matriz; coluna1; [coluna2]; ...)</td><td>=CHOOSECOLS(A1:D5;1;3)</td><td>Colunas A e C</td></tr>
+  <tr><td>CHOOSEROWS</td><td>Retorna linhas específicas de uma matriz.</td><td>=CHOOSEROWS(matriz; linha1; [linha2]; ...)</td><td>=CHOOSEROWS(A1:D5;1;3)</td><td>Linhas 1 e 3</td></tr>
+  <tr><td>COLUMN</td><td>Retorna o número da coluna de uma referência.</td><td>=COLUMN([ref])</td><td>=COLUMN(B3)</td><td>2</td></tr>
+  <tr><td>COLUMNS</td><td>Retorna o número de colunas em uma matriz ou referência.</td><td>=COLUMNS(matriz)</td><td>=COLUMNS(A1:D1)</td><td>4</td></tr>
+  <tr><td>CUBEMEMBER</td><td>Retorna um membro ou tupla de um cubo de dados.</td><td>=CUBEMEMBER(conexão; expressão_membro)</td><td>=CUBEMEMBER("Conexão";"[Produto].[Todos Produtos].[Computador]")</td><td>Computador</td></tr>
+  <tr><td>CUBESET</td><td>Define um conjunto de membros calculado de um cubo.</td><td>=CUBESET(conexão; expressão_conjunto; [legenda])</td><td>=CUBESET("Conexão";"[Produto].[Categoria].Children")</td><td>Conjunto de categorias</td></tr>
+  <tr><td>CUBESETCOUNT</td><td>Retorna o número de itens em um conjunto.</td><td>=CUBESETCOUNT(conjunto)</td><td>=CUBESETCOUNT(A1)</td><td>Depende do conjunto</td></tr>
+  <tr><td>CUBEVALUE</td><td>Retorna um valor agregado de um cubo.</td><td>=CUBEVALUE(conexão; membro1; [membro2]; ...)</td><td>=CUBEVALUE("Conexão";"[Data].[2025]";"[Produto].[Computador]")</td><td>Valor</td></tr>
+  <tr><td>DROP</td><td>Remove linhas ou colunas de uma matriz.</td><td>=DROP(matriz; linhas; colunas)</td><td>=DROP(A1:D5;1;0)</td><td>Matriz sem a primeira linha</td></tr>
+  <tr><td>EXPAND</td><td>Expande uma matriz para dimensões especificadas.</td><td>=EXPAND(matriz; linhas; colunas; [valor_vazio])</td><td>=EXPAND({1\2};3;2)</td><td>1 2 + célula vazia</td></tr>
+  <tr><td>FILTER</td><td>Filtra um intervalo com base em critérios.</td><td>=FILTER(matriz; incluir; [se_vazio])</td><td>=FILTER(A1:B10;B1:B10>100)</td><td>Linhas com valor &gt; 100</td></tr>
+  <tr><td>FORMULATEXT</td><td>Retorna a fórmula de uma célula como texto.</td><td>=FORMULATEXT(ref)</td><td>=FORMULATEXT(A1)</td><td>"=A2+A3"</td></tr>
+  <tr><td>GETPIVOTDATA</td><td>Extrai dados de uma Tabela Dinâmica.</td><td>=GETPIVOTDATA(dado; tabela_dinâmica; [campo1; item1]; ...)</td><td>=GETPIVOTDATA("Vendas"; A3; "Produto"; "Computador")</td><td>Valor</td></tr>
+  <tr><td>HLOOKUP</td><td>Procura um valor na linha superior de uma matriz.</td><td>=HLOOKUP(valor_procurado; tabela; núm_índice_linha; [procurar_intervalo])</td><td>=HLOOKUP(1; A1:D2; 2; FALSO)</td><td>Valor correspondente</td></tr>
+  <tr><td>HSTACK</td><td>Combina várias matrizes horizontalmente.</td><td>=HSTACK(matriz1; matriz2; ...)</td><td>=HSTACK({1;2};{3;4})</td><td>{1 3; 2 4}</td></tr>
+  <tr><td>HYPERLINK</td><td>Cria um atalho para abrir um documento armazenado.</td><td>=HYPERLINK(link; [nome])</td><td>=HYPERLINK("https://exemplo.com";"Clique aqui")</td><td>Link</td></tr>
+  <tr><td>INDEX</td><td>Retorna o valor de uma célula com base em linhas e colunas.</td><td>=INDEX(matriz; núm_linha; [núm_coluna])</td><td>=INDEX(A1:C3;2;2)</td><td>Valor na célula B2</td></tr>
+  <tr><td>INDIRECT</td><td>Retorna a referência especificada por uma cadeia de texto.</td><td>=INDIRECT(ref_texto)</td><td>=INDIRECT("A1")</td><td>Valor em A1</td></tr>
+  <tr><td>LOOKUP</td><td>Procura um valor em um intervalo e retorna outro valor.</td><td>=LOOKUP(valor_procurado; vetor_procurado; vetor_resultado)</td><td>=LOOKUP(4;A1:A5;B1:B5)</td><td>Resultado</td></tr>
+  <tr><td>MATCH</td><td>Retorna a posição relativa de um item em um intervalo.</td><td>=MATCH(valor_procurado; matriz; [tipo_correspondência])</td><td>=MATCH(25;A1:A10;0)</td><td>Posição</td></tr>
+  <tr><td>OFFSET</td><td>Retorna uma referência deslocada em relação a uma célula.</td><td>=OFFSET(ref; linhas; colunas; [altura]; [largura])</td><td>=OFFSET(A1;2;3)</td><td>Valor 2 linhas abaixo e 3 à direita</td></tr>
+  <tr><td>RANDARRAY</td><td>Retorna uma matriz de números aleatórios.</td><td>=RANDARRAY([linhas]; [colunas]; [mínimo]; [máximo]; [inteiro])</td><td>=RANDARRAY(3;2;1;10;VERDADEIRO)</td><td>Matriz aleatória</td></tr>
+  <tr><td>RTD</td><td>Retorna dados em tempo real de um programa COM.</td><td>=RTD(progID; servidor; tópico1; ...)</td><td>=RTD("myserver.progid";;;"tópico")</td><td>Valor em tempo real</td></tr>
+  <tr><td>SEQUENCE</td><td>Gera uma lista sequencial de números.</td><td>=SEQUENCE(linhas; [colunas]; [início]; [passo])</td><td>=SEQUENCE(3;1;1;1)</td><td>1;2;3</td></tr>
+  <tr><td>SORT</td><td>Classifica uma matriz.</td><td>=SORT(matriz; [índice_ordenar]; [ordem]; [por_coluna])</td><td>=SORT(A1:A5)</td><td>Matriz ordenada</td></tr>
+  <tr><td>SORTBY</td><td>Classifica uma matriz com base em outra.</td><td>=SORTBY(matriz; por_matriz1; [ordem1]; ...)</td><td>=SORTBY(A1:A5;B1:B5)</td><td>Ordenado por B</td></tr>
+  <tr><td>TRANSPOSE</td><td>Transpõe uma matriz.</td><td>=TRANSPOSE(matriz)</td><td>=TRANSPOSE(A1:B2)</td><td>Matriz transposta</td></tr>
+  <tr><td>TRIMRANGE</td><td>Remove células em branco de uma matriz.</td><td>=TRIMRANGE(matriz)</td><td>=TRIMRANGE(A1:A10)</td><td>Intervalo compacto</td></tr>
+  <tr><td>UNIQUE</td><td>Retorna valores únicos de um intervalo.</td><td>=UNIQUE(matriz; [por_linha]; [exatamente_uma_vez])</td><td>=UNIQUE(A1:A10)</td><td>Valores únicos</td></tr>
+  <tr><td>VLOOKUP</td><td>Procura um valor na primeira coluna de uma tabela.</td><td>=VLOOKUP(valor; tabela; núm_índice_coluna; [procurar_intervalo])</td><td>=VLOOKUP(101;A1:B10;2;FALSO)</td><td>Valor correspondente</td></tr>
+  <tr><td>XLOOKUP</td><td>Procura um valor em um intervalo e retorna o valor correspondente.</td><td>=XLOOKUP(valor; matriz_procurada; matriz_retorno; [não_encontrado]; ...)</td><td>=XLOOKUP(101;A1:A10;B1:B10;"Não encontrado")</td><td>Valor correspondente</td></tr>
+  <tr><td>XMATCH</td><td>Retorna a posição de um item em uma matriz ou intervalo.</td><td>=XMATCH(valor_procurado; matriz; [modo_corresp]; [modo_pesquisa])</td><td>=XMATCH("Maçã";A1:A10)</td><td>Posição</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Financeiras</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr><td>ACCRINT</td><td>Retorna o juro acumulado de um título que paga juros periódicos.</td><td>=ACCRINT(data_emissão; data_primeiro_juro; data_liquidação; taxa; valor_nominal; frequência; [base]; [método])</td><td>=ACCRINT("01/01/2024"; "01/07/2024"; "01/06/2024"; 0,1; 1000; 2)</td><td>50</td></tr>
+  <tr><td>ACCRINTM</td><td>Retorna o juro acumulado de um título que paga juros no vencimento.</td><td>=ACCRINTM(data_emissão; data_vencimento; taxa; valor_nominal; [base])</td><td>=ACCRINTM("01/01/2024"; "01/07/2024"; 0,1; 1000)</td><td>50</td></tr>
+  <tr><td>AMORDEGRC</td><td>Retorna a depreciação de um ativo usando um coeficiente de depreciação.</td><td>=AMORDEGRC(custo; data_compra; data_final; vida; período; taxa; [base])</td><td>=AMORDEGRC(10000;"01/01/2020";"31/12/2020";5;1;0,15)</td><td>2000</td></tr>
+  <tr><td>AMORLINC</td><td>Retorna a depreciação linear de um ativo.</td><td>=AMORLINC(custo; data_compra; data_final; vida; período; taxa; [base])</td><td>=AMORLINC(10000;"01/01/2020";"31/12/2020";5;1;0,15)</td><td>1500</td></tr>
+  <tr><td>COUPDAYBS</td><td>Retorna o número de dias desde o início do período do cupom até a data de liquidação.</td><td>=COUPDAYBS(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYBS("01/06/2024";"01/06/2029";2)</td><td>0</td></tr>
+  <tr><td>COUPDAYS</td><td>Retorna o número de dias no período do cupom contendo a data de liquidação.</td><td>=COUPDAYS(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYS("01/06/2024";"01/06/2029";2)</td><td>182</td></tr>
+  <tr><td>COUPDAYSNC</td><td>Retorna o número de dias do período do cupom da data de liquidação até a data do próximo cupom.</td><td>=COUPDAYSNC(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPDAYSNC("01/06/2024";"01/06/2029";2)</td><td>182</td></tr>
+  <tr><td>COUPNCD</td><td>Retorna a próxima data do cupom após a data de liquidação.</td><td>=COUPNCD(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPNCD("01/06/2024";"01/06/2029";2)</td><td>"01/12/2024"</td></tr>
+  <tr><td>COUPNUM</td><td>Retorna o número de pagamentos de cupom entre a liquidação e o vencimento.</td><td>=COUPNUM(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPNUM("01/06/2024";"01/06/2029";2)</td><td>10</td></tr>
+  <tr><td>COUPPCD</td><td>Retorna a última data do cupom antes da liquidação.</td><td>=COUPPCD(data_liquidação; data_vencimento; frequência; [base])</td><td>=COUPPCD("01/06/2024";"01/06/2029";2)</td><td>"01/12/2023"</td></tr>
+  <tr><td>CUMIPMT</td><td>Retorna o juro acumulado pago em um empréstimo entre dois períodos.</td><td>=CUMIPMT(taxa; nper; vp; período_inicial; período_final; tipo)</td><td>=CUMIPMT(0,1/12;12;10000;1;12;0)</td><td>-549,29</td></tr>
+  <tr><td>CUMPRINC</td><td>Retorna o valor principal acumulado pago em um empréstimo entre dois períodos.</td><td>=CUMPRINC(taxa; nper; vp; período_inicial; período_final; tipo)</td><td>=CUMPRINC(0,1/12;12;10000;1;12;0)</td><td>-9445,71</td></tr>
+  <tr><td>DB</td><td>Retorna a depreciação de um ativo para um período usando o método do saldo decrescente fixo.</td><td>=DB(custo; valor_residual; vida; período; [mês])</td><td>=DB(10000;1000;5;1)</td><td>2000</td></tr>
+  <tr><td>DDB</td><td>Retorna a depreciação de um ativo para um período usando o método de saldo duplo decrescente.</td><td>=DDB(custo; valor_residual; vida; período; [fator])</td><td>=DDB(10000;1000;5;1)</td><td>4000</td></tr>
+  <tr><td>EFFECT</td><td>Retorna a taxa efetiva anual com base na taxa nominal e no número de períodos compostos.</td><td>=EFFECT(taxa_nominal; períodos)</td><td>=EFFECT(10%;12)</td><td>10,47%</td></tr>
+  <tr><td>FV</td><td>Retorna o valor futuro de um investimento.</td><td>=FV(taxa; nper; pgto; vp; [tipo])</td><td>=FV(0,1;12;-100;0)</td><td>1268,25</td></tr>
+  <tr><td>IPMT</td><td>Retorna o pagamento de juros de um período específico de um investimento.</td><td>=IPMT(taxa; período; nper; vp; [vf]; [tipo])</td><td>=IPMT(0,1;12;10000;0;0)</td><td>-83,33</td></tr>
+  <tr><td>IRR</td><td>Retorna a taxa interna de retorno de um investimento.</td><td>=IRR(valores; [estimativa])</td><td>=IRR({-1000; 300; 400; 500})</td><td>8,64%</td></tr>
+  <tr><td>ISPMT</td><td>Retorna o valor de juros pagos durante um período específico de um investimento.</td><td>=ISPMT(taxa; período; nper; vp)</td><td>=ISPMT(0,1;4;-1000;1)</td><td>-250</td></tr>
+  <tr><td>MIRR</td><td>Retorna a taxa interna de retorno modificada para uma série de fluxos de caixa.</td><td>=MIRR(valores; taxa_financiamento; taxa_reinvestimento)</td><td>=MIRR({-1000;300;400;500}; 0,1; 0,12)</td><td>12,36%</td></tr>
+  <tr><td>NPV</td><td>Retorna o valor presente líquido de um investimento baseado em uma taxa de desconto.</td><td>=NPV(taxa; valor1; [valor2]; ...)</td><td>=NPV(0,1; 300; 400; 500) - 1000</td><td>88,65</td></tr>
+  <tr><td>PMT</td><td>Retorna o pagamento de um empréstimo com base em pagamentos constantes e taxa constante.</td><td>=PMT(taxa; nper; vp; [vf]; [tipo])</td><td>=PMT(0,1;12;10000)</td><td>-879,16</td></tr>
+  <tr><td>PPMT</td><td>Retorna o pagamento do principal em um período específico de um empréstimo.</td><td>=PPMT(taxa; período; nper; vp; [vf]; [tipo])</td><td>=PPMT(0,1;12;10000;0;0)</td><td>-795,83</td></tr>
+  <tr><td>RATE</td><td>Retorna a taxa de juros por período de um empréstimo ou investimento.</td><td>=RATE(nper; pgto; vp; [vf]; [tipo]; [estimativa])</td><td>=RATE(12;-1000;10000)</td><td>0,0077</td></tr>
+  <tr><td>SLN</td><td>Retorna a depreciação linear de um ativo.</td><td>=SLN(custo; valor_residual; vida)</td><td>=SLN(10000;1000;5)</td><td>1800</td></tr>
+  <tr><td>SYD</td><td>Retorna a depreciação de um ativo usando o método soma dos dígitos dos anos.</td><td>=SYD(custo; valor_residual; vida; período)</td><td>=SYD(10000;1000;5;1)</td><td>3000</td></tr>
+  <tr><td>XIRR</td><td>Retorna a taxa interna de retorno para fluxos de caixa que não são necessariamente periódicos.</td><td>=XIRR(valores; datas; [estimativa])</td><td>=XIRR({-1000; 300; 400; 500}; {"2024-01-01"; "2024-06-01"; "2024-12-01"; "2025-06-01"})</td><td>9,37%</td></tr>
+  <tr><td>XNPV</td><td>Retorna o valor presente líquido para fluxos de caixa não periódicos.</td><td>=XNPV(taxa; valores; datas)</td><td>=XNPV(0,1; {-1000; 300; 400; 500}; {"2024-01-01"; "2024-06-01"; "2024-12-01"; "2025-06-01"})</td><td>84,75</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Engenharia</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>BESSELI</td><td>Retorna a função de Bessel modificada do primeiro tipo.</td><td>=BESSELI(x; n)</td><td>=BESSELI(1; 1)</td><td>0,565</td></tr>
+  <tr><td>BESSELJ</td><td>Retorna a função de Bessel do primeiro tipo.</td><td>=BESSELJ(x; n)</td><td>=BESSELJ(1; 1)</td><td>0,440</td></tr>
+  <tr><td>BESSELK</td><td>Retorna a função de Bessel modificada do segundo tipo.</td><td>=BESSELK(x; n)</td><td>=BESSELK(1; 1)</td><td>0,601</td></tr>
+  <tr><td>BESSELY</td><td>Retorna a função de Bessel do segundo tipo.</td><td>=BESSELY(x; n)</td><td>=BESSELY(1; 1)</td><td>-0,781</td></tr>
+  <tr><td>BIN2DEC</td><td>Converte um número binário em decimal.</td><td>=BIN2DEC(número)</td><td>=BIN2DEC("1010")</td><td>10</td></tr>
+  <tr><td>BIN2HEX</td><td>Converte um número binário em hexadecimal.</td><td>=BIN2HEX(número)</td><td>=BIN2HEX("1010")</td><td>A</td></tr>
+  <tr><td>COMPLEX</td><td>Converte coeficientes reais e imaginários em um número complexo.</td><td>=COMPLEX(parte_real; parte_imaginária; [sufixo])</td><td>=COMPLEX(1;2)</td><td>1+2i</td></tr>
+  <tr><td>DEC2BIN</td><td>Converte um número decimal em binário.</td><td>=DEC2BIN(número)</td><td>=DEC2BIN(10)</td><td>1010</td></tr>
+  <tr><td>DEC2HEX</td><td>Converte um número decimal em hexadecimal.</td><td>=DEC2HEX(número)</td><td>=DEC2HEX(10)</td><td>A</td></tr>
+  <tr><td>DELTA</td><td>Testa se dois números são iguais.</td><td>=DELTA(número1; [número2])</td><td>=DELTA(5;5)</td><td>1</td></tr>
+  <tr><td>ERF</td><td>Retorna a função erro integrada.</td><td>=ERF(limite_inferior; [limite_superior])</td><td>=ERF(1)</td><td>0,8427</td></tr>
+  <tr><td>ERFC</td><td>Retorna a função erro complementar.</td><td>=ERFC(x)</td><td>=ERFC(1)</td><td>0,1573</td></tr>
+  <tr><td>GESTEP</td><td>Testa se um número é maior ou igual a um limite.</td><td>=GESTEP(número; [passo])</td><td>=GESTEP(5;3)</td><td>1</td></tr>
+  <tr><td>HEX2BIN</td><td>Converte um número hexadecimal em binário.</td><td>=HEX2BIN(número)</td><td>=HEX2BIN("A")</td><td>1010</td></tr>
+  <tr><td>HEX2DEC</td><td>Converte um número hexadecimal em decimal.</td><td>=HEX2DEC(número)</td><td>=HEX2DEC("A")</td><td>10</td></tr>
+  <tr><td>IMABS</td><td>Retorna o valor absoluto de um número complexo.</td><td>=IMABS(número_complexo)</td><td>=IMABS("3+4i")</td><td>5</td></tr>
+  <tr><td>IMARG</td><td>Retorna o argumento (ângulo) de um número complexo.</td><td>=IMARG(número_complexo)</td><td>=IMARG("1+i")</td><td>0,7854</td></tr>
+  <tr><td>IMCONJUGATE</td><td>Retorna o conjugado de um número complexo.</td><td>=IMCONJUGATE(número_complexo)</td><td>=IMCONJUGATE("3+4i")</td><td>3-4i</td></tr>
+  <tr><td>IMCOS</td><td>Retorna o cosseno de um número complexo.</td><td>=IMCOS(número_complexo)</td><td>=IMCOS("1+i")</td><td>0,8337-0,9889i</td></tr>
+  <tr><td>IMCOSH</td><td>Retorna o cosseno hiperbólico de um número complexo.</td><td>=IMCOSH(número_complexo)</td><td>=IMCOSH("1+i")</td><td>0,8337+0,9889i</td></tr>
+  <tr><td>IMCOT</td><td>Retorna a cotangente de um número complexo.</td><td>=IMCOT(número_complexo)</td><td>=IMCOT("1+i")</td><td>0,2176-0,8680i</td></tr>
+  <tr><td>IMCSC</td><td>Retorna a cossecante de um número complexo.</td><td>=IMCSC(número_complexo)</td><td>=IMCSC("1+i")</td><td>0,6215-0,3039i</td></tr>
+  <tr><td>IMDIV</td><td>Retorna o quociente de dois números complexos.</td><td>=IMDIV(número1; número2)</td><td>=IMDIV("1+i";"1-i")</td><td>0+1i</td></tr>
+  <tr><td>IMEXP</td><td>Retorna a exponencial de um número complexo.</td><td>=IMEXP(número_complexo)</td><td>=IMEXP("0+PI()i")</td><td>-1+0i</td></tr>
+  <tr><td>IMLN</td><td>Retorna o logaritmo natural de um número complexo.</td><td>=IMLN(número_complexo)</td><td>=IMLN("1+i")</td><td>0,3466+0,7854i</td></tr>
+  <tr><td>IMLOG10</td><td>Retorna o logaritmo de base 10 de um número complexo.</td><td>=IMLOG10(número_complexo)</td><td>=IMLOG10("1+i")</td><td>0,1505+0,3411i</td></tr>
+  <tr><td>IMLOG2</td><td>Retorna o logaritmo de base 2 de um número complexo.</td><td>=IMLOG2(número_complexo)</td><td>=IMLOG2("1+i")</td><td>0,5+1,1331i</td></tr>
+  <tr><td>IMOD</td><td>Retorna o módulo de dois números complexos.</td><td>=IMOD(número1; número2)</td><td>=IMOD("1+i";"1-i")</td><td>0+1i</td></tr>
+  <tr><td>IMPOWER</td><td>Retorna um número complexo elevado a uma potência.</td><td>=IMPOWER(número_complexo; potência)</td><td>=IMPOWER("2+i";2)</td><td>3+4i</td></tr>
+  <tr><td>IMPRODUCT</td><td>Retorna o produto de dois ou mais números complexos.</td><td>=IMPRODUCT(número1; número2; ...)</td><td>=IMPRODUCT("2+i";"1+i")</td><td>1+3i</td></tr>
+  <tr><td>IMSIN</td><td>Retorna o seno de um número complexo.</td><td>=IMSIN(número_complexo)</td><td>=IMSIN("1+i")</td><td>1,2985+0,6349i</td></tr>
+  <tr><td>IMSINH</td><td>Retorna o seno hiperbólico de um número complexo.</td><td>=IMSINH(número_complexo)</td><td>=IMSINH("1+i")</td><td>0,6349+1,2985i</td></tr>
+  <tr><td>IMSQRT</td><td>Retorna a raiz quadrada de um número complexo.</td><td>=IMSQRT(número_complexo)</td><td>=IMSQRT("3+4i")</td><td>2+1i</td></tr>
+  <tr><td>IMSUB</td><td>Retorna a subtração de dois números complexos.</td><td>=IMSUB(número1; número2)</td><td>=IMSUB("3+4i";"1+2i")</td><td>2+2i</td></tr>
+  <tr><td>IMSUM</td><td>Retorna a soma de dois ou mais números complexos.</td><td>=IMSUM(número1; número2; ...)</td><td>=IMSUM("3+4i";"1+2i")</td><td>4+6i</td></tr>
+  <tr><td>OCT2BIN</td><td>Converte um número octal em binário.</td><td>=OCT2BIN(número)</td><td>=OCT2BIN("10")</td><td>1000</td></tr>
+  <tr><td>OCT2DEC</td><td>Converte um número octal em decimal.</td><td>=OCT2DEC(número)</td><td>=OCT2DEC("10")</td><td>8</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Banco de Dados</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr><td>DAVERAGE</td><td>Calcula a média dos valores em um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DAVERAGE(banco_dados; campo; critérios)</td><td>=DAVERAGE(A1:C10; "Idade"; E1:E2)</td><td>Média das idades</td></tr>
+  <tr><td>DCOUNT</td><td>Conta os números em um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DCOUNT(banco_dados; campo; critérios)</td><td>=DCOUNT(A1:C10; "Idade"; E1:E2)</td><td>Número de valores numéricos</td></tr>
+  <tr><td>DCOUNTA</td><td>Conta os valores não vazios em um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DCOUNTA(banco_dados; campo; critérios)</td><td>=DCOUNTA(A1:C10; "Nome"; E1:E2)</td><td>Contagem de nomes</td></tr>
+  <tr><td>DGET</td><td>Extrai um único valor de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DGET(banco_dados; campo; critérios)</td><td>=DGET(A1:C10; "Idade"; E1:E2)</td><td>Valor único</td></tr>
+  <tr><td>DMAX</td><td>Retorna o maior número de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DMAX(banco_dados; campo; critérios)</td><td>=DMAX(A1:C10; "Salário"; E1:E2)</td><td>Maior salário</td></tr>
+  <tr><td>DMIN</td><td>Retorna o menor número de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DMIN(banco_dados; campo; critérios)</td><td>=DMIN(A1:C10; "Salário"; E1:E2)</td><td>Menor salário</td></tr>
+  <tr><td>DPRODUCT</td><td>Multiplica os valores de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DPRODUCT(banco_dados; campo; critérios)</td><td>=DPRODUCT(A1:C10; "Valor"; E1:E2)</td><td>Produto dos valores</td></tr>
+  <tr><td>DSTDEV.P</td><td>Calcula o desvio padrão (população) de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DSTDEV.P(banco_dados; campo; critérios)</td><td>=DSTDEV.P(A1:C10; "Idade"; E1:E2)</td><td>Desvio padrão pop.</td></tr>
+  <tr><td>DSTDEV.S</td><td>Calcula o desvio padrão (amostra) de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DSTDEV.S(banco_dados; campo; critérios)</td><td>=DSTDEV.S(A1:C10; "Idade"; E1:E2)</td><td>Desvio padrão amostral</td></tr>
+  <tr><td>DSUM</td><td>Soma os valores de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DSUM(banco_dados; campo; critérios)</td><td>=DSUM(A1:C10; "Valor"; E1:E2)</td><td>Soma dos valores</td></tr>
+  <tr><td>DVAR.P</td><td>Calcula a variância (população) de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DVAR.P(banco_dados; campo; critérios)</td><td>=DVAR.P(A1:C10; "Idade"; E1:E2)</td><td>Variância pop.</td></tr>
+  <tr><td>DVAR.S</td><td>Calcula a variância (amostra) de um campo de registros de banco de dados que atendem aos critérios especificados.</td><td>=DVAR.S(banco_dados; campo; critérios)</td><td>=DVAR.S(A1:C10; "Idade"; E1:E2)</td><td>Variância amostral</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h2>Matriz e Funções Dinâmicas</h2>
+
+<div class="tabela-container">
+
+<table>
+<thead>
+<tr>
+<th>Função</th>
+<th>Descrição</th>
+<th>Sintaxe</th>
+<th>Exemplo</th>
+<th>Resultado</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>BYCOL</td><td>Aplica uma fórmula a cada coluna de uma matriz.</td><td>=BYCOL(array; lambda(coluna))</td><td>=BYCOL(A1:C3; LAMBDA(col; SUM(col)))</td><td>Soma de cada coluna</td></tr>
+  <tr><td>BYROW</td><td>Aplica uma fórmula a cada linha de uma matriz.</td><td>=BYROW(array; lambda(linha))</td><td>=BYROW(A1:C3; LAMBDA(l; AVERAGE(l)))</td><td>Média de cada linha</td></tr>
+  <tr><td>FILTER</td><td>Filtra uma matriz com base em um critério.</td><td>=FILTER(array; incluir; [se_vazio])</td><td>=FILTER(A2:A10; B2:B10>5)</td><td>Linhas com valores > 5</td></tr>
+  <tr><td>LAMBDA</td><td>Cria funções personalizadas sem VBA.</td><td>=LAMBDA(parâmetros; cálculo)</td><td>=LAMBDA(x; x+1)(5)</td><td>6</td></tr>
+  <tr><td>LET</td><td>Atribui nomes a resultados intermediários.</td><td>=LET(nome; valor; cálculo)</td><td>=LET(x; 5; x*2)</td><td>10</td></tr>
+  <tr><td>MAKEARRAY</td><td>Cria uma matriz com base em uma função personalizada.</td><td>=MAKEARRAY(linhas; colunas; lambda)</td><td>=MAKEARRAY(2;3;LAMBDA(r;c;r+c))</td><td>[[2,3,4],[3,4,5]]</td></tr>
+  <tr><td>MAP</td><td>Transforma uma ou mais matrizes com uma função.</td><td>=MAP(array1; [array2]; ...; lambda)</td><td>=MAP(A1:A3; LAMBDA(x; x^2))</td><td>Quadrado dos valores</td></tr>
+  <tr><td>RANDARRAY</td><td>Retorna uma matriz de números aleatórios.</td><td>=RANDARRAY([linhas]; [colunas]; [mín]; [máx]; [inteiro])</td><td>=RANDARRAY(2;2;1;10;TRUE)</td><td>Ex: [[3,7],[1,9]]</td></tr>
+  <tr><td>REDUCE</td><td>Reduz uma matriz a um valor usando um acumulador.</td><td>=REDUCE(inicial; array; lambda)</td><td>=REDUCE(0; A1:A3; LAMBDA(a;b; a+b))</td><td>Soma total</td></tr>
+  <tr><td>SCAN</td><td>Escaneia uma matriz aplicando uma função acumuladora passo a passo.</td><td>=SCAN(inicial; array; lambda)</td><td>=SCAN(0; A1:A3; LAMBDA(a;b; a+b))</td><td>Acúmulo progressivo</td></tr>
+  <tr><td>SEQUENCE</td><td>Gera uma sequência de números.</td><td>=SEQUENCE(linhas; [colunas]; [início]; [passo])</td><td>=SEQUENCE(3;1;1;1)</td><td>1, 2, 3</td></tr>
+  <tr><td>SINGLE</td><td>Retorna um único valor de uma matriz.</td><td>=SINGLE(valor)</td><td>=SINGLE({1;2;3})</td><td>1</td></tr>
+  <tr><td>SORT</td><td>Classifica uma matriz.</td><td>=SORT(array; [índice]; [ordem]; [por_coluna])</td><td>=SORT(A1:A5)</td><td>Valores ordenados</td></tr>
+  <tr><td>SORTBY</td><td>Classifica com base em outra matriz.</td><td>=SORTBY(array; matriz_classificação)</td><td>=SORTBY(A1:A5; B1:B5)</td><td>Ordenado por B</td></tr>
+  <tr><td>TOCOL</td><td>Transforma uma matriz em uma única coluna.</td><td>=TOCOL(array; [ignorar_vazio]; [modo_scan])</td><td>=TOCOL(A1:C2)</td><td>Coluna com todos os valores</td></tr>
+  <tr><td>TOROW</td><td>Transforma uma matriz em uma única linha.</td><td>=TOROW(array; [ignorar_vazio]; [modo_scan])</td><td>=TOROW(A1:C2)</td><td>Linha com todos os valores</td></tr>
+  <tr><td>UNIQUE</td><td>Remove duplicatas de uma matriz.</td><td>=UNIQUE(array; [por_coluna]; [exato])</td><td>=UNIQUE(A1:A10)</td><td>Valores únicos</td></tr>
+  <tr><td>WRAPCOLS</td><td>Reorganiza valores em colunas.</td><td>=WRAPCOLS(vetor; n_colunas)</td><td>=WRAPCOLS(A1:A6; 2)</td><td>[[A,B],[C,D],[E,F]]</td></tr>
+  <tr><td>WRAPROWS</td><td>Reorganiza valores em linhas.</td><td>=WRAPROWS(vetor; n_linhas)</td><td>=WRAPROWS(A1:A6; 2)</td><td>[[A,C,E],[B,D,F]]</td></tr>
+  <tr><td>XLOOKUP</td><td>Procura um valor em uma matriz e retorna correspondente.</td><td>=XLOOKUP(valor_proc; matriz_proc; matriz_ret)</td><td>=XLOOKUP("João"; A1:A10; B1:B10)</td><td>Resultado correspondente</td></tr>
+  <tr><td>XMATCH</td><td>Retorna a posição de um item em uma matriz.</td><td>=XMATCH(valor; matriz; [modo_corresp]; [modo_pesquisa])</td><td>=XMATCH(5; A1:A10)</td><td>Posição do valor</td></tr>
+
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<script>
+if(window.self !== window.top){
+  document.querySelector('header').style.display = 'none';
+}
+</script>
+
+</body>
+</html>

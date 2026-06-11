@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algoritmos y Programación</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Algoritmos y Programación</h1>
+
+<p>
+Los algoritmos y la programación son fundamentales para el funcionamiento de los sistemas computacionales. 💻 Permiten que las computadoras ejecuten tareas mediante instrucciones organizadas y lógicas, resolviendo problemas de forma automática y eficiente.
+</p>
+
+<p>
+Desde aplicaciones de celular hasta sistemas bancarios y redes sociales, prácticamente todas las tecnologías modernas dependen de algoritmos y lenguajes de programación para funcionar correctamente.
+</p>
+
+<h2>🤔 ¿Qué es un Algoritmo?</h2>
+
+<p>
+Un algoritmo es una secuencia finita de pasos o instrucciones utilizadas para resolver un problema o realizar una tarea específica. Estos pasos deben ser claros, ordenados y ejecutados en una secuencia lógica.
+</p>
+
+<p>
+Los algoritmos no existen solo en la informática. Muchas actividades del día a día pueden describirse como algoritmos, como por ejemplo una receta de cocina o un manual de instrucciones.
+</p>
+
+<ul>
+<li><span class="highlight">Entrada:</span> datos proporcionados para iniciar el algoritmo.</li>
+<li><span class="highlight">Procesamiento:</span> conjunto de operaciones realizadas sobre los datos.</li>
+<li><span class="highlight">Salida:</span> resultado producido tras la ejecución de las instrucciones.</li>
+</ul>
+
+<h2>📚 Características de un Algoritmo</h2>
+
+<ul>
+<li><span class="highlight">Secuencial:</span> las instrucciones deben seguir un orden lógico.</li>
+<li><span class="highlight">Finito:</span> el algoritmo necesita tener un inicio y un fin.</li>
+<li><span class="highlight">Preciso:</span> cada paso debe ser claro y sin ambigüedad.</li>
+<li><span class="highlight">Eficiente:</span> debe resolver el problema utilizando los recursos de forma adecuada.</li>
+</ul>
+
+<h2>💻 ¿Qué es la Programación?</h2>
+
+<p>
+La programación consiste en transformar algoritmos en códigos que puedan ser comprendidos y ejecutados por una computadora. Para ello, se utilizan lenguajes de programación que poseen reglas y sintaxis específicas.
+</p>
+
+<p>
+El programador escribe instrucciones en un lenguaje de programación, que luego son traducidas a lenguaje de máquina para que la computadora pueda ejecutarlas.
+</p>
+
+<h2>🌐 Lenguajes de Programación</h2>
+
+<p>
+Existen diversos lenguajes utilizados para desarrollar sistemas y aplicaciones. Cada uno posee características propias y puede ser más adecuado para determinados tipos de proyectos.
+</p>
+
+<ul>
+<li><span class="highlight">Python:</span> muy utilizado en ciencia de datos, inteligencia artificial y automatización.</li>
+<li><span class="highlight">Java:</span> ampliamente usado en sistemas corporativos y aplicaciones Android.</li>
+<li><span class="highlight">C y C++:</span> utilizados para desarrollo de sistemas y softwares de alto rendimiento.</li>
+<li><span class="highlight">JavaScript:</span> muy utilizado en el desarrollo de aplicaciones web.</li>
+</ul>
+
+<h2>📋 Elementos Básicos de la Programación</h2>
+
+<ul>
+<li><span class="highlight">Variables:</span> espacios en la memoria utilizados para almacenar datos.</li>
+
+<li><span class="highlight">Tipos de datos:</span> definen el tipo de información almacenada, como números, textos o valores lógicos.</li>
+
+<li><span class="highlight">Estructuras de decisión:</span> permiten que el programa tome decisiones, como en las estructuras "si" (if) y "sino" (else).</li>
+
+<li><span class="highlight">Estructuras de repetición:</span> permiten repetir comandos varias veces, como en los bucles "for" y "while".</li>
+
+<li><span class="highlight">Entrada y salida de datos:</span> permiten recibir información del usuario y presentar resultados.</li>
+</ul>
+
+<h2>🔁 Estructuras de Control</h2>
+
+<p>
+Las estructuras de control determinan el flujo de ejecución de un programa. Permiten que el programa ejecute diferentes caminos o repita determinadas acciones.
+</p>
+
+<ul>
+<li><span class="highlight">Estructura Secuencial:</span> ejecución de las instrucciones en el orden en que aparecen.</li>
+<li><span class="highlight">Estructura Condicional:</span> permite tomar decisiones en base a condiciones.</li>
+<li><span class="highlight">Estructura de Repetición:</span> ejecuta un conjunto de instrucciones varias veces.</li>
+</ul>
+
+<h2>🎓 Importancia de los Algoritmos y la Programación</h2>
+
+<p>
+Los algoritmos y la programación son esenciales para el desarrollo de softwares, aplicaciones, sistemas web y diversas tecnologías utilizadas en el día a día. Permiten automatizar procesos, resolver problemas complejos y crear nuevas soluciones tecnológicas.
+</p>
+
+<p>
+Además, el estudio de algoritmos desarrolla el razonamiento lógico y la capacidad de resolver problemas de forma estructurada, habilidades muy valoradas en el mercado laboral.
+</p>
+
+<h2>🌟 Conclusión</h2>
+
+<p>
+Comprender algoritmos y programación es fundamental para entender cómo se crean los softwares y cómo las computadoras ejecutan tareas. Este conocimiento es la base para el desarrollo de sistemas, aplicaciones y soluciones tecnológicas que forman parte de la sociedad digital.
+</p>
+
+<a href="../simulados/simulado_algoritmo.html">
+<button id="start-button">
+🚀 Iniciar Simulacro
+</button>
+</a>
+
+</body>
+</html>

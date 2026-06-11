@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<script src="../js/analytics.js"></script>
+<script src="../js/meta-pixel.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Computer Science App in English - IuleApp</title>
+<meta name="description" content="Access IuleApp's Computer Science study app in English: subjects, practice tests, Excel functions and courses.">
+<meta name="keywords" content="computer science app, IT study app, practice tests online, excel in english, subjects">
+<link rel="canonical" href="https://iuleappia.github.io/app-informatica/en/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IuleApp">
+<meta property="og:title" content="Computer Science App in English - IuleApp">
+<meta property="og:description" content="Access IuleApp's Computer Science study app in English: subjects, practice tests, Excel functions and courses.">
+<meta property="og:url" content="https://iuleappia.github.io/app-informatica/en/">
+<meta property="og:image" content="https://iuleappia.github.io/app-informatica/img/capa.jpg">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  background:#f1f3f5;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* HEADER */
+
+.topo{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:55px;
+  background:#0d6efd;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-left:15px;
+  padding-right:10px;
+  font-size:18px;
+  font-weight:bold;
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  z-index:1000;
+}
+
+/* LANGUAGE SELECTOR */
+
+.idiomas{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.idiomas a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:normal;
+  padding:4px 7px;
+  border-radius:6px;
+}
+
+.idiomas a.ativo{
+  background:rgba(255,255,255,0.25);
+  font-weight:bold;
+}
+
+/* CONTENT */
+
+#app{
+  position:absolute;
+  top:55px;
+  bottom:65px;
+  left:0;
+  right:0;
+}
+
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* MENU */
+
+.menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:65px;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  box-shadow:0 -3px 10px rgba(0,0,0,0.15);
+  z-index:999;
+}
+
+/* BUTTONS */
+
+.menu button{
+  background:none;
+  border:none;
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:10px;
+  transition:0.2s;
+  position:relative;
+}
+
+/* ICON */
+
+.menu span{
+  font-size:22px;
+  margin-bottom:3px;
+}
+
+/* CLICK */
+
+.menu button:active{
+  transform:scale(0.9);
+}
+
+/* ACTIVE BUTTON */
+
+.menu button.ativo{
+  color:#0d6efd;
+  font-weight:bold;
+}
+
+/* ACTIVE BUTTON LINE */
+
+.menu button.ativo::before{
+  content:"";
+  position:absolute;
+  width:40px;
+  height:4px;
+  background:#0d6efd;
+  bottom:0;
+  border-radius:10px;
+}
+
+/* RESPONSIVE */
+
+@media(min-width:700px){
+
+  .menu{
+    height:70px;
+  }
+
+  .menu span{
+    font-size:24px;
+  }
+
+  .menu button{
+    font-size:13px;
+  }
+
+  .topo{
+    font-size:20px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="topo">
+  <span id="tituloPagina">Computer Science</span>
+  <div class="idiomas">
+    <a href="../index.html" onclick="localStorage.setItem('userLang','pt')">🇧🇷 PT</a>
+    <a href="../es/index.html" onclick="localStorage.setItem('userLang','es')">🇪🇸 ES</a>
+    <a href="index.html" class="ativo" onclick="localStorage.setItem('userLang','en')">🇺🇸 EN</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <iframe id="frame" src="home.html"></iframe>
+</div>
+
+<!-- MENU -->
+<div class="menu">
+
+  <button class="ativo" onclick="abrirPagina('home.html',this)">
+    <span>🏠</span>
+    Home
+  </button>
+
+  <button onclick="abrirPagina('disciplinas.html',this)">
+    <span>📚</span>
+    Subjects
+  </button>
+
+  <button onclick="abrirPagina('simulados.html',this)">
+    <span>📝</span>
+    Practice Tests
+  </button>
+
+  <button onclick="abrirPagina('excel.html',this)">
+    <span>📊</span>
+    Excel
+  </button>
+
+  <button onclick="abrirPagina('cursos.html',this)">
+    <span>🌐</span>
+    Courses
+  </button>
+
+</div>
+
+<script>
+
+/* EXTERNAL DOMAINS */
+
+let externos = [
+  "hotmart.com",
+  "pay.hotmart.com",
+  "payment.hotmart.com",
+  "wa.me",
+  "whatsapp.com",
+  "instagram.com",
+  "youtube.com"
+];
+
+/* MAIN FUNCTION */
+
+function abrirPagina(url, botao){
+
+  let externo = externos.some(d => url.includes(d));
+
+  if(externo){
+    window.open(url,"_blank");
+  } else {
+    document.getElementById("frame").src = url;
+  }
+
+  /* ACTIVE BUTTON */
+
+  document.querySelectorAll(".menu button")
+  .forEach(b => b.classList.remove("ativo"));
+
+  botao.classList.add("ativo");
+
+  /* GET BUTTON TEXT */
+
+  let clone = botao.cloneNode(true);
+  let span = clone.querySelector("span");
+
+  if(span) span.remove();
+
+  let titulo = clone.innerText.trim();
+
+  document.getElementById("tituloPagina").innerText = titulo;
+
+}
+
+</script>
+
+
+</body>
+</html>

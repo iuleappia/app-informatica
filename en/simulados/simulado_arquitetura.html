@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Architecture</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Computer Architecture</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Retake Quiz</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"In the Von Neumann model, what is a fundamental characteristic?",options:["Separate memory for data and instructions","Single memory for both data and instructions","Processor without registers","Exclusive use of cache memory"],correctAnswer:1},
+{question:"Which component is responsible for executing instructions in a computer?",options:["HDD","CPU","Power supply","Network card"],correctAnswer:1},
+{question:"Which CPU unit performs mathematical and logical operations?",options:["Control Unit","ALU","Data bus","Cache memory"],correctAnswer:1},
+{question:"What are registers in a processor?",options:["Large external memory units","Very fast storage areas inside the CPU","Data input devices","Memory used only for backups"],correctAnswer:1},
+{question:"In the memory hierarchy, which is the fastest?",options:["HDD","RAM","Cache","SSD"],correctAnswer:2},
+{question:"Which memory is considered volatile?",options:["ROM","HDD","RAM","SSD"],correctAnswer:2},
+{question:"Which device is used for permanent data storage?",options:["RAM","Cache","Registers","HDD or SSD"],correctAnswer:3},
+{question:"In the memory hierarchy, which is faster than RAM but slower than registers?",options:["Cache","HDD","SSD","Virtual memory"],correctAnswer:0},
+{question:"What is the function of the Control Unit inside the CPU?",options:["Perform mathematical calculations","Generate graphics","Control the execution of instructions","Store files"],correctAnswer:2},
+{question:"What characterizes RISC architecture?",options:["Large number of complex instructions","Reduced set of simple instructions","No registers","Exclusive use of RAM"],correctAnswer:1},
+{question:"What characterizes CISC architecture?",options:["Simple and few instructions","Complex set of instructions","No cache memory","Processors without pipeline"],correctAnswer:1},
+{question:"Which option correctly represents the memory hierarchy from fastest to slowest?",options:["HDD → RAM → Cache → Registers","Registers → Cache → RAM → HDD/SSD","RAM → Registers → Cache → HDD","Cache → HDD → RAM → Registers"],correctAnswer:1},
+{question:"What is the main function of cache memory?",options:["Store user files","Speed up access to frequently used data","Replace the HDD","Permanently store the operating system"],correctAnswer:1},
+{question:"In the Von Neumann model, which component stores both instructions and data?",options:["Main memory","CPU","ALU","Control register"],correctAnswer:0},
+{question:"Which component performs operations like addition, subtraction, and comparisons?",options:["ALU","Cache","Bus","Power supply"],correctAnswer:0},
+{question:"Which type of memory retains data even without power?",options:["RAM","Cache","Registers","HDD or SSD"],correctAnswer:3},
+{question:"What is the main difference between RISC and CISC?",options:["RISC has simple instructions and CISC has complex instructions","RISC uses HDD and CISC uses SSD","RISC does not use memory","CISC does not use registers"],correctAnswer:0},
+{question:"Which CPU component temporarily stores data being processed?",options:["Registers","HDD","Power supply","Motherboard"],correctAnswer:0},
+{question:"What does the acronym CPU stand for?",options:["Central Processing Unit","Computer Processing Unit","Central Peripheral Unit","Control Processing Unit"],correctAnswer:0},
+{question:"What is the main advantage of an SSD over an HDD?",options:["Larger physical size","Faster data access speed","Exclusive use in servers","Lower storage capacity"],correctAnswer:1}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Final Result";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

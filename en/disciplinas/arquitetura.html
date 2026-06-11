@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Architecture</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Computer Architecture</h1>
+
+<p>
+Computer architecture covers the design and organization of hardware components responsible for the operation of a computing system. 💻 It defines how processors, memories, and devices work together to execute programs and process data efficiently.
+</p>
+
+<h2>🧠 The Von Neumann Model</h2>
+
+<p>
+The <span class="highlight">Von Neumann model</span> is one of the most widely used architectures in modern computers. In this model, both data and instructions are stored in the same memory and are processed sequentially by the processor.
+</p>
+
+<ul>
+<li><span class="highlight">Memory:</span> stores both data and program instructions.</li>
+
+<li><span class="highlight">CPU:</span> responsible for executing the instructions stored in memory.</li>
+
+<li><span class="highlight">Input and Output:</span> enable communication between the computer and the user or other devices.</li>
+</ul>
+
+<h2>📚 Memory Hierarchy</h2>
+
+<p>
+The <span class="highlight">memory hierarchy</span> organizes the different types of memory according to their speed, cost, and storage capacity.
+</p>
+
+<ul>
+<li><span class="highlight">Cache Memory:</span> extremely fast memory located close to the processor, used to store frequently accessed data.</li>
+
+<li><span class="highlight">RAM Memory:</span> main memory used to temporarily store programs and data currently in use.</li>
+
+<li><span class="highlight">HDD or SSD:</span> secondary storage devices used to permanently save data.</li>
+</ul>
+
+<h2>⚙️ Processing Units</h2>
+
+<p>
+The <span class="highlight">CPU (Central Processing Unit)</span> is responsible for interpreting and executing program instructions. Inside the CPU there are essential components for information processing.
+</p>
+
+<ul>
+<li><span class="highlight">ALU (Arithmetic Logic Unit):</span> performs mathematical and logical operations.</li>
+
+<li><span class="highlight">Registers:</span> small, very fast internal memories used to store temporary data during processing.</li>
+
+<li><span class="highlight">Control Unit:</span> coordinates CPU operation and controls the execution of instructions.</li>
+</ul>
+
+<h2>📊 Instruction Sets</h2>
+
+<p>
+<span class="highlight">Instruction sets</span> define the commands a processor is capable of executing. There are two main models widely used in computer architecture.
+</p>
+
+<ul>
+<li><span class="highlight">RISC (Reduced Instruction Set Computer):</span> uses a reduced set of simple instructions, allowing faster execution speed.</li>
+
+<li><span class="highlight">CISC (Complex Instruction Set Computer):</span> has a more complex and extensive set of instructions, capable of performing more elaborate operations in a single instruction.</li>
+</ul>
+
+<h2>🎓 Importance of Computer Architecture</h2>
+
+<p>
+Studying computer architecture is essential to understanding how systems work internally. It helps explain hardware performance, processing efficiency, and the way programs interact with the physical components of a computer.
+</p>
+
+<h2>🌟 Conclusion</h2>
+
+<p>
+Understanding concepts such as the Von Neumann model, memory hierarchy, processing units, and instruction sets helps explain the foundation of how modern computers work — an essential topic for students and professionals in the technology field.
+</p>
+
+<a href="../simulados/simulado_arquitetura.html">
+<button id="start-button">
+🚀 Start Practice Test
+</button>
+</a>
+
+</body>
+</html>

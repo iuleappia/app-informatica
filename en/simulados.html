@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Practice Tests</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6f8;
+padding:20px 20px;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:100%;
+max-width:1000px;
+}
+
+.titulo-box{
+background:#e9ecef;
+padding:14px 18px;
+border-radius:6px;
+margin-bottom:30px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.titulo-box span{
+font-size:26px;
+}
+
+.titulo-box h1{
+font-size:24px;
+color:#333;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:22px;
+}
+
+@media (max-width:900px){
+.grid{
+grid-template-columns:repeat(3,1fr);
+}
+}
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+border-radius:16px;
+padding:30px 20px;
+text-align:center;
+cursor:pointer;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+transition:0.25s;
+text-decoration:none;
+display:block;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 25px rgba(0,0,0,0.12);
+}
+
+.card:active{
+transform:scale(0.96);
+}
+
+.icon{
+font-size:44px;
+margin-bottom:12px;
+}
+
+.nome{
+font-size:16px;
+font-weight:bold;
+color:#333;
+line-height:1.3;
+}
+
+.intro{border-top:6px solid #0d6efd;}
+.hardware{border-top:6px solid #20c997;}
+.software{border-top:6px solid #6f42c1;}
+.redes{border-top:6px solid #fd7e14;}
+.arquitetura{border-top:6px solid #e83e8c;}
+.barramentos{border-top:6px solid #ffc107;}
+.algoritmo{border-top:6px solid #198754;}
+.protocolo{border-top:6px solid #dc3545;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo-box">
+<span>📝</span>
+<h1>Choose a Practice Test</h1>
+</div>
+
+<div class="grid">
+
+<a href="simulados/simulado_introducao.html" class="card intro">
+<div class="icon">💻</div>
+<div class="nome">Introduction to Computer Science</div>
+</a>
+
+<a href="simulados/simulado_hardware.html" class="card hardware">
+<div class="icon">🖥️</div>
+<div class="nome">Hardware</div>
+</a>
+
+<a href="simulados/simulado_software.html" class="card software">
+<div class="icon">⚙️</div>
+<div class="nome">Software</div>
+</a>
+
+<a href="simulados/simulado_redes.html" class="card redes">
+<div class="icon">🌐</div>
+<div class="nome">Computer Networks</div>
+</a>
+
+<a href="simulados/simulado_arquitetura.html" class="card arquitetura">
+<div class="icon">🧠</div>
+<div class="nome">Computer Architecture</div>
+</a>
+
+<a href="simulados/simulado_barramentos.html" class="card barramentos">
+<div class="icon">🔌</div>
+<div class="nome">Data Buses</div>
+</a>
+
+<a href="simulados/simulado_algoritmo.html" class="card algoritmo">
+<div class="icon">📊</div>
+<div class="nome">Algorithms and Programming</div>
+</a>
+
+<a href="simulados/simulado_protocolos.html" class="card protocolo">
+<div class="icon">📡</div>
+<div class="nome">Network Protocols</div>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

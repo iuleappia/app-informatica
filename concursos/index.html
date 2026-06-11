@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<script src="../js/analytics.js"></script>
+<script src="../js/meta-pixel.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Concursos Abertos no Brasil 2026 | IuleApp</title>
+<meta name="description" content="Concursos públicos abertos no Brasil em 2026. Filtre por área, veja salário, data da prova e link do edital. Atualizado regularmente.">
+<meta name="keywords" content="concursos públicos 2026, concursos abertos brasil, editais concursos, concurso federal, concurso estadual, concurso público TI">
+<link rel="canonical" href="https://iuleappia.github.io/app-informatica/concursos/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IuleApp">
+<meta property="og:title" content="Concursos Abertos no Brasil 2026 | IuleApp">
+<meta property="og:description" content="Concursos públicos abertos no Brasil em 2026. Filtre por área, veja salário, data da prova e link do edital.">
+<meta property="og:url" content="https://iuleappia.github.io/app-informatica/concursos/">
+<meta property="og:image" content="https://iuleappia.github.io/app-informatica/img/capa.jpg">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+
+body{background:#f4f6f8;margin:0;}
+
+/* HEADER */
+.menu{background:#1e3a8a;padding:14px 20px;}
+.logo-bar{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:auto;}
+.logo{color:#fff;font-size:20px;font-weight:bold;text-decoration:none;}
+.voltar{color:rgba(255,255,255,0.8);text-decoration:none;font-size:13px;font-weight:bold;padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.3);transition:background 0.2s;}
+.voltar:hover{background:rgba(255,255,255,0.15);color:#fff;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);color:#fff;padding:36px 20px;text-align:center;}
+.hero h1{font-size:24px;font-weight:bold;margin-bottom:8px;}
+.hero p{font-size:14px;opacity:0.85;max-width:480px;margin:auto;}
+
+/* CONTAINER */
+.container{max-width:1200px;margin:auto;padding:20px;}
+
+/* BUSCA */
+.busca-wrap{margin:24px 0 14px;}
+.busca-input{width:100%;padding:13px 16px;font-size:15px;border:2px solid #dce3f0;border-radius:10px;outline:none;transition:border-color 0.2s;background:#fff;}
+.busca-input:focus{border-color:#1e3a8a;}
+
+/* FILTROS */
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.filtro-btn{padding:7px 14px;border:2px solid #dce3f0;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:bold;color:#555;transition:all 0.2s;}
+.filtro-btn:hover{border-color:#1e3a8a;color:#1e3a8a;}
+.filtro-btn.active{background:#1e3a8a;border-color:#1e3a8a;color:#fff;}
+
+/* AVISO */
+.aviso{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:13px;color:#5c3d00;margin-bottom:16px;line-height:1.5;}
+
+/* CONTADOR */
+.contador{font-size:13px;color:#666;margin-bottom:16px;}
+.contador strong{color:#1e3a8a;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr;gap:16px;}
+
+/* CARD */
+.card{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,0.07);padding:20px;transition:transform 0.2s,box-shadow 0.2s;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.11);}
+
+.card-topo{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:6px;}
+
+.status-badge{font-size:11px;font-weight:bold;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.status-aberto{background:#dcfce7;color:#15803d;}
+.status-previsto{background:#fef9c3;color:#92400e;}
+.status-andamento{background:#dbeafe;color:#1d4ed8;}
+
+.area-tag{font-size:11px;font-weight:bold;padding:4px 10px;border-radius:20px;background:#f0f4ff;color:#1e3a8a;}
+
+.orgao{font-size:17px;font-weight:bold;color:#111;margin-bottom:4px;}
+.cargo{font-size:14px;color:#444;margin-bottom:14px;line-height:1.4;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.info-item{}
+.info-label{font-size:11px;color:#888;display:block;margin-bottom:2px;}
+.info-valor{font-size:13px;font-weight:bold;color:#222;}
+.salario-valor{color:#15803d;}
+
+.btn-edital{display:block;background:#1e3a8a;color:#fff;text-align:center;padding:11px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:bold;transition:background 0.2s,transform 0.1s;}
+.btn-edital:hover{background:#1d4ed8;}
+.btn-edital:active{transform:scale(0.97);}
+
+.btn-produto{display:block;width:100%;background:#16a34a;color:#fff;text-align:center;padding:11px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:bold;margin-top:10px;transition:background 0.2s,transform 0.1s;}
+.btn-produto:hover{background:#15803d;}
+.btn-produto:active{transform:scale(0.97);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+.modal-overlay.ativo{opacity:1;pointer-events:all;}
+.modal-box{background:#fff;border-radius:20px;padding:32px 24px 24px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);transform:translateY(20px);transition:transform 0.2s ease;}
+.modal-overlay.ativo .modal-box{transform:translateY(0);}
+.modal-icone{font-size:52px;margin-bottom:12px;}
+.modal-titulo{font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;}
+.modal-texto{font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;}
+.modal-btn{display:block;background:#2e9e44;color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;width:100%;text-decoration:none;}
+.modal-btn:active{transform:scale(0.97);}
+.modal-btn-fechar{display:block;background:none;color:#888;border:none;padding:10px;font-size:13px;cursor:pointer;width:100%;margin-top:6px;}
+.modal-btn-fechar:hover{color:#444;}
+
+/* SEM RESULTADOS */
+.sem-resultados{text-align:center;padding:50px 20px;color:#888;}
+.sem-resultados span{font-size:40px;display:block;margin-bottom:12px;}
+.sem-resultados p{font-size:15px;}
+
+/* FOOTER */
+.footer{margin-top:40px;background:#111;color:#ddd;padding:40px 20px;width:100%;text-align:center;}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;max-width:1200px;margin:auto;}
+.footer h3{font-size:16px;margin-bottom:10px;color:#fff;}
+.footer p{font-size:13px;line-height:1.6;}
+.footer a{display:block;color:#ddd;text-decoration:none;font-size:13px;margin-bottom:6px;}
+.footer a:hover{color:#fff;}
+.footer-bottom{margin-top:25px;text-align:center;font-size:12px;color:#aaa;}
+
+/* RESPONSIVO */
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr;text-align:center;}}
+</style>
+</head>
+<body>
+
+<!-- Modal: apenas no app -->
+<div class="modal-overlay" id="modal-app" onclick="fecharModal(event)">
+  <div class="modal-box">
+    <div class="modal-icone">📱</div>
+    <div class="modal-titulo">Disponível no app</div>
+    <p class="modal-texto">Este conteúdo é vendido exclusivamente pelo aplicativo.<br>Baixe o <strong>App Informática</strong> na Google Play para acessar e adquirir os produtos.</p>
+    <a class="modal-btn" href="https://play.google.com/store/apps/details?id=iule.app.tec.concurso" target="_blank" rel="noopener">🛒 Baixar na Google Play</a>
+    <button class="modal-btn-fechar" onclick="document.getElementById('modal-app').classList.remove('ativo')">Fechar</button>
+  </div>
+</div>
+
+<header class="menu">
+<div class="logo-bar">
+<a href="../index.html" class="logo">IuleApp</a>
+<a href="../index.html" class="voltar">← Voltar ao início</a>
+</div>
+</header>
+
+<div class="hero">
+<h1>🏛️ Concursos Abertos no Brasil</h1>
+<p>Encontre concursos públicos com salário, data da prova e da inscrição</p>
+</div>
+
+<div class="container">
+
+<div class="busca-wrap">
+<input type="text" id="busca" class="busca-input" placeholder="🔍 Buscar por órgão ou cargo...">
+</div>
+
+<div class="filtros" id="filtros">
+<button class="filtro-btn active" data-area="todos">Todos</button>
+</div>
+
+<div class="aviso">
+⚠️ <strong>Atenção:</strong> Verifique sempre as datas e informações diretamente no edital oficial. Os dados aqui são atualizados manualmente e podem conter variações.
+</div>
+
+<div class="contador" id="contador"></div>
+
+<div class="grid" id="lista"></div>
+
+<div class="sem-resultados" id="sem-resultados" style="display:none">
+<span>🔍</span>
+<p>Nenhum concurso encontrado para essa busca.</p>
+</div>
+
+</div>
+
+<footer class="footer">
+<div class="footer-grid">
+<div>
+<h3>IuleApp</h3>
+<p>Conteúdo educativo de Informática, Excel e concursos públicos para estudantes e concurseiros.</p>
+</div>
+<div>
+<h3>Contato</h3>
+<p>Email: iuletorresapp@gmail.com</p>
+<p>Site: iuleappia.github.io/app-informatica/</p>
+</div>
+<div>
+<h3>Redes sociais</h3>
+<a href="https://www.youtube.com/@iuleapp" target="_blank">▶️ YouTube</a>
+<a href="https://www.instagram.com/iuleappexcel/" target="_blank">📸 Instagram</a>
+<a href="https://www.facebook.com/iuleappexcel" target="_blank">📘 Facebook</a>
+</div>
+</div>
+<div class="footer-bottom">© 2026 IuleApp - Todos os direitos reservados</div>
+</footer>
+
+<script>
+/* =============================================
+   DADOS DOS CONCURSOS
+   Para adicionar ou editar: modifique este array.
+   Campos obrigatórios: orgao, cargo, area, nivel,
+   vagas, salario, dataProva, inscricaoAte, edital, status
+   Status possíveis: "inscricoes_abertas" | "previsto" | "em_andamento"
+   ============================================= */
+const concursos = [
+  {
+    orgao: "Receita Federal do Brasil",
+    cargo: "Auditor Fiscal da Receita Federal",
+    area: "Fiscal",
+    nivel: "Superior",
+    vagas: 699,
+    salario: "R$ 21.029,90",
+    dataProva: "2026-08-10",
+    inscricaoAte: "2026-06-20",
+    edital: "https://www.gov.br/concursos",
+    status: "inscricoes_abertas",
+    produto: { id: "resumao_informatica_rfb", nome: "Resumão Receita Federal", preco: "R$ 19,90" }
+  },
+  {
+    orgao: "INSS",
+    cargo: "Analista do Seguro Social",
+    area: "Administrativa",
+    nivel: "Superior",
+    vagas: 1000,
+    salario: "R$ 8.547,26",
+    dataProva: "2026-09-14",
+    inscricaoAte: "2026-07-15",
+    edital: "https://www.gov.br/concursos",
+    status: "inscricoes_abertas",
+    produto: { id: "resumao_informatica_inss", nome: "Resumão INSS", preco: "R$ 19,90" }
+  },
+  {
+    orgao: "Correios",
+    cargo: "Carteiro",
+    area: "Operacional",
+    nivel: "Médio",
+    vagas: 3523,
+    salario: "R$ 2.429,27",
+    dataProva: "2026-07-20",
+    inscricaoAte: "2026-06-05",
+    edital: "https://www.correios.com.br",
+    status: "inscricoes_abertas",
+    produto: { id: "resumao_informatica_correios", nome: "Resumão Correios", preco: "R$ 19,90" }
+  },
+  {
+    orgao: "Banco do Brasil",
+    cargo: "Escriturário — Agente de Tecnologia",
+    area: "Tecnologia",
+    nivel: "Médio",
+    vagas: 2000,
+    salario: "R$ 3.622,23",
+    dataProva: "2026-10-05",
+    inscricaoAte: "2026-08-20",
+    edital: "https://www.bb.com.br",
+    status: "previsto"
+  },
+  {
+    orgao: "TRE-SP",
+    cargo: "Técnico Judiciário — Área Administrativa",
+    area: "Judiciário",
+    nivel: "Médio",
+    vagas: 30,
+    salario: "R$ 7.591,43",
+    dataProva: "2026-08-23",
+    inscricaoAte: "2026-06-30",
+    edital: "https://www.tre-sp.jus.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "SERPRO",
+    cargo: "Analista — Tecnologia da Informação",
+    area: "Tecnologia",
+    nivel: "Superior",
+    vagas: 602,
+    salario: "R$ 12.803,48",
+    dataProva: "2026-09-28",
+    inscricaoAte: "2026-08-10",
+    edital: "https://www.serpro.gov.br",
+    status: "previsto"
+  },
+  {
+    orgao: "Polícia Rodoviária Federal",
+    cargo: "Policial Rodoviário Federal",
+    area: "Segurança",
+    nivel: "Superior",
+    vagas: 1500,
+    salario: "R$ 15.829,07",
+    dataProva: "2026-11-08",
+    inscricaoAte: "2026-09-01",
+    edital: "https://www.gov.br/prf",
+    status: "previsto"
+  },
+  {
+    orgao: "STJ",
+    cargo: "Analista Judiciário — Suporte em TI",
+    area: "Judiciário",
+    nivel: "Superior",
+    vagas: 21,
+    salario: "R$ 13.994,78",
+    dataProva: "2026-07-06",
+    inscricaoAte: "2026-05-31",
+    edital: "https://www.stj.jus.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Caixa Econômica Federal",
+    cargo: "Técnico Bancário Novo",
+    area: "Administrativa",
+    nivel: "Médio",
+    vagas: 4000,
+    salario: "R$ 3.762,91",
+    dataProva: "2026-07-13",
+    inscricaoAte: "2026-06-08",
+    edital: "https://www.caixa.gov.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Prefeitura de São Paulo",
+    cargo: "Agente de Apoio Educacional",
+    area: "Educação",
+    nivel: "Médio",
+    vagas: 1421,
+    salario: "R$ 2.344,59",
+    dataProva: "2026-08-02",
+    inscricaoAte: "2026-06-25",
+    edital: "https://www.prefeitura.sp.gov.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "EBSERH",
+    cargo: "Técnico em Tecnologia da Informação",
+    area: "Tecnologia",
+    nivel: "Médio",
+    vagas: 85,
+    salario: "R$ 4.452,10",
+    dataProva: "2026-09-07",
+    inscricaoAte: "2026-07-20",
+    edital: "https://www.ebserh.gov.br",
+    status: "previsto"
+  },
+  {
+    orgao: "ANATEL",
+    cargo: "Especialista em Regulação de Telecomunicações",
+    area: "Tecnologia",
+    nivel: "Superior",
+    vagas: 52,
+    salario: "R$ 19.197,00",
+    dataProva: "2026-10-18",
+    inscricaoAte: "2026-08-30",
+    edital: "https://www.anatel.gov.br",
+    status: "previsto"
+  },
+  {
+    orgao: "MPU",
+    cargo: "Analista do Ministério Público da União",
+    area: "Judiciário",
+    nivel: "Superior",
+    vagas: 295,
+    salario: "R$ 13.994,78",
+    dataProva: "2026-11-22",
+    inscricaoAte: "2026-09-30",
+    edital: "https://www.mpu.mp.br",
+    status: "previsto"
+  },
+  {
+    orgao: "Prefeitura do Rio de Janeiro",
+    cargo: "Médico — Clínica Geral",
+    area: "Saúde",
+    nivel: "Superior",
+    vagas: 200,
+    salario: "R$ 7.800,00",
+    dataProva: "2026-08-16",
+    inscricaoAte: "2026-07-01",
+    edital: "https://www.rio.rj.gov.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Secretaria de Saúde — MG",
+    cargo: "Técnico em Enfermagem",
+    area: "Saúde",
+    nivel: "Médio",
+    vagas: 780,
+    salario: "R$ 2.913,74",
+    dataProva: "2026-07-26",
+    inscricaoAte: "2026-06-15",
+    edital: "https://www.saude.mg.gov.br",
+    status: "inscricoes_abertas"
+  }
+];
+
+/* =============================================
+   LÓGICA DA PÁGINA — não precisa alterar abaixo
+   ============================================= */
+const statusInfo = {
+  inscricoes_abertas: { label: "Inscrições Abertas", cls: "status-aberto" },
+  previsto:           { label: "Previsto",            cls: "status-previsto" },
+  em_andamento:       { label: "Em Andamento",        cls: "status-andamento" }
+};
+
+function formatarData(d) {
+  const [a, m, dia] = d.split('-');
+  return `${dia}/${m}/${a}`;
+}
+
+// Gera botões de filtro a partir das áreas presentes nos dados
+const areas = [...new Set(concursos.map(c => c.area))].sort();
+const filtrosEl = document.getElementById('filtros');
+areas.forEach(a => {
+  const btn = document.createElement('button');
+  btn.className = 'filtro-btn';
+  btn.dataset.area = a;
+  btn.textContent = a;
+  filtrosEl.appendChild(btn);
+});
+
+let areaAtiva = 'todos';
+let textoBusca = '';
+
+function renderizar() {
+  const lista = document.getElementById('lista');
+  const semRes = document.getElementById('sem-resultados');
+  const contador = document.getElementById('contador');
+
+  const filtrados = concursos.filter(c => {
+    const matchArea = areaAtiva === 'todos' || c.area === areaAtiva;
+    const q = textoBusca.toLowerCase();
+    const matchBusca = !q ||
+      c.orgao.toLowerCase().includes(q) ||
+      c.cargo.toLowerCase().includes(q) ||
+      c.area.toLowerCase().includes(q);
+    return matchArea && matchBusca;
+  });
+
+  lista.innerHTML = '';
+
+  if (!filtrados.length) {
+    semRes.style.display = 'block';
+    contador.textContent = '';
+    return;
+  }
+
+  semRes.style.display = 'none';
+  const n = filtrados.length;
+  contador.innerHTML = `<strong>${n}</strong> concurso${n !== 1 ? 's' : ''} encontrado${n !== 1 ? 's' : ''}`;
+
+  filtrados.forEach(c => {
+    const s = statusInfo[c.status] || statusInfo.previsto;
+    lista.innerHTML += `
+      <div class="card">
+        <div class="card-topo">
+          <span class="status-badge ${s.cls}">${s.label}</span>
+          <span class="area-tag">${c.area}</span>
+        </div>
+        <div class="orgao">${c.orgao}</div>
+        <div class="cargo">${c.cargo}</div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">📅 Data da Prova</span>
+            <span class="info-valor">${formatarData(c.dataProva)}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">⏳ Inscrições até</span>
+            <span class="info-valor">${formatarData(c.inscricaoAte)}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">💰 Salário</span>
+            <span class="info-valor salario-valor">${c.salario}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">🎓 Nível | Vagas</span>
+            <span class="info-valor">${c.nivel} | ${c.vagas} vg</span>
+          </div>
+        </div>
+        ${c.produto ? `<button class="btn-produto" onclick="comprarProduto('${c.produto.id}')">📖 ${c.produto.nome} — ${c.produto.preco}</button>` : ''}
+      </div>`;
+  });
+}
+
+filtrosEl.addEventListener('click', e => {
+  if (!e.target.matches('.filtro-btn')) return;
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  areaAtiva = e.target.dataset.area;
+  renderizar();
+});
+
+document.getElementById('busca').addEventListener('input', e => {
+  textoBusca = e.target.value;
+  renderizar();
+});
+
+function comprarProduto(id) {
+  if (typeof AndroidPay !== 'undefined') {
+    AndroidPay.iniciarCompra(id);
+  } else {
+    abrirModal();
+  }
+}
+function abrirModal() {
+  document.getElementById('modal-app').classList.add('ativo');
+}
+function fecharModal(e) {
+  if (e.target === document.getElementById('modal-app')) {
+    document.getElementById('modal-app').classList.remove('ativo');
+  }
+}
+
+renderizar();
+</script>
+</body>
+</html>

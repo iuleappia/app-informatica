@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducción a la Informática</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:center;}
+#main-wrapper{width:95%;max-width:650px;}
+#quiz-container{background:#fff;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h2{margin-bottom:10px;color:#2E7D32;}
+#progress-text{margin-bottom:10px;font-size:14px;color:#555;}
+#progress-bar{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:20px;}
+#progress{height:100%;width:0%;background:#4CAF50;transition:.3s;}
+#question-container{font-weight:bold;margin-bottom:20px;}
+#options-container{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:.3s;font-size:16px;}
+.option:hover{background:#388E3C;transform:scale(1.02);}
+.option:disabled{opacity:.7;cursor:not-allowed;}
+.correct{background:#2E7D32!important;}
+.wrong{background:#C62828!important;}
+#result{margin-top:15px;font-weight:bold;}
+#restart-btn{margin-top:20px;padding:12px 20px;border:none;background:#2E7D32;color:white;border-radius:8px;cursor:pointer;font-size:16px;display:none;}
+#restart-btn:hover{background:#1B5E20;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+<div id="quiz-container">
+<h2>Introducción a la Informática</h2>
+<div id="progress-text"></div>
+<div id="progress-bar"><div id="progress"></div></div>
+<div id="question-container"></div>
+<div id="options-container"></div>
+<p id="result"></p>
+<button id="restart-btn">Repetir Simulacro</button>
+</div>
+</div>
+<script>
+const questions = [
+{question:"¿Cuál de los siguientes programas es un navegador de internet?",options:["Google Chrome","Microsoft Word","Excel","PowerPoint"],correctAnswer:0},
+{question:"¿Cuál es la función principal de un navegador de internet?",options:["Editar textos","Acceder a páginas web","Crear hojas de cálculo","Instalar programas"],correctAnswer:1},
+{question:"¿Qué programa de Microsoft Office se usa para crear hojas de cálculo?",options:["Word","PowerPoint","Excel","Access"],correctAnswer:2},
+{question:"En Microsoft Word, ¿cuál es la función principal del programa?",options:["Crear presentaciones","Editar textos y documentos","Crear bases de datos","Gestionar redes"],correctAnswer:1},
+{question:"¿Qué programa del paquete Office se usa para crear presentaciones de diapositivas?",options:["Excel","PowerPoint","Word","Outlook"],correctAnswer:1},
+{question:"¿Qué sistema operativo fue desarrollado por Microsoft?",options:["Linux","Windows","Android","macOS"],correctAnswer:1},
+{question:"¿Cuál es la función de un sistema operativo?",options:["Crear páginas web","Gestionar el hardware y el software de la computadora","Editar videos","Crear hojas de cálculo"],correctAnswer:1},
+{question:"¿Cuál de las siguientes es un sistema operativo?",options:["Windows","Google Chrome","Word","Excel"],correctAnswer:0},
+{question:"¿Qué significa la sigla URL en internet?",options:["Dirección de un recurso en internet","Programa de edición de texto","Sistema operativo","Tipo de virus"],correctAnswer:0},
+{question:"¿Cuál es la función de un motor de búsqueda como Google?",options:["Editar documentos","Buscar información en internet","Crear hojas de cálculo","Instalar programas"],correctAnswer:1},
+{question:"¿Cuál de estos es un navegador de internet?",options:["Mozilla Firefox","Microsoft Excel","Adobe Photoshop","Bloc de notas"],correctAnswer:0},
+{question:"¿Cuál es el atajo común para copiar texto en Windows?",options:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + Z"],correctAnswer:0},
+{question:"¿Cuál es el atajo común para pegar contenido copiado?",options:["Ctrl + A","Ctrl + C","Ctrl + V","Ctrl + S"],correctAnswer:2},
+{question:"En Excel, una celda es:",options:["Un gráfico","Un espacio donde se ingresan los datos","Un archivo","Una diapositiva"],correctAnswer:1},
+{question:"¿Qué se necesita para acceder a internet?",options:["Solo un teclado","Una conexión de red","Solo un monitor","Una impresora"],correctAnswer:1},
+{question:"¿Cuál de estos servicios permite enviar mensajes electrónicos?",options:["Correo electrónico","Hoja de cálculo","Diapositiva","Sistema operativo"],correctAnswer:0},
+{question:"¿Cuál es la función del botón 'Actualizar' en un navegador?",options:["Cerrar el navegador","Recargar la página actual","Guardar la página","Imprimir la página"],correctAnswer:1},
+{question:"¿Qué es una descarga (download)?",options:["Enviar un archivo a internet","Bajar un archivo de internet al dispositivo","Borrar archivos","Crear archivos"],correctAnswer:1},
+{question:"¿Cuál es la función de la papelera de reciclaje en el sistema operativo?",options:["Almacenar archivos eliminados temporalmente","Crear copias de seguridad","Instalar programas","Abrir páginas de internet"],correctAnswer:0},
+{question:"¿Cuál de estas opciones es un sistema operativo para celulares?",options:["Android","Excel","Word","PowerPoint"],correctAnswer:0}
+];
+let currentQuestion=0;let score=0;
+function loadQuestion(){
+const qc=document.getElementById("question-container");
+const oc=document.getElementById("options-container");
+const pt=document.getElementById("progress-text");
+const p=document.getElementById("progress");
+pt.textContent=`Pregunta ${currentQuestion+1} de ${questions.length}`;
+p.style.width=`${((currentQuestion)/questions.length)*100}%`;
+qc.textContent=questions[currentQuestion].question;
+oc.innerHTML="";
+questions[currentQuestion].options.forEach((option,index)=>{
+const btn=document.createElement("button");
+btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
+});
+}
+function selectOption(event){
+const buttons=document.querySelectorAll(".option");
+buttons.forEach(btn=>btn.disabled=true);
+const selected=parseInt(event.target.dataset.index);
+const correct=questions[currentQuestion].correctAnswer;
+let delay;
+if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="¡Correcto!";score++;delay=1000;}
+else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrecto. Respuesta correcta: ${questions[currentQuestion].options[correct]}`;delay=2000;}
+currentQuestion++;
+setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+}
+function showResult(){
+document.getElementById("progress").style.width="100%";
+document.getElementById("question-container").textContent="Resultado Final";
+document.getElementById("options-container").innerHTML="";
+document.getElementById("result").textContent=`¡Acertaste ${score} de ${questions.length} preguntas!`;
+document.getElementById("restart-btn").style.display="inline-block";
+}
+document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+loadQuestion();
+</script>
+</body>
+</html>

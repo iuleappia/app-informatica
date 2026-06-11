@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolos de Redes</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Protocolos de Redes</h1>
+
+<p>
+Os protocolos de redes são conjuntos de regras que permitem a comunicação entre dispositivos em uma rede de computadores. 🌐 Eles definem como os dados devem ser transmitidos, recebidos e interpretados entre computadores e outros equipamentos conectados.
+</p>
+
+<h2>🤔 O que são Protocolos de Rede?</h2>
+
+<p>
+Protocolos de rede são padrões que estabelecem a forma como os dispositivos trocam informações. Eles determinam aspectos como formato das mensagens, velocidade de transmissão, controle de erros e organização dos dados enviados pela rede.
+</p>
+
+<h2>📚 Por que conhecer os Protocolos de Redes?</h2>
+
+<ul>
+<li><span class="highlight">Comunicação entre dispositivos:</span> Os protocolos garantem que computadores e equipamentos consigam trocar informações corretamente.</li>
+
+<li><span class="highlight">Padronização:</span> Permitem que dispositivos de diferentes fabricantes se comuniquem utilizando regras comuns.</li>
+
+<li><span class="highlight">Funcionamento da internet:</span> Toda a comunicação da internet depende de protocolos para transmitir dados entre servidores e usuários.</li>
+</ul>
+
+<h2>📋 Principais Protocolos de Redes</h2>
+
+<ul>
+<li><span class="highlight">HTTP:</span> Utilizado para transferência de páginas da web entre servidores e navegadores.</li>
+
+<li><span class="highlight">HTTPS:</span> Versão segura do HTTP que utiliza criptografia para proteger os dados transmitidos.</li>
+
+<li><span class="highlight">FTP:</span> Protocolo utilizado para transferência de arquivos entre computadores em uma rede.</li>
+
+<li><span class="highlight">TCP/IP:</span> Conjunto de protocolos responsável pela comunicação básica da internet.</li>
+</ul>
+
+<h2>🎓 Importância dos Protocolos</h2>
+
+<p>
+Os protocolos são essenciais para garantir que as redes funcionem corretamente. Eles organizam a comunicação entre dispositivos, permitindo que dados sejam enviados e recebidos de forma segura e eficiente.
+</p>
+
+<h2>🌟 Conclusão</h2>
+
+<p>
+Os protocolos de redes são fundamentais para a comunicação digital. Graças a eles, dispositivos conectados conseguem trocar informações e acessar serviços da internet de maneira organizada e padronizada.
+</p>
+
+<a href="../simulados/simulado_protocolos.html">
+<button id="start-button">
+🚀 Iniciar Simulado
+</button>
+</a>
+
+</body>
+</html>

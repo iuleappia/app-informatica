@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IuleApp - Inicio | Estudio de Informática en Español</title>
+<meta name="description" content="Bienvenido a IuleApp. Estudia informática gratis en español: materias para concursos, simulacros y funciones de Excel.">
+<meta name="keywords" content="estudio de informática en español, simulacro de informática, materias de TI, excel en español">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6f8;
+padding:20px;
+text-align:center;
+max-width:1000px;
+margin:auto;
+}
+
+/* TÍTULO */
+
+.titulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.texto{
+font-size:15px;
+color:#555;
+margin-bottom:25px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:18px;
+}
+
+/* BLOCO */
+
+.bloco{
+background:#ffffff;
+border-radius:12px;
+padding:18px;
+box-shadow:0 2px 6px rgba(0,0,0,0.06);
+text-align:left;
+animation:aparecer 0.5s ease;
+border-left:5px solid #2e9e44;
+}
+
+.bloco:nth-child(2){border-left:5px solid #2b7cff;}
+.bloco:nth-child(3){border-left:5px solid #ff8c00;}
+.bloco:nth-child(4){border-left:5px solid #8a2be2;}
+
+.bloco h3{
+font-size:17px;
+margin-bottom:8px;
+}
+
+.bloco p{
+font-size:14px;
+color:#555;
+line-height:1.4;
+}
+
+/* CONTAINER DOS CARDS */
+
+.cards-container{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+margin-top:30px;
+}
+
+/* CARD PRODUTO */
+
+.card-produto{
+flex:1 1 calc(50% - 20px);
+background:white;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 8px 20px rgba(0,0,0,0.12);
+text-align:left;
+animation:aparecer 0.6s ease;
+}
+
+.imagem-produto{
+position:relative;
+}
+
+.imagem-produto img{
+width:100%;
+height:200px;
+object-fit:cover;
+display:block;
+}
+
+.badge{
+position:absolute;
+top:12px;
+left:12px;
+background:#ff8c00;
+color:white;
+font-size:13px;
+padding:6px 10px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.conteudo-produto{
+padding:18px;
+}
+
+.conteudo-produto h3{
+font-size:18px;
+margin-bottom:6px;
+}
+
+.desc{
+font-size:14px;
+color:#666;
+margin-bottom:10px;
+}
+
+.avaliacao{
+color:#f5a623;
+font-size:14px;
+margin-bottom:6px;
+}
+
+.avaliacao span{
+color:#333;
+margin-left:5px;
+}
+
+.leitores{
+font-size:13px;
+color:#555;
+margin-bottom:10px;
+}
+
+.preco-antigo{
+text-decoration:line-through;
+color:#777;
+font-size:14px;
+}
+
+.preco-novo{
+font-size:22px;
+font-weight:bold;
+margin:6px 0 14px 0;
+}
+
+/* BOTÃO */
+
+.btn-comprar{
+display:block;
+background:#2e9e44;
+color:white;
+text-align:center;
+padding:12px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+transition:all 0.15s ease;
+}
+
+.btn-comprar:hover{
+background:#248037;
+transform:translateY(-2px);
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn-comprar:active{
+transform:scale(0.95);
+box-shadow:0 2px 6px rgba(0,0,0,0.2) inset;
+}
+
+.btn-saibamais{
+display:block;
+background:#0d6efd;
+color:white;
+text-align:center;
+padding:12px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+transition:all 0.15s ease;
+}
+
+.btn-saibamais:hover{
+background:#0b5ed7;
+transform:translateY(-2px);
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn-saibamais:active{
+transform:scale(0.95);
+}
+
+/* RESPONSIVO */
+
+@media(min-width:700px){
+.grid{
+grid-template-columns:1fr 1fr;
+}
+}
+
+@media(max-width:768px){
+.card-produto{
+flex:1 1 100%;
+}
+}
+
+/* ANIMAÇÃO */
+
+@keyframes aparecer{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="titulo">
+Bienvenido a la App de Informática
+</div>
+
+<div class="texto">
+Usa el menú inferior para acceder a materias, simulacros, Excel y cursos.
+</div>
+
+<div class="grid">
+
+<div class="bloco">
+<h3>🔥 Consejo de Informática</h3>
+<p id="dica"></p>
+</div>
+
+<div class="bloco">
+<h3>📊 Función de Excel</h3>
+<p id="excel"></p>
+</div>
+
+<div class="bloco">
+<h3>📅 Sugerencia de Estudio</h3>
+<p id="estudo"></p>
+</div>
+
+<div class="bloco">
+<h3>🧠 Curiosidad</h3>
+<p id="curiosidade"></p>
+</div>
+
+</div>
+
+<!-- CARDS PRODUCTOS -->
+
+<div class="cards-container">
+
+<!-- CARD 1 -->
+<div class="card-produto">
+
+<div class="imagem-produto">
+<span class="badge">🔥 Más vendido</span>
+<img src="../img/excel.jpg">
+</div>
+
+<div class="conteudo-produto">
+<h3>Biblia de Excel</h3>
+
+<p class="desc">
+Guía completa con funciones y recursos avanzados.
+</p>
+
+<div class="avaliacao">
+⭐⭐⭐⭐⭐ <span>4.7</span>
+</div>
+
+<div class="leitores">
+👥 20.412 alumnos
+</div>
+
+<div style="display:flex; gap:10px;">
+<a href="https://go.hotmart.com/D79241819H" target="_blank" class="btn-saibamais" style="flex:1;">Saber más</a>
+<a href="https://go.hotmart.com/D79241819H?ap=67c9" target="_blank" class="btn-comprar" style="flex:1;">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- CARD 2 -->
+<div class="card-produto">
+
+<div class="imagem-produto">
+<span class="badge">🔥 Hotmart</span>
+<img src="../img/capa.jpg">
+</div>
+
+<div class="conteudo-produto">
+<h3>📚 Ebook de Informática Completo</h3>
+
+<p class="desc">
+De lo básico a lo avanzado para el estudio y el mercado laboral.
+</p>
+
+<div class="avaliacao">
+⭐⭐⭐⭐⭐ <span>4.8</span>
+</div>
+
+<div class="leitores">
+👥 3.412 alumnos
+</div>
+
+<div style="display:flex; gap:10px;">
+<a href="https://pay.hotmart.com/H105774995T?checkoutMode=10" target="_blank" class="btn-comprar" style="flex:1;">Obtener acceso</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+/* CONSEJOS */
+const dicas=[
+"Ctrl + C copia y Ctrl + V pega.",
+"Ctrl + Z deshace la última acción.",
+"Alt + Tab cambia entre programas abiertos.",
+"Ctrl + S guarda rápidamente un archivo.",
+"F5 actualiza páginas en el navegador."
+];
+
+/* EXCEL */
+const excel=[
+"SUMA() → suma valores. Ej: =SUMA(A1:A10)",
+"PROMEDIO() → calcula el promedio. Ej: =PROMEDIO(A1:A10)",
+"SI() → crea una condición lógica.",
+"CONTARA() → cuenta celdas con contenido.",
+"BUSCARV() → busca valores en tablas."
+];
+
+/* MATERIAS */
+const disciplinas=[
+"💻 Introducción a la Informática",
+"🖥 Hardware",
+"⚙️ Software",
+"🌐 Redes de Computadoras",
+"🧠 Arquitectura de Computadoras",
+"🔌 Buses de Datos",
+"📊 Algoritmos y Programación",
+"📡 Protocolo de Red"
+];
+
+/* CURIOSIDADES */
+const curiosidades=[
+"Un byte está formado por 8 bits.",
+"La primera computadora electrónica fue creada en 1946.",
+"Windows es el sistema operativo más usado del mundo.",
+"Internet comenzó como un proyecto militar en EE. UU.",
+"El primer mouse fue creado en 1964."
+];
+
+function aleatorio(lista){
+return lista[Math.floor(Math.random()*lista.length)];
+}
+
+document.getElementById("dica").innerHTML=aleatorio(dicas);
+document.getElementById("excel").innerHTML=aleatorio(excel);
+document.getElementById("curiosidade").innerHTML=aleatorio(curiosidades);
+
+let copia=[...disciplinas];
+copia.sort(()=>Math.random()-0.5);
+
+let escolhidas=copia.slice(0,2);
+
+document.getElementById("estudo").innerHTML=
+escolhidas[0]+"<br>"+escolhidas[1];
+
+</script>
+
+
+</body>
+</html>

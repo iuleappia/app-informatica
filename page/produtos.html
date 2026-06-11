@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<script src="../js/analytics.js"></script>
+<script src="../js/meta-pixel.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Produtos – App Informática</title>
+<meta name="description" content="Materiais digitais de Informática para aprender e se especializar.">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6f8;
+padding:20px;
+max-width:800px;
+margin:auto;
+}
+
+.titulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:6px;
+text-align:center;
+}
+
+.subtitulo{
+font-size:15px;
+color:#555;
+margin-bottom:25px;
+text-align:center;
+}
+
+/* LISTA DE PRODUTOS */
+
+.lista-produtos{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.item-produto{
+background:white;
+border-radius:14px;
+padding:18px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+gap:8px;
+animation:aparecer 0.5s ease;
+border-left:5px solid #2e9e44;
+}
+
+.item-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.item-produto h3{
+font-size:16px;
+color:#1a1a1a;
+}
+
+.badge{
+background:#ff8c00;
+color:white;
+font-size:11px;
+padding:4px 9px;
+border-radius:6px;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.item-produto .desc{
+font-size:13px;
+color:#666;
+line-height:1.5;
+}
+
+.item-produto .tags{
+font-size:12px;
+color:#888;
+}
+
+.item-footer{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-top:4px;
+}
+
+.item-produto .preco{
+font-size:20px;
+font-weight:bold;
+color:#2e9e44;
+}
+
+.btn-ver{
+background:#2e9e44;
+color:white;
+text-align:center;
+padding:10px 20px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+font-size:14px;
+cursor:pointer;
+transition:all 0.15s ease;
+border:none;
+}
+
+.btn-ver:hover{
+background:#248037;
+transform:translateY(-1px);
+}
+
+.btn-ver:active{
+transform:scale(0.97);
+}
+
+@keyframes aparecer{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* MODAL */
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.55);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:1000;
+padding:20px;
+opacity:0;
+pointer-events:none;
+transition:opacity 0.2s ease;
+}
+.modal-overlay.ativo{
+opacity:1;
+pointer-events:all;
+}
+.modal-box{
+background:#fff;
+border-radius:20px;
+padding:32px 24px 24px;
+max-width:360px;
+width:100%;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.3);
+transform:translateY(20px);
+transition:transform 0.2s ease;
+}
+.modal-overlay.ativo .modal-box{
+transform:translateY(0);
+}
+.modal-icone{
+font-size:52px;
+margin-bottom:12px;
+}
+.modal-titulo{
+font-size:18px;
+font-weight:800;
+color:#1a1a1a;
+margin-bottom:8px;
+}
+.modal-texto{
+font-size:14px;
+color:#555;
+line-height:1.6;
+margin-bottom:24px;
+}
+.modal-btn{
+display:block;
+background:#2e9e44;
+color:#fff;
+border:none;
+border-radius:10px;
+padding:13px 28px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+width:100%;
+text-decoration:none;
+}
+.modal-btn:active{transform:scale(0.97);}
+.modal-btn-fechar{
+display:block;
+background:none;
+color:#888;
+border:none;
+padding:10px;
+font-size:13px;
+cursor:pointer;
+width:100%;
+margin-top:6px;
+}
+.modal-btn-fechar:hover{color:#444;}
+
+</style>
+</head>
+
+<body>
+
+<!-- Modal: apenas no app -->
+<div class="modal-overlay" id="modal-app" onclick="fecharModal(event)">
+  <div class="modal-box">
+    <div class="modal-icone">📱</div>
+    <div class="modal-titulo">Disponível no app</div>
+    <p class="modal-texto">Este conteúdo é vendido exclusivamente pelo aplicativo.<br>Baixe o <strong>App Informática</strong> na Google Play para acessar e adquirir os produtos.</p>
+    <a class="modal-btn" href="https://play.google.com/store/apps/details?id=iule.app.tec.concurso" target="_blank" rel="noopener">🛒 Baixar na Google Play</a>
+    <button class="modal-btn-fechar" onclick="document.getElementById('modal-app').classList.remove('ativo')">Fechar</button>
+  </div>
+</div>
+
+<div class="titulo">📦 Produtos Exclusivos</div>
+<div class="subtitulo">Materiais digitais de Informática para aprender e se especializar</div>
+
+<div class="lista-produtos">
+
+<!-- ITEM 1: RESUMÃO RFB -->
+<div class="item-produto">
+<div class="item-header">
+<h3>📘 Resumão de Informática – Receita Federal</h3>
+<span class="badge">🆕 Novo</span>
+</div>
+<p class="desc">Resumão completo de Informática com 10 módulos, tabelas e macetes. Baseado no edital FGV para Auditor-Fiscal e Analista-Tributário.</p>
+<div class="tags">💡 Redes · Segurança · Hardware · Software · Excel · e mais</div>
+<div class="item-footer">
+<span class="preco">R$ 19,90</span>
+<button class="btn-ver" onclick="if(typeof AndroidPay!=='undefined'){AndroidPay.abrirProduto('resumao_informatica_rfb')}else{abrirModal()}">Ver produto</button>
+</div>
+</div>
+
+<!-- ITEM 2: RESUMÃO INSS -->
+<div class="item-produto" style="border-left-color:#3949ab;">
+<div class="item-header">
+<h3>📗 Resumão de Informática – INSS</h3>
+<span class="badge" style="background:#3949ab;">Novo</span>
+</div>
+<p class="desc">Resumão completo com 8 módulos focados no edital do INSS: segurança, redes, Office, Windows, hardware, backup, nuvem e LGPD.</p>
+<div class="tags">💡 8 módulos · 🔒 Segurança · 📡 Redes · ⚖️ LGPD · ☁️ Nuvem</div>
+<div class="item-footer">
+<span class="preco" style="color:#3949ab;">R$ 19,90</span>
+<button class="btn-ver" style="background:#3949ab;" onclick="if(typeof AndroidPay!=='undefined'){AndroidPay.abrirProduto('resumao_informatica_inss')}else{abrirModal()}">Ver produto</button>
+</div>
+</div>
+
+<!-- ITEM 3: RESUMÃO CORREIOS -->
+<div class="item-produto" style="border-left-color:#E65100;">
+<div class="item-header">
+<h3>📦 Resumão de Informática – Correios</h3>
+<span class="badge" style="background:#E65100;">Novo</span>
+</div>
+<p class="desc">Resumão completo de Informática para o concurso dos Correios: redes, segurança, hardware, software, Office, Windows, backup e LGPD.</p>
+<div class="tags">💡 Redes · 🔒 Segurança · 🖥️ Office · ☁️ Nuvem · ⚖️ LGPD</div>
+<div class="item-footer">
+<span class="preco" style="color:#E65100;">R$ 19,90</span>
+<button class="btn-ver" style="background:#E65100;" onclick="if(typeof AndroidPay!=='undefined'){AndroidPay.abrirProduto('resumao_informatica_correios')}else{abrirModal()}">Ver produto</button>
+</div>
+</div>
+
+<!-- ITEM 4: INTRODUÇÃO À INFORMÁTICA -->
+<div class="item-produto">
+<div class="item-header">
+<h3>💻 Introdução à Informática Premium</h3>
+<span class="badge" style="background:#059669;">Novo</span>
+</div>
+<p class="desc">Do zero ao essencial: hardware, software, periféricos, armazenamento, internet e segurança digital. Linguagem clara para quem está começando.</p>
+<div class="tags">💡 7 módulos · ⚙️ Hardware · 🖥️ Software · 🌐 Internet · 🔒 Segurança</div>
+<div class="item-footer">
+<span class="preco">R$ 9,90</span>
+<button class="btn-ver" onclick="if(typeof AndroidPay!=='undefined'){AndroidPay.abrirProduto('introducao_informatica')}else{abrirModal()}">Ver produto</button>
+</div>
+</div>
+
+<!-- Adicionar novos produtos abaixo -->
+
+</div>
+
+<script>
+function abrirModal(){
+  document.getElementById('modal-app').classList.add('ativo');
+}
+function fecharModal(e){
+  if(e.target === document.getElementById('modal-app')){
+    document.getElementById('modal-app').classList.remove('ativo');
+  }
+}
+</script>
+
+</body>
+</html>

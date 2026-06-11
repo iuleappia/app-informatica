@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software de Computador</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Software de Computador</h1>
+
+<p>
+O software corresponde ao conjunto de programas, aplicativos e sistemas que permitem ao computador executar tarefas. 💻 Ele é responsável por controlar o funcionamento do hardware e possibilitar que o usuário utilize o computador para diversas atividades.
+</p>
+
+<h2>🤔 O que é Software?</h2>
+
+<p>
+Software é o conjunto de instruções e programas que dizem ao computador o que fazer. Diferente do hardware, que é a parte física da máquina, o software é a parte lógica responsável por executar tarefas e processar informações.
+</p>
+
+<h2>📚 Por que conhecer o Software?</h2>
+
+<ul>
+<li><span class="highlight">Uso eficiente do computador:</span> Conhecer os softwares permite utilizar melhor os recursos do computador no trabalho, estudo e lazer.</li>
+
+<li><span class="highlight">Produtividade:</span> Programas adequados ajudam a realizar tarefas de forma mais rápida e organizada.</li>
+
+<li><span class="highlight">Aproveitamento das ferramentas digitais:</span> Saber utilizar diferentes softwares amplia as possibilidades de criação, comunicação e aprendizado.</li>
+</ul>
+
+<h2>📋 Principais Tipos de Software</h2>
+
+<ul>
+<li><span class="highlight">Software de Sistema:</span> Responsável por gerenciar o funcionamento do computador e permitir a comunicação entre hardware e programas.</li>
+
+<li><span class="highlight">Software Aplicativo:</span> São os programas utilizados diretamente pelos usuários, como editores de texto, navegadores de internet e planilhas.</li>
+
+<li><span class="highlight">Software de Programação:</span> Conjunto de ferramentas utilizadas por desenvolvedores para criar novos programas e sistemas.</li>
+
+<li><span class="highlight">Utilitários:</span> Programas que auxiliam na manutenção e otimização do computador, como antivírus e ferramentas de limpeza do sistema.</li>
+</ul>
+
+<h2>🎓 Importância do Software</h2>
+
+<p>
+Sem o software, o hardware não teria utilidade prática, pois é ele que permite executar tarefas, acessar informações e utilizar diferentes aplicações no computador.
+</p>
+
+<h2>🌟 Conclusão</h2>
+
+<p>
+O software é essencial para o funcionamento dos computadores e dispositivos digitais. Ele permite que usuários realizem desde tarefas simples até atividades complexas, tornando a tecnologia parte fundamental do nosso dia a dia.
+</p>
+
+<a href="../simulados/simulado_software.html">
+<button id="start-button">
+🚀 Iniciar Simulado
+</button>
+</a>
+
+</body>
+</html>

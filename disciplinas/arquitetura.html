@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitetura de Computadores</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Arquitetura de Computadores</h1>
+
+<p>
+A arquitetura de computadores abrange o design e a organização dos componentes de hardware responsáveis pelo funcionamento de um sistema computacional. 💻 Ela define como processadores, memórias e dispositivos trabalham juntos para executar programas e processar dados de forma eficiente.
+</p>
+
+<h2>🧠 Modelo de Von Neumann</h2>
+
+<p>
+O <span class="highlight">modelo de Von Neumann</span> é uma das arquiteturas mais utilizadas nos computadores modernos. Nesse modelo, dados e instruções são armazenados na mesma memória e são processados sequencialmente pelo processador.
+</p>
+
+<ul>
+<li><span class="highlight">Memória:</span> armazena tanto os dados quanto as instruções dos programas.</li>
+
+<li><span class="highlight">CPU:</span> responsável por executar as instruções armazenadas na memória.</li>
+
+<li><span class="highlight">Entrada e Saída:</span> permitem a comunicação entre o computador e o usuário ou outros dispositivos.</li>
+</ul>
+
+<h2>📚 Hierarquia de Memória</h2>
+
+<p>
+A <span class="highlight">hierarquia de memória</span> organiza os diferentes tipos de memória de acordo com sua velocidade, custo e capacidade de armazenamento.
+</p>
+
+<ul>
+<li><span class="highlight">Memória Cache:</span> memória extremamente rápida localizada próxima ao processador, utilizada para armazenar dados frequentemente acessados.</li>
+
+<li><span class="highlight">Memória RAM:</span> memória principal utilizada para armazenar temporariamente programas e dados em execução.</li>
+
+<li><span class="highlight">HD ou SSD:</span> dispositivos de armazenamento secundário usados para guardar dados de forma permanente.</li>
+</ul>
+
+<h2>⚙️ Unidades de Processamento</h2>
+
+<p>
+A <span class="highlight">CPU (Unidade Central de Processamento)</span> é responsável por interpretar e executar as instruções dos programas. Dentro da CPU existem componentes essenciais para o processamento das informações.
+</p>
+
+<ul>
+<li><span class="highlight">ULA (Unidade Lógica e Aritmética):</span> realiza operações matemáticas e lógicas.</li>
+
+<li><span class="highlight">Registradores:</span> pequenas memórias internas muito rápidas utilizadas para armazenar dados temporários durante o processamento.</li>
+
+<li><span class="highlight">Unidade de Controle:</span> coordena o funcionamento da CPU e controla a execução das instruções.</li>
+</ul>
+
+<h2>📊 Conjuntos de Instruções</h2>
+
+<p>
+Os <span class="highlight">conjuntos de instruções</span> definem os comandos que o processador é capaz de executar. Existem dois modelos principais amplamente utilizados na arquitetura de computadores.
+</p>
+
+<ul>
+<li><span class="highlight">RISC (Reduced Instruction Set Computer):</span> utiliza um conjunto reduzido de instruções simples, permitindo maior velocidade de execução.</li>
+
+<li><span class="highlight">CISC (Complex Instruction Set Computer):</span> possui um conjunto mais complexo e amplo de instruções, capaz de realizar operações mais elaboradas em uma única instrução.</li>
+</ul>
+
+<h2>🎓 Importância da Arquitetura de Computadores</h2>
+
+<p>
+O estudo da arquitetura de computadores é fundamental para compreender como os sistemas funcionam internamente. Ele permite entender o desempenho do hardware, a eficiência do processamento e a forma como programas interagem com os componentes físicos do computador.
+</p>
+
+<h2>🌟 Conclusão</h2>
+
+<p>
+Compreender conceitos como modelo de Von Neumann, hierarquia de memória, unidades de processamento e conjuntos de instruções ajuda a entender a base do funcionamento dos computadores modernos, sendo essencial para estudantes e profissionais da área de tecnologia.
+</p>
+
+<a href="../simulados/simulado_arquitetura.html">
+<button id="start-button">
+🚀 Iniciar Simulado
+</button>
+</a>
+
+</body>
+</html>

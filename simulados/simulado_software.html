@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#4CAF50,#2E7D32);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#main-wrapper{
+width:95%;
+max-width:650px;
+}
+
+#quiz-container{
+background:#fff;
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:fadeIn .4s;
+}
+
+h2{
+margin-bottom:10px;
+color:#2E7D32;
+}
+
+#progress-text{
+margin-bottom:10px;
+font-size:14px;
+color:#555;
+}
+
+#progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#4CAF50;
+transition:.3s;
+}
+
+#question-container{
+font-weight:bold;
+margin-bottom:20px;
+}
+
+#options-container{
+display:grid;
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.option{
+width:100%;
+background:#4CAF50;
+color:#fff;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+font-size:16px;
+}
+
+.option:hover{
+background:#388E3C;
+transform:scale(1.02);
+}
+
+.option:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.correct{
+background:#2E7D32!important;
+}
+
+.wrong{
+background:#C62828!important;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+}
+
+#restart-btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+background:#2E7D32;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+display:none;
+}
+
+#restart-btn:hover{
+background:#1B5E20;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(min-width:600px){
+#options-container{
+grid-template-columns:1fr 1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+
+<div id="quiz-container">
+
+<h2>Software</h2>
+
+<div id="progress-text"></div>
+
+<div id="progress-bar">
+<div id="progress"></div>
+</div>
+
+<div id="question-container"></div>
+
+<div id="options-container"></div>
+
+<p id="result"></p>
+
+<button id="restart-btn">Refazer Simulado</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+    {
+    question: "O que é um software?",
+    options: ["Um dispositivo de hardware", "Um conjunto de instruções para o computador", "Um tipo de armazenamento de dados", "Uma interface gráfica"],
+    correctAnswer: 1
+  },
+  {
+    question: "Qual é a diferença entre software de código aberto e software proprietário?",
+    options: ["O preço de aquisição", "O acesso ao código-fonte", "A facilidade de uso", "A velocidade de processamento"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é um sistema operacional?",
+    options: ["Um programa antivírus", "Um software de edição de texto", "Um conjunto de instruções para o hardware", "Um software de design gráfico"],
+    correctAnswer: 2
+  },
+  {
+    question: "Qual é a função de um compilador no desenvolvimento de software?",
+    options: ["Executar programas", "Converter código-fonte em código de máquina", "Criar interfaces gráficas", "Detectar vírus no código"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que são linguagens de programação de alto nível?",
+    options: ["Linguagens difíceis de aprender", "Linguagens que se comunicam com hardware diretamente", "Linguagens mais próximas da linguagem humana", "Linguagens usadas apenas para jogos"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que significa UX em design de software?",
+    options: ["User Experience", "User Execution", "User Exception", "User Expansion"],
+    correctAnswer: 0
+  },
+  {
+    question: "O que é um banco de dados?",
+    options: ["Um dispositivo de armazenamento físico", "Um software de edição de imagens", "Um conjunto de dados organizados", "Uma forma de hardware de comunicação"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que são APIs (Interfaces de Programação de Aplicações) em software?",
+    options: ["Algoritmos complexos", "Módulos de software pré-instalados", "Conjuntos de instruções de hardware", "Conjuntos de regras para interação entre software"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é debugging em programação?",
+    options: ["Um tipo de linguagem de programação", "O processo de remover bugs de um programa", "Um método de programação rápida", "Um tipo de hardware especializado"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é a nuvem (cloud) no contexto de software?",
+    options: ["Um tipo de software antivírus", "Um tipo de sistema operacional", "Um modelo de distribuição de serviços pela internet", "Um tipo de armazenamento externo"],
+    correctAnswer: 2
+  },
+  {
+    question: "Qual é a diferença entre software e firmware?",
+    options: ["Software é armazenado em hardware, firmware em software", "Software é de código aberto, firmware é proprietário", "Software é facilmente modificável, firmware é difícil de modificar", "Software é temporário, firmware é permanente"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é um algoritmo em programação?",
+    options: ["Um tipo de hardware", "Um conjunto de instruções específicas", "Um método de resolução de problemas", "Um tipo de interface gráfica"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que significa IoT (Internet of Things) em software?",
+    options: ["Internet Offline Transfer", "Internet of Telecommunications", "Internet of Things", "Internet Over Time"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é versionamento de software?",
+    options: ["Um método de rastreamento de versões antigas de software", "Um tipo de software de edição de vídeo", "Um método de desenvolvimento de software", "Um processo de controle de mudanças em software"],
+    correctAnswer: 3
+  },
+  {
+    question: "O que é criptografia em software?",
+    options: ["Um método de compressão de dados", "Um tipo de linguagem de programação", "Um método de codificação de dados para segurança", "Um tipo de algoritmo de inteligência artificial"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que são frameworks em desenvolvimento de software?",
+    options: ["Um tipo de sistema operacional", "Um conjunto de bibliotecas e diretrizes para desenvolvimento", "Um tipo de software antivírus", "Um método de testar software"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é DevOps no contexto de desenvolvimento de software?",
+    options: ["Um tipo de linguagem de programação", "Um conjunto de práticas para integração de desenvolvimento e operações", "Um modelo de distribuição de software", "Um tipo de sistema operacional"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é Scrum em gerenciamento de projetos de software?",
+    options: ["Um tipo de software antivírus", "Um método de desenvolvimento ágil", "Um modelo de distribuição de serviços", "Um tipo de linguagem de programação"],
+    correctAnswer: 1
+  },
+  {
+    question: "O que é machine learning em software?",
+    options: ["Um tipo de software antivírus", "Um método de ensino de programação para máquinas", "Um ramo da inteligência artificial que permite que o software aprenda com dados", "Um tipo de sistema operacional"],
+    correctAnswer: 2
+  },
+  {
+    question: "O que é refatoração de código?",
+    options: ["Um método de compilação de código", "Um processo de otimização e reestruturação do código-fonte sem alterar seu comportamento externo", "Um tipo de linguagem de programação", "Um método de teste de software"],
+    correctAnswer: 1
+  }
+];
+
+let currentQuestion=0;
+let score=0;
+
+function loadQuestion(){
+
+const questionContainer=document.getElementById("question-container");
+const optionsContainer=document.getElementById("options-container");
+const progressText=document.getElementById("progress-text");
+const progress=document.getElementById("progress");
+
+progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
+
+progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
+
+questionContainer.textContent=questions[currentQuestion].question;
+
+optionsContainer.innerHTML="";
+
+questions[currentQuestion].options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.textContent=option;
+
+button.classList.add("option");
+
+button.dataset.index=index;
+
+button.onclick=selectOption;
+
+optionsContainer.appendChild(button);
+
+});
+
+}
+
+function selectOption(event){
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+const selected=parseInt(event.target.dataset.index);
+
+const correct=questions[currentQuestion].correctAnswer;
+
+let delay;
+
+if(selected===correct){
+
+event.target.classList.add("correct");
+
+document.getElementById("result").textContent="Correto!";
+
+score++;
+
+delay=1000;
+
+}else{
+
+event.target.classList.add("wrong");
+
+buttons[correct].classList.add("correct");
+
+document.getElementById("result").textContent=
+`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
+
+delay=2000;
+
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+
+document.getElementById("result").textContent="";
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},delay);
+
+}
+
+function showResult(){
+
+document.getElementById("progress").style.width="100%";
+
+document.getElementById("question-container").textContent="Resultado Final";
+
+document.getElementById("options-container").innerHTML="";
+
+document.getElementById("result").textContent=
+`Você acertou ${score} de ${questions.length} perguntas!`;
+
+document.getElementById("restart-btn").style.display="inline-block";
+
+}
+
+document.getElementById("restart-btn").onclick=function(){
+
+currentQuestion=0;
+
+score=0;
+
+this.style.display="none";
+
+loadQuestion();
+
+};
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

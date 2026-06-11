@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes de Computadores</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#4CAF50,#2E7D32);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#main-wrapper{
+width:95%;
+max-width:650px;
+}
+
+#quiz-container{
+background:#fff;
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:fadeIn .4s;
+}
+
+h2{
+margin-bottom:10px;
+color:#2E7D32;
+}
+
+#progress-text{
+margin-bottom:10px;
+font-size:14px;
+color:#555;
+}
+
+#progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#4CAF50;
+transition:.3s;
+}
+
+#question-container{
+font-weight:bold;
+margin-bottom:20px;
+}
+
+#options-container{
+display:grid;
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.option{
+width:100%;
+background:#4CAF50;
+color:#fff;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+font-size:16px;
+}
+
+.option:hover{
+background:#388E3C;
+transform:scale(1.02);
+}
+
+.option:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.correct{
+background:#2E7D32!important;
+}
+
+.wrong{
+background:#C62828!important;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+}
+
+#restart-btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+background:#2E7D32;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+display:none;
+}
+
+#restart-btn:hover{
+background:#1B5E20;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(min-width:600px){
+#options-container{
+grid-template-columns:1fr 1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+
+<div id="quiz-container">
+
+<h2>Redes de Computadores</h2>
+
+<div id="progress-text"></div>
+
+<div id="progress-bar">
+<div id="progress"></div>
+</div>
+
+<div id="question-container"></div>
+
+<div id="options-container"></div>
+
+<p id="result"></p>
+
+<button id="restart-btn">Refazer Simulado</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+  {
+    question: 'Qual é a função do protocolo TCP?',
+    options: ['Transferir arquivos', 'Enviar e-mails', 'Transferir dados de forma confiável', 'Navegar na web'],
+    correctAnswer: 2
+  },
+  {
+    question: 'O que significa o acrônimo "IP"?',
+    options: ['Internet Protocol', 'Internal Protocol', 'Intranet Port', 'Internet Port'],
+    correctAnswer: 0
+  },
+  {
+    question: 'Qual é o propósito do DNS em uma rede?',
+    options: ['Atribuir endereços IP', 'Traduzir nomes de domínio em endereços IP', 'Encaminhar pacotes de dados', 'Criptografar dados'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é um firewall?',
+    options: ['Software de antivírus', 'Dispositivo de hardware para bloquear tráfego não autorizado', 'Protocolo de comunicação', 'Software de gerenciamento de rede'],
+    correctAnswer: 1
+  },
+  {
+    question: 'Qual é a função do roteador em uma rede?',
+    options: ['Conectar dispositivos na mesma sub-rede', 'Encaminhar pacotes entre redes diferentes', 'Filtrar spam de e-mails', 'Gerenciar servidores de arquivos'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é um endereço MAC?',
+    options: ['Um endereço IP estático', 'Um identificador único para dispositivos de rede', 'Um protocolo de comunicação', 'Um tipo de firewall'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que significa a sigla "LAN"?',
+    options: ['Local Area Network', 'Long-range Area Network', 'Large Array Network', 'Low-latency Access Network'],
+    correctAnswer: 0
+  },
+  {
+    question: 'O que é um ataque de negação de serviço (DDoS)?',
+    options: ['Um ataque que tenta roubar informações confidenciais', 'Um ataque que sobrecarrega um sistema tornando-o inacessível', 'Um ataque de vírus de computador', 'Um ataque que tenta modificar dados em trânsito'],
+    correctAnswer: 1
+  },
+  {
+    question: 'Qual é a diferença entre IPv4 e IPv6?',
+    options: ['IPv4 usa endereços de 32 bits, enquanto IPv6 usa endereços de 128 bits', 'IPv4 é mais recente que IPv6', 'IPv4 é mais seguro que IPv6', 'IPv4 não suporta comunicação sem fio'],
+    correctAnswer: 0
+  },
+  {
+    question: 'O que é um proxy?',
+    options: ['Um tipo de firewall', 'Um servidor que encaminha solicitações entre o cliente e o servidor', 'Um protocolo de segurança', 'Um tipo de vírus de computador'],
+    correctAnswer: 1
+  },
+  {
+    question: 'Qual é a função do protocolo ICMP?',
+    options: ['Encaminhar pacotes entre redes', 'Verificar a disponibilidade de um host na rede', 'Criptografar comunicações', 'Atribuir endereços IP dinamicamente'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é NAT (Network Address Translation)?',
+    options: ['Um protocolo de segurança', 'Um tipo de endereço IP', 'Um método para mapear endereços IP privados para um único endereço IP público', 'Um tipo de cabo de rede'],
+    correctAnswer: 2
+  },
+  {
+    question: 'O que é um protocolo de roteamento?',
+    options: ['Um protocolo para transferir arquivos', 'Um conjunto de regras para comunicação segura', 'Um protocolo para encaminhar pacotes entre redes', 'Um protocolo de criptografia'],
+    correctAnswer: 2
+  },
+  {
+    question: 'O que é SSL/TLS?',
+    options: ['Um protocolo para transferência de arquivos', 'Um protocolo de segurança para comunicação na web', 'Um tipo de endereço IP', 'Um protocolo de firewall'],
+    correctAnswer: 1
+  },
+  {
+    question: 'Qual é a principal função de um switch em uma rede?',
+    options: ['Encaminhar pacotes entre redes', 'Conectar dispositivos na mesma sub-rede', 'Controlar o acesso à internet', 'Bloquear tráfego não autorizado'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é um ataque de phishing?',
+    options: ['Um ataque que tenta sobrecarregar um sistema', 'Um ataque que rouba informações confidenciais enganando o usuário', 'Um tipo de firewall', 'Um protocolo de criptografia'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é um endereço IP privado?',
+    options: ['Um endereço IP atribuído a um servidor web', 'Um endereço IP que não pode ser acessado pela internet', 'Um endereço IP atribuído a um dispositivo móvel', 'Um endereço IP estático'],
+    correctAnswer: 1
+  },
+  {
+    question: 'Qual é a diferença entre UDP e TCP?',
+    options: ['UDP é mais seguro que TCP', 'TCP é orientado à conexão, enquanto UDP é orientado à não conexão', 'UDP é usado apenas para transferência de arquivos', 'TCP não é adequado para redes de grande escala'],
+    correctAnswer: 1
+  },
+  {
+    question: 'O que é um VLAN?',
+    options: ['Um tipo de endereço IP', 'Um protocolo de segurança', 'Uma rede local virtual que segmenta uma rede física em redes lógicas', 'Um tipo de cabo de rede'],
+    correctAnswer: 2
+  },
+  {
+    question: 'O que é um gateway?',
+    options: ['Um dispositivo que conecta redes diferentes', 'Um tipo de protocolo de segurança', 'Um tipo de vírus de computador', 'Um protocolo de criptografia'],
+    correctAnswer: 0
+  }
+];
+
+let currentQuestion=0;
+let score=0;
+
+function loadQuestion(){
+
+const questionContainer=document.getElementById("question-container");
+const optionsContainer=document.getElementById("options-container");
+const progressText=document.getElementById("progress-text");
+const progress=document.getElementById("progress");
+
+progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
+
+progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
+
+questionContainer.textContent=questions[currentQuestion].question;
+
+optionsContainer.innerHTML="";
+
+questions[currentQuestion].options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.textContent=option;
+
+button.classList.add("option");
+
+button.dataset.index=index;
+
+button.onclick=selectOption;
+
+optionsContainer.appendChild(button);
+
+});
+
+}
+
+function selectOption(event){
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+const selected=parseInt(event.target.dataset.index);
+
+const correct=questions[currentQuestion].correctAnswer;
+
+let delay;
+
+if(selected===correct){
+
+event.target.classList.add("correct");
+
+document.getElementById("result").textContent="Correto!";
+
+score++;
+
+delay=1000;
+
+}else{
+
+event.target.classList.add("wrong");
+
+buttons[correct].classList.add("correct");
+
+document.getElementById("result").textContent=
+`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
+
+delay=2000;
+
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+
+document.getElementById("result").textContent="";
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+},delay);
+
+}
+
+function showResult(){
+
+document.getElementById("progress").style.width="100%";
+
+document.getElementById("question-container").textContent="Resultado Final";
+
+document.getElementById("options-container").innerHTML="";
+
+document.getElementById("result").textContent=
+`Você acertou ${score} de ${questions.length} perguntas!`;
+
+document.getElementById("restart-btn").style.display="inline-block";
+
+}
+
+document.getElementById("restart-btn").onclick=function(){
+
+currentQuestion=0;
+
+score=0;
+
+this.style.display="none";
+
+loadQuestion();
+
+};
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

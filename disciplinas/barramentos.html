@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barramentos de Computadores</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    scroll-behavior: smooth;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 25px;
+    margin: auto 0;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: 0.2s;
+}
+
+#app-container:active{
+    transform: scale(0.998);
+}
+
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    color: #2E7D32;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#start-button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+#start-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
+
+#start-button:active {
+    transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    #app-container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-container">
+
+<h1>Barramentos de Computadores</h1>
+
+<p>
+Os barramentos de computadores são responsáveis pela comunicação entre os diferentes componentes de um sistema computacional. 🔌 Eles permitem a troca de dados, instruções e sinais de controle entre o processador, a memória e os dispositivos de entrada e saída.
+</p>
+
+<h2>🤔 O que são Barramentos?</h2>
+
+<p>
+Barramentos são conjuntos de linhas de comunicação que conectam os principais componentes do computador. Por meio deles, informações podem ser transmitidas entre a CPU, a memória e outros dispositivos, garantindo o funcionamento integrado do sistema.
+</p>
+
+<h2>📚 Por que conhecer os Barramentos?</h2>
+
+<ul>
+<li><span class="highlight">Comunicação entre componentes:</span> Os barramentos permitem que diferentes partes do computador troquem informações.</li>
+
+<li><span class="highlight">Organização do sistema:</span> Eles estruturam a forma como os dados circulam dentro do computador.</li>
+
+<li><span class="highlight">Desempenho do hardware:</span> A velocidade e a capacidade dos barramentos influenciam diretamente no desempenho do sistema.</li>
+</ul>
+
+<h2>📋 Tipos de Barramentos</h2>
+
+<ul>
+<li><span class="highlight">Barramento de Dados:</span> Responsável por transportar os dados entre o processador, a memória e os dispositivos.</li>
+
+<li><span class="highlight">Barramento de Endereços:</span> Indica a posição de memória onde os dados devem ser lidos ou gravados.</li>
+
+<li><span class="highlight">Barramento de Controle:</span> Transporta sinais de controle que coordenam as operações entre os componentes do sistema.</li>
+</ul>
+
+<h2>🎓 Importância dos Barramentos</h2>
+
+<p>
+Os barramentos são fundamentais para o funcionamento do computador, pois garantem a comunicação eficiente entre todos os componentes do sistema. Sem eles, o processador não conseguiria acessar a memória nem interagir com os dispositivos conectados.
+</p>
+
+<h2>🌟 Conclusão</h2>
+
+<p>
+Os barramentos de computadores são essenciais para a troca de informações dentro do sistema. Eles permitem que os componentes trabalhem juntos de forma organizada, garantindo o funcionamento correto e eficiente do computador.
+</p>
+
+<a href="../simulados/simulado_barramentos.html">
+<button id="start-button">
+🚀 Iniciar Simulado
+</button>
+</a>
+
+</body>
+</html>

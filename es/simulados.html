@@ -106,8 +106,23 @@ line-height:1.3;
 .algoritmo{border-top:6px solid #198754;}
 .protocolo{border-top:6px solid #dc3545;}
 
+
+/* === MODOS DE ESTUDO === */
+.modos{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:26px;}
+@media(min-width:600px){.modos{grid-template-columns:1fr 1fr;}}
+.modo{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.12);transition:.2s;}
+.modo:active{transform:scale(0.97);}
+.modo .mi{font-size:34px;}
+.modo b{display:block;font-size:17px;margin-bottom:4px;}
+.modo small{font-size:13px;opacity:.92;line-height:1.3;}
+.modo-geral{background:linear-gradient(135deg,#1565C0,#0D47A1);}
+.modo-erros{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.modo-erros .cont{display:inline-block;margin-left:6px;background:rgba(255,255,255,.3);border-radius:20px;padding:1px 9px;font-size:13px;}
 </style>
 
+<script src="../js/estudo.js"></script>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
@@ -117,6 +132,17 @@ line-height:1.3;
 <div class="titulo-box">
 <span>📝</span>
 <h1>Elige el Simulacro</h1>
+</div>
+
+<div class="modos">
+<a href="simulados/simulado_geral.html" class="modo modo-geral">
+<span class="mi">🏆</span>
+<span><b>Simulacro General</b><small>Estilo examen: preguntas de todas las materias, con cronómetro</small></span>
+</a>
+<a href="simulados/revisao.html" class="modo modo-erros">
+<span class="mi">📌</span>
+<span><b>Repasar mis errores <span class="cont" id="cont-erros">0</span></b><small id="sub-erros">Rehaz solo las preguntas que fallaste</small></span>
+</a>
 </div>
 
 <div class="grid">
@@ -164,6 +190,15 @@ line-height:1.3;
 </div>
 
 </div>
+
+<script>
+if(window.Estudo){
+  Estudo.decorarListas();
+  var n=Estudo.erros().length;
+  document.getElementById("cont-erros").textContent=n;
+  if(!n) document.getElementById("sub-erros").textContent='Aún no hay errores guardados';
+}
+</script>
 
 </body>
 </html>

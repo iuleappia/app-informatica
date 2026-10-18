@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Software</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"What is software?",options:["A hardware device","A set of instructions for the computer","A type of data storage","A graphical interface"],correctAnswer:1},
-{question:"What is the difference between open-source and proprietary software?",options:["The purchase price","Access to the source code","Ease of use","Processing speed"],correctAnswer:1},
-{question:"What is an operating system?",options:["An antivirus program","A text editing software","A set of instructions for the hardware","A graphic design software"],correctAnswer:2},
-{question:"What is the function of a compiler in software development?",options:["Execute programs","Convert source code into machine code","Create graphical interfaces","Detect viruses in code"],correctAnswer:1},
-{question:"What are high-level programming languages?",options:["Languages that are hard to learn","Languages that communicate directly with hardware","Languages closer to human language","Languages used only for games"],correctAnswer:2},
-{question:"What does UX stand for in software design?",options:["User Experience","User Execution","User Exception","User Expansion"],correctAnswer:0},
-{question:"What is a database?",options:["A physical storage device","Image editing software","An organized collection of data","A form of communication hardware"],correctAnswer:2},
-{question:"What are APIs (Application Programming Interfaces)?",options:["Complex algorithms","Pre-installed software modules","Hardware instruction sets","Sets of rules for software interaction"],correctAnswer:3},
-{question:"What is debugging in programming?",options:["A type of programming language","The process of removing bugs from a program","A fast programming method","A type of specialized hardware"],correctAnswer:1},
-{question:"What is the cloud in the context of software?",options:["A type of antivirus software","A type of operating system","A model for delivering services over the internet","A type of external storage"],correctAnswer:2},
-{question:"What is the difference between software and firmware?",options:["Software is stored in hardware, firmware in software","Software is open-source, firmware is proprietary","Software is easily modifiable, firmware is hard to modify","Software is temporary, firmware is permanent"],correctAnswer:3},
-{question:"What is an algorithm in programming?",options:["A type of hardware","A specific set of instructions","A problem-solving method","A type of graphical interface"],correctAnswer:2},
-{question:"What does IoT (Internet of Things) mean?",options:["Internet Offline Transfer","Internet of Telecommunications","Internet of Things","Internet Over Time"],correctAnswer:2},
-{question:"What is software versioning?",options:["A method for tracking old software versions","A type of video editing software","A software development method","A process for controlling changes in software"],correctAnswer:3},
-{question:"What is cryptography in software?",options:["A data compression method","A type of programming language","A method of encoding data for security","A type of artificial intelligence algorithm"],correctAnswer:2},
-{question:"What are frameworks in software development?",options:["A type of operating system","A set of libraries and guidelines for development","A type of antivirus software","A method for testing software"],correctAnswer:1},
-{question:"What is DevOps in the context of software development?",options:["A type of programming language","A set of practices for integrating development and operations","A software distribution model","A type of operating system"],correctAnswer:1},
-{question:"What is Scrum in software project management?",options:["A type of antivirus software","An agile development method","A service distribution model","A type of programming language"],correctAnswer:1},
-{question:"What is machine learning in software?",options:["A type of antivirus software","A method of teaching programming to machines","A branch of AI that allows software to learn from data","A type of operating system"],correctAnswer:2},
-{question:"What is code refactoring?",options:["A code compilation method","A process of optimizing and restructuring source code without changing its external behavior","A type of programming language","A software testing method"],correctAnswer:1}
+  {
+    question: "What is software?",
+    options: ["A hardware device","A set of instructions for the computer","A type of data storage","A graphical interface"],
+    correctAnswer: 1,
+    explanation: "Software is the logical part of a computer: programs and instructions that tell the hardware what to do."
+  },
+  {
+    question: "What is the difference between open-source and proprietary software?",
+    options: ["The purchase price","Access to the source code","Ease of use","Processing speed"],
+    correctAnswer: 1,
+    explanation: "In open-source software (Linux, LibreOffice) the source code is public. In proprietary software (Windows, Office) it's closed."
+  },
+  {
+    question: "What is an operating system?",
+    options: ["An antivirus program","A text editing software","Software that manages the hardware and other programs","A graphic design software"],
+    correctAnswer: 2,
+    explanation: "The operating system is the core software that manages the hardware and is the base for other programs (Windows, Linux, Android)."
+  },
+  {
+    question: "What is the function of a compiler in software development?",
+    options: ["Execute programs","Convert source code into machine code","Create graphical interfaces","Detect viruses in code"],
+    correctAnswer: 1,
+    explanation: "A compiler translates all the source code into machine code (or an executable) before it runs. An interpreter translates line by line."
+  },
+  {
+    question: "What are high-level programming languages?",
+    options: ["Languages that are hard to learn","Languages that communicate directly with hardware","Languages closer to human language","Languages used only for games"],
+    correctAnswer: 2,
+    explanation: "High-level languages (Python, Java, C#) use commands close to human language, easier to read and write."
+  },
+  {
+    question: "What does UX stand for in software design?",
+    options: ["User Experience","User Execution","User Exception","User Expansion"],
+    correctAnswer: 0,
+    explanation: "UX = User Experience: how easy, pleasant and efficient the software is to use."
+  },
+  {
+    question: "What is a database?",
+    options: ["A physical storage device","Image editing software","An organized collection of data","A form of communication hardware"],
+    correctAnswer: 2,
+    explanation: "A database is an organized collection of data, usually managed by a DBMS (MySQL, Oracle, SQL Server)."
+  },
+  {
+    question: "What are APIs (Application Programming Interfaces)?",
+    options: ["Complex algorithms","Pre-installed software modules","Hardware instruction sets","Sets of rules for software interaction"],
+    correctAnswer: 3,
+    explanation: "APIs define how different programs communicate and exchange data."
+  },
+  {
+    question: "What is debugging in programming?",
+    options: ["A type of programming language","The process of removing bugs from a program","A fast programming method","A type of specialized hardware"],
+    correctAnswer: 1,
+    explanation: "Debugging means finding and fixing bugs (errors) in the code."
+  },
+  {
+    question: "What is the cloud in the context of software?",
+    options: ["A type of antivirus software","A type of operating system","A model for delivering services over the internet","A type of external storage"],
+    correctAnswer: 2,
+    explanation: "Cloud computing delivers servers, storage and software over the internet, on demand (e.g. Google Drive, AWS)."
+  },
+  {
+    question: "What is the difference between software and firmware?",
+    options: ["Software is stored in hardware, firmware in software","Software is open-source, firmware is proprietary","Software is easily modifiable, firmware is hard to modify","Software is temporary, firmware is permanent"],
+    correctAnswer: 2,
+    explanation: "Firmware is software stored in the hardware itself (BIOS, router) and is hard to change. Regular software is installed and modified easily."
+  },
+  {
+    question: "What is an algorithm in programming?",
+    options: ["A type of hardware","A specific set of instructions","A problem-solving method","A type of graphical interface"],
+    correctAnswer: 2,
+    explanation: "An algorithm is a method, a sequence of steps that solves a problem. A program is its implementation in a language."
+  },
+  {
+    question: "What does IoT (Internet of Things) mean?",
+    options: ["Internet Offline Transfer","Internet of Telecommunications","Internet of Things","Internet Over Time"],
+    correctAnswer: 2,
+    explanation: "IoT = Internet of Things: everyday objects connected to the internet, such as lamps, watches and sensors."
+  },
+  {
+    question: "What is software versioning?",
+    options: ["A method for tracking old software versions","A type of video editing software","A software development method","A process for controlling changes in software"],
+    correctAnswer: 3,
+    explanation: "Version control (e.g. Git) records software changes over time and lets you go back to earlier versions."
+  },
+  {
+    question: "What is cryptography in software?",
+    options: ["A data compression method","A type of programming language","A method of encoding data for security","A type of artificial intelligence algorithm"],
+    correctAnswer: 2,
+    explanation: "Encryption encodes data so only someone with the key can read it, protecting passwords, messages and transactions."
+  },
+  {
+    question: "What are frameworks in software development?",
+    options: ["A type of operating system","A set of libraries and guidelines for development","A type of antivirus software","A method for testing software"],
+    correctAnswer: 1,
+    explanation: "A framework is a ready-made base of libraries and patterns that speeds up development (e.g. React, Django, Laravel)."
+  },
+  {
+    question: "What is DevOps in the context of software development?",
+    options: ["A type of programming language","A set of practices for integrating development and operations","A software distribution model","A type of operating system"],
+    correctAnswer: 1,
+    explanation: "DevOps brings development and operations teams together with automation and continuous delivery."
+  },
+  {
+    question: "What is Scrum in software project management?",
+    options: ["A type of antivirus software","An agile development method","A service distribution model","A type of programming language"],
+    correctAnswer: 1,
+    explanation: "Scrum is an agile framework: work is split into short sprints, with roles (Product Owner, Scrum Master, team) and regular meetings."
+  },
+  {
+    question: "What is machine learning in software?",
+    options: ["A type of antivirus software","A method of teaching programming to machines","A branch of AI that allows software to learn from data","A type of operating system"],
+    correctAnswer: 2,
+    explanation: "Machine learning is a branch of AI where the system learns patterns from data instead of being programmed rule by rule."
+  },
+  {
+    question: "What is code refactoring?",
+    options: ["A code compilation method","A process of optimizing and restructuring source code without changing its external behavior","A type of programming language","A software testing method"],
+    correctAnswer: 1,
+    explanation: "Refactoring improves the code's internal structure (readability, organization) without changing what it does for the user."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

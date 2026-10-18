@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repasar mis errores</title>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
+<script src="../../js/estudo.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;}
+#main-wrapper{width:95%;max-width:680px;margin:auto;padding:16px 0;}
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.caixa{background:#fff;padding:24px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h1,h2{color:#2E7D32;margin-bottom:10px;}
+h1{font-size:22px;}
+.sub{color:#555;font-size:15px;line-height:1.5;margin-bottom:18px;}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;color:#fff;background:#2E7D32;margin-top:10px;text-decoration:none;text-align:center;}
+.btn:active{transform:scale(0.98);}
+.btn.azul{background:#1565C0;}
+.btn.laranja{background:#f59e0b;}
+.btn.cinza{background:#78909c;}
+.btn.linha{background:#fff;color:#C62828;border:2px solid #C62828;}
+.topo-prova{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#555;margin-bottom:10px;}
+.timer{font-weight:bold;color:#1565C0;font-size:16px;}
+.timer.alerta{color:#C62828;}
+.barra{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:16px;}
+.barra div{height:100%;width:0;background:#4CAF50;transition:.3s;}
+.tag{display:inline-block;font-size:12px;color:#2E7D32;background:#e8f5e9;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.pergunta{font-weight:bold;margin-bottom:16px;line-height:1.4;}
+.opcoes{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;font-size:16px;transition:.2s;}
+.option.sel{background:#1565C0;box-shadow:0 0 0 3px #90caf9;}
+.option:disabled{cursor:default;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct{background:#2E7D32!important;}
+.option.wrong{background:#C62828!important;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+.nav{display:flex;gap:10px;margin-top:14px;}
+.nav .btn{margin-top:0;}
+.mapa{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;}
+.mapa button{width:34px;height:34px;border-radius:8px;border:1px solid #cfd8dc;background:#fff;font-size:13px;cursor:pointer;}
+.mapa button.resp{background:#c8e6c9;border-color:#81c784;}
+.mapa button.atual{outline:3px solid #1565C0;}
+.aviso{color:#C62828;font-size:14px;margin-top:8px;min-height:18px;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+.fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+.fb-texto{color:#444;}
+.nota{font-size:20px;font-weight:bold;margin:8px 0;}
+.msg{color:#444;margin-bottom:6px;}
+.mini{color:#777;font-size:13px;}
+.secao{text-align:left;margin-top:22px;}
+.secao h3{color:#2E7D32;font-size:16px;margin-bottom:10px;}
+.linha-mat{margin-bottom:10px;font-size:14px;}
+.linha-mat .rot{display:flex;justify-content:space-between;margin-bottom:4px;}
+.linha-mat .trilho{height:8px;background:#eee;border-radius:10px;overflow:hidden;}
+.linha-mat .trilho div{height:100%;border-radius:10px;}
+.item-erro{border:1px solid #eee;border-left:5px solid #C62828;border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;line-height:1.45;}
+.item-erro .pq{font-weight:bold;margin-bottom:6px;}
+.item-erro .sua{color:#C62828;}
+.item-erro .certa{color:#2E7D32;font-weight:bold;}
+.item-erro .exp{color:#555;margin-top:6px;}
+@media(min-width:600px){.opcoes{grid-template-columns:1fr 1fr;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Volver</a>
+
+<div class="caixa" id="app">
+
+</div>
+
+</div>
+
+<script>
+
+/* ===== Revisar meus erros ===== */
+const T = Object.assign({"rTitle":"Repasar mis errores","rSub":"Rehaz las preguntas que fallaste. ¿Acertaste? Sale de la lista.","rVazio":"🎉 ¡No hay errores guardados! Haz un simulacro y las preguntas que falles aparecerán aquí.","rIrSim":"Ir a los simulacros","rNaLista":"preguntas en tu lista","rComecar":"Comenzar repaso","rLimpar":"Vaciar lista","rLimparConf":"Toca de nuevo para confirmar","rSaiu":"✅ ¡Correcto! Esta pregunta salió de tu lista.","rFica":"❌ Todavía no. Respuesta correcta:","rDeNovo":"Repasar otra vez","q":"Pregunta","of":"de","next":"Siguiente ▶","finish":"Ver resultado 🏁","disciplina":"Materia"}, {
+  rFim: (a, n, z) => `Acertaste ${a} de ${n}. ${z ? `Aún quedan ${z} preguntas en tu lista.` : '¡Tu lista de errores está vacía! 🎉'}`
+});
+const app = document.getElementById("app");
+const NOMES = {}; Estudo.DISC.forEach(d => NOMES[d.slug] = d.icon + " " + d.nome[Estudo.LANG]);
+let fila = [], atual = 0, acertos = 0;
+
+function el(tag, cls, txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+
+function inicio(){
+  const lista = Estudo.erros();
+  app.innerHTML = "";
+  app.append(el("h1", null, "📌 " + T.rTitle));
+  if(!lista.length){
+    app.append(el("p","sub",T.rVazio));
+    const a = el("a","btn",T.rIrSim); a.href = "../simulados.html"; app.append(a);
+    return;
+  }
+  app.append(el("p","sub",T.rSub));
+  app.append(el("p","nota", lista.length + " " + T.rNaLista));
+  const b = el("button","btn azul",T.rComecar); b.onclick = comecar; app.append(b);
+  const lim = el("button","btn linha",T.rLimpar);
+  let conf = false;
+  lim.onclick = () => { if(!conf){ conf=true; lim.textContent=T.rLimparConf; return; } Estudo.limparErros(); inicio(); };
+  app.append(lim);
+}
+
+function comecar(){
+  fila = Estudo.embaralhar(Estudo.erros().map(Estudo.embaralharAlternativas));
+  atual = 0; acertos = 0;
+  mostrar();
+}
+
+function mostrar(){
+  const q = fila[atual];
+  app.innerHTML = "";
+  app.append(el("div","topo-prova", T.q + " " + (atual+1) + " " + T.of + " " + fila.length));
+  const barra = el("div","barra"); const bi = el("div"); bi.style.width = (atual/fila.length*100)+"%"; barra.append(bi); app.append(barra);
+  if(NOMES[q.disciplina]) app.append(el("span","tag",NOMES[q.disciplina]));
+  app.append(el("div","pergunta",q.question));
+  const ops = el("div","opcoes");
+  q.options.forEach((o,i) => { const b = el("button","option",o); b.onclick = () => responder(i); ops.append(b); });
+  app.append(ops);
+  const fb = el("div"); fb.id = "feedback"; app.append(fb);
+}
+
+function responder(i){
+  const q = fila[atual];
+  const bts = app.querySelectorAll(".option");
+  bts.forEach(b => b.disabled = true);
+  const ok = i === q.correctAnswer;
+  Estudo.registrarResposta(q, ok, q.disciplina);
+  bts[q.correctAnswer].classList.add("correct");
+  if(!ok) bts[i].classList.add("wrong"); else acertos++;
+  const fb = document.getElementById("feedback");
+  fb.className = ok ? "ok" : "erro";
+  fb.append(el("div","fb-titulo", ok ? T.rSaiu : T.rFica + " " + q.options[q.correctAnswer]));
+  fb.append(el("div","fb-texto", q.explanation));
+  const nx = el("button","btn azul", atual+1 < fila.length ? T.next : T.finish);
+  nx.onclick = () => { atual++; if(atual < fila.length){ mostrar(); window.scrollTo({top:0,behavior:"smooth"}); } else fim(); };
+  app.append(nx);
+  nx.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function fim(){
+  const resta = Estudo.erros().length;
+  app.innerHTML = "";
+  app.append(el("h1", null, "📌 " + T.rTitle));
+  app.append(el("p","nota", T.rFim(acertos, fila.length, resta)));
+  if(resta){ const b = el("button","btn azul",T.rDeNovo); b.onclick = comecar; app.append(b); }
+  const a = el("a","btn cinza",T.rIrSim); a.href = "../simulados.html"; app.append(a);
+  Estudo.oferta(app, fila.length ? acertos / fila.length : 0);
+  Estudo.evento("revisao_concluida", { acertos: acertos, total: fila.length, restantes: resta });
+}
+
+inicio();
+
+</script>
+
+</body>
+</html>

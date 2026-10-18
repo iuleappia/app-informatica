@@ -192,19 +192,25 @@ grid-template-columns:1fr;
 }
 }
 
+
+/* toque confortável no celular */
+.footer a{display:block;padding:8px 0;margin-bottom:0;}
 </style>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div class="container">
+<div class="versoes-ebook"></div>
 <div class="cards-destaque">
 
 <!-- CARD 1 -->
 <div class="card-produto">
 <div class="imagem-produto">
 <span class="badge">🔥 Best Seller</span>
-<img src="../img/excel.jpg">
+<img loading="lazy" src="../img/excel.webp">
 </div>
 <div class="conteudo-produto">
 <h3>Excel Bible</h3>
@@ -222,7 +228,7 @@ grid-template-columns:1fr;
 <div class="card-produto">
 <div class="imagem-produto">
 <span class="badge">💡 Featured</span>
-<img src="../img/power.jpg">
+<img loading="lazy" src="../img/power.webp">
 </div>
 <div class="conteudo-produto">
 <h3>Power BI</h3>
@@ -239,7 +245,7 @@ grid-template-columns:1fr;
 <div class="card-produto">
 <div class="imagem-produto">
 <span class="badge">🚀 Popular</span>
-<img src="../img/vba.jpg">
+<img loading="lazy" src="../img/vba.webp">
 </div>
 <div class="conteudo-produto">
 <h3>VBA Prodigy</h3>
@@ -282,6 +288,8 @@ grid-template-columns:1fr;
 © 2026 IuleApp - All rights reserved
 </div>
 </footer>
+
+<script src="../js/versoes.js"></script>
 
 </body>
 </html>

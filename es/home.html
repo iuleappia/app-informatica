@@ -237,7 +237,23 @@ transform:translateY(0);
 }
 }
 
+
+/* === PROGRESSO E CONTEÚDO DO DIA === */
+.progresso{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;margin-bottom:18px;}
+.progresso h3{font-size:17px;margin-bottom:12px;}
+.prog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:700px){.prog-grid{grid-template-columns:repeat(4,1fr);}}
+.prog-item{background:#f4f6f8;border-radius:10px;padding:10px 12px;text-decoration:none;color:inherit;display:block;}
+.prog-item b{display:block;font-size:22px;color:#0891b2;}
+.prog-item span{font-size:12px;color:#555;}
+.prog-item.erros b{color:#d97706;}
+.prog-barra{height:8px;background:#e9ecef;border-radius:10px;overflow:hidden;margin-top:14px;}
+.prog-barra div{height:100%;width:0;background:linear-gradient(90deg,#00B8D4,#16213E);border-radius:10px;transition:width .6s;}
+.outra{margin-top:4px;background:none;border:none;color:#0891b2;font-size:14px;font-weight:bold;cursor:pointer;padding:10px 12px 10px 0;min-height:40px;}
+.bloco p a{color:#0891b2;font-weight:bold;text-decoration:none;}
 </style>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
@@ -248,6 +264,18 @@ Bienvenido a la App de Informática
 
 <div class="texto">
 Usa el menú inferior para acceder a materias, simulacros, Excel y cursos.
+</div>
+
+<!-- PROGRESSO -->
+<div class="progresso">
+<h3>📈 Tu progreso</h3>
+<div class="prog-grid">
+<div class="prog-item"><b id="p-lidas">0/8</b><span>materias leídas</span></div>
+<div class="prog-item"><b id="p-sims">0/8</b><span>simulacros hechos</span></div>
+<div class="prog-item"><b id="p-media">–</b><span>promedio de notas</span></div>
+<a class="prog-item erros" href="simulados/revisao.html"><b id="p-erros">0</b><span>errores por repasar</span></a>
+</div>
+<div class="prog-barra"><div id="p-barra"></div></div>
 </div>
 
 <div class="grid">
@@ -283,7 +311,7 @@ Usa el menú inferior para acceder a materias, simulacros, Excel y cursos.
 
 <div class="imagem-produto">
 <span class="badge">🔥 Más vendido</span>
-<img src="../img/excel.jpg">
+<img loading="lazy" src="../img/excel.webp">
 </div>
 
 <div class="conteudo-produto">
@@ -309,95 +337,174 @@ Guía completa con funciones y recursos avanzados.
 </div>
 </div>
 
-<!-- CARD 2 -->
-<div class="card-produto">
-
-<div class="imagem-produto">
-<span class="badge">🔥 Hotmart</span>
-<img src="../img/capa.jpg">
 </div>
 
-<div class="conteudo-produto">
-<h3>📚 Ebook de Informática Completo</h3>
+<!-- VERSIONES DEL EBOOK (sitio nuevo) -->
+<div class="versoes-ebook"></div>
 
-<p class="desc">
-De lo básico a lo avanzado para el estudio y el mercado laboral.
-</p>
-
-<div class="avaliacao">
-⭐⭐⭐⭐⭐ <span>4.8</span>
-</div>
-
-<div class="leitores">
-👥 3.412 alumnos
-</div>
-
-<div style="display:flex; gap:10px;">
-<a href="https://pay.hotmart.com/H105774995T?checkoutMode=10" target="_blank" class="btn-comprar" style="flex:1;">Obtener acceso</a>
-</div>
-
-</div>
-</div>
-
-</div>
-
+<script src="../js/versoes.js"></script>
+<script src="../js/estudo.js"></script>
 <script>
-
-/* CONSEJOS */
-const dicas=[
+/* ===== Conteúdo do dia + progresso =====
+   Dica, função e curiosidade mudam a cada dia (e no botão "Outra").
+   A sugestão de estudo usa o progresso salvo no aparelho. */
+const dicas = [
 "Ctrl + C copia y Ctrl + V pega.",
-"Ctrl + Z deshace la última acción.",
-"Alt + Tab cambia entre programas abiertos.",
-"Ctrl + S guarda rápidamente un archivo.",
-"F5 actualiza páginas en el navegador."
+"Ctrl + Z deshace la última acción y Ctrl + Y la rehace.",
+"Alt + Tab cambia entre los programas abiertos.",
+"Ctrl + S guarda el archivo al instante (en Office en español también funciona Ctrl + G).",
+"F5 actualiza la página en el navegador.",
+"Win + D muestra el escritorio (minimiza todo).",
+"Win + E abre el Explorador de archivos.",
+"Win + L bloquea la computadora cuando te levantas.",
+"Win + V abre el historial del portapapeles (actívalo en la configuración).",
+"Win + Shift + S captura una parte de la pantalla.",
+"Ctrl + Shift + Esc abre el Administrador de tareas directamente.",
+"F2 cambia el nombre del archivo o carpeta seleccionado.",
+"Ctrl + F busca una palabra en la página o documento.",
+"Ctrl + T abre una pestaña nueva en el navegador y Ctrl + W cierra la actual.",
+"Ctrl + Shift + T reabre la última pestaña cerrada.",
+"Ctrl + A selecciona todo (en Office en español: Ctrl + E).",
+"Ctrl + X corta: el elemento sale de su lugar y va al portapapeles.",
+"Shift + Supr elimina el archivo sin pasar por la Papelera. ¡Cuidado!",
+"Alt + F4 cierra la ventana activa.",
+"Ctrl + rueda del mouse aumenta o reduce el zoom.",
+"Win + flecha izquierda/derecha ajusta la ventana a la mitad de la pantalla.",
+"Ctrl + P abre la ventana de impresión.",
+"Ctrl + N abre una ventana o documento nuevo.",
+"En Word en español, Ctrl + N pone negrita y Ctrl + K cursiva.",
+"En Word, Shift + F3 alterna entre mayúsculas y minúsculas.",
+"Ctrl + Inicio va al principio del documento; Ctrl + Fin, al final.",
+"Win + . (punto) abre el panel de emojis en Windows.",
+"Win + I abre la Configuración de Windows.",
+"Ctrl + clic en un enlace lo abre en otra pestaña sin salir de la página.",
+"Shift + clic selecciona varios archivos seguidos; Ctrl + clic, archivos sueltos.",
+"Usa contraseñas largas (frases) y activa la verificación en dos pasos.",
+"Desconfía de enlaces que piden tu contraseña por correo o SMS: puede ser phishing."
 ];
-
-/* EXCEL */
-const excel=[
+const excel = [
 "SUMA() → suma valores. Ej: =SUMA(A1:A10)",
-"PROMEDIO() → calcula el promedio. Ej: =PROMEDIO(A1:A10)",
-"SI() → crea una condición lógica.",
-"CONTARA() → cuenta celdas con contenido.",
-"BUSCARV() → busca valores en tablas."
+"PROMEDIO() → calcula el promedio. Ej: =PROMEDIO(B2:B20)",
+"SI() → evalúa una condición. Ej: =SI(A1>=7;\"Aprobado\";\"Reprobado\")",
+"BUSCARV() → busca un valor en la 1.ª columna y trae otra. Ej: =BUSCARV(A2;Tabla;2;0)",
+"BUSCARX() → búsqueda moderna, en cualquier dirección. Ej: =BUSCARX(A2;C:C;D:D)",
+"CONTAR.SI() → cuenta celdas que cumplen un criterio. Ej: =CONTAR.SI(A:A;\"MX\")",
+"SUMAR.SI() → suma con una condición. Ej: =SUMAR.SI(A:A;\"MX\";B:B)",
+"SUMAR.SI.CONJUNTO() → suma con varias condiciones.",
+"CONTARA() → cuenta celdas con contenido. Ej: =CONTARA(A1:A100)",
+"CONTAR() → cuenta solo celdas con números.",
+"MAX() y MIN() → mayor y menor valor de un rango.",
+"REDONDEAR() → redondea. Ej: =REDONDEAR(A1;2) deja 2 decimales.",
+"SI.ERROR() → reemplaza errores por otro valor. Ej: =SI.ERROR(BUSCARV(...);\"No encontrado\")",
+"HOY() → fecha de hoy. AHORA() → fecha y hora.",
+"DIAS() → días entre dos fechas. Ej: =DIAS(B1;A1)",
+"CONCAT() → une textos. Ej: =CONCAT(A1;\" \";B1)",
+"IZQUIERDA() → toma caracteres del inicio. Ej: =IZQUIERDA(A1;3)",
+"DERECHA() → toma caracteres del final. Ej: =DERECHA(A1;4)",
+"EXTRAE() → toma un fragmento del medio. Ej: =EXTRAE(A1;2;5)",
+"ESPACIOS() → quita los espacios sobrantes del texto.",
+"LARGO() → cuenta cuántos caracteres tiene el texto.",
+"MAYUSC() y MINUSC() → pasan el texto a mayúsculas o minúsculas.",
+"Y() → verdadero si TODAS las condiciones son verdaderas.",
+"O() → verdadero si AL MENOS UNA condición es verdadera.",
+"INDICE() + COINCIDIR() → la dupla clásica para búsquedas flexibles.",
+"FILTRAR() → devuelve solo las filas que cumplen la condición.",
+"UNICOS() → lista valores sin repetir. Ej: =UNICOS(A2:A100)",
+"ORDENAR() → ordena un rango con fórmula.",
+"TEXTO() → da formato a números o fechas. Ej: =TEXTO(A1;\"dd/mm/aaaa\")",
+"Atajo: Ctrl + ; inserta la fecha de hoy en la celda.",
+"Atajo: F4 fija la referencia con $ (ej.: $A$1) al editar la fórmula.",
+"Atajo: Ctrl + T convierte el rango en Tabla, con filtros y formato."
 ];
-
-/* MATERIAS */
-const disciplinas=[
-"💻 Introducción a la Informática",
-"🖥 Hardware",
-"⚙️ Software",
-"🌐 Redes de Computadoras",
-"🧠 Arquitectura de Computadoras",
-"🔌 Buses de Datos",
-"📊 Algoritmos y Programación",
-"📡 Protocolo de Red"
-];
-
-/* CURIOSIDADES */
-const curiosidades=[
+const curiosidades = [
 "Un byte está formado por 8 bits.",
-"La primera computadora electrónica fue creada en 1946.",
-"Windows es el sistema operativo más usado del mundo.",
-"Internet comenzó como un proyecto militar en EE. UU.",
-"El primer mouse fue creado en 1964."
+"La ENIAC, presentada en 1946, pesaba unas 30 toneladas.",
+"Internet comenzó como ARPANET, un proyecto ligado al Departamento de Defensa de EE. UU.",
+"El primer mouse, creado por Douglas Engelbart en los años 60, era de madera.",
+"El término \"bug\" se hizo famoso cuando se encontró una polilla dentro de una computadora en 1947.",
+"El primer correo electrónico lo envió Ray Tomlinson en 1971, quien eligió la @ para separar usuario y máquina.",
+"El primer sitio web de la historia, creado por Tim Berners-Lee, sigue en línea en el CERN.",
+"Wi-Fi no significa \"Wireless Fidelity\": el nombre lo creó una agencia de marketing.",
+"1 KB tiene 1.024 bytes en el sistema binario, no 1.000.",
+"El teclado QWERTY se pensó para las máquinas de escribir del siglo XIX.",
+"Linux fue creado por Linus Torvalds en 1991, cuando era estudiante.",
+"Android está basado en el núcleo (kernel) de Linux.",
+"La primera versión de Windows salió en 1985.",
+"Excel llegó primero a Macintosh, en 1985, y después a Windows.",
+"El código binario usa solo dos dígitos: 0 y 1.",
+"El primer disco duro comercial, de IBM (1956), guardaba unos 5 MB y ocupaba lo que dos armarios.",
+"El símbolo de Bluetooth une las iniciales rúnicas del rey vikingo Harald Bluetooth.",
+"El CAPTCHA sirve para demostrar que eres humano y no un robot.",
+"Las cookies son pequeños archivos que los sitios guardan en el navegador para recordarte.",
+"La Ley de Moore preveía que el número de transistores en los chips se duplicaría cada dos años.",
+"Google se llamaba BackRub al principio.",
+"El primer virus conocido para PC, Brain, se creó en 1986.",
+"\"Píxel\" viene de \"picture element\", el punto más pequeño de una imagen digital.",
+"Un procesador moderno tiene miles de millones de transistores.",
+"El código QR se creó en 1994 en Japón para rastrear piezas de automóviles.",
+"El primer celular comercial, el Motorola DynaTAC (1983), pesaba casi 1 kg.",
+"Ctrl + Alt + Supr fue creado por un ingeniero de IBM para reiniciar la computadora.",
+"Los emojis nacieron en Japón a fines de los años 90.",
+"IPv6 tiene direcciones suficientes para dar billones de IP a cada persona del planeta.",
+"La nube es, en la práctica, la computadora de otra empresa en un centro de datos.",
+"El primer dominio .com registrado fue symbolics.com, en 1985.",
+"Contraseñas débiles como \"123456\" siguen entre las más usadas del mundo."
 ];
+const TXT = {"prog": "📈 Tu progreso", "lidas": "materias leídas", "sims": "simulacros hechos", "media": "promedio de notas", "erros": "errores por repasar", "outra": "↻ Otra", "comece": "📖 Empieza por:", "reforce": "🎯 Refuerza:", "parabens": "🏆 ¡Leíste todo y te fue bien en todos los simulacros! Haz el Simulacro General:", "geral": "Simulacro General", "nota": "nota", "vazio": "Empieza leyendo una materia y haciendo su simulacro."};
+const PRE = "";
 
-function aleatorio(lista){
-return lista[Math.floor(Math.random()*lista.length)];
-}
+const diaDoAno = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+const pos = { dica: diaDoAno, excel: diaDoAno + 7, curiosidade: diaDoAno + 13 };
+const listas = { dica: dicas, excel: excel, curiosidade: curiosidades };
 
-document.getElementById("dica").innerHTML=aleatorio(dicas);
-document.getElementById("excel").innerHTML=aleatorio(excel);
-document.getElementById("curiosidade").innerHTML=aleatorio(curiosidades);
+function mostrar(id){ const l = listas[id]; document.getElementById(id).textContent = l[((pos[id] % l.length) + l.length) % l.length]; }
+["dica","excel","curiosidade"].forEach(id => {
+  mostrar(id);
+  const p = document.getElementById(id);
+  const b = document.createElement("button");
+  b.className = "outra"; b.textContent = TXT.outra;
+  b.onclick = () => { pos[id]++; mostrar(id); };
+  p.after(b);
+});
 
-let copia=[...disciplinas];
-copia.sort(()=>Math.random()-0.5);
+/* progresso */
+(function(){
+  const est = document.getElementById("estudo");
+  if(!window.Estudo){ est.textContent = TXT.vazio; return; }
+  const nome = d => d.icon + " " + d.nome[Estudo.LANG];
+  let lidas = 0, feitos = 0, soma = 0;
+  const naoLidas = [], notas = [];
+  Estudo.DISC.forEach(d => {
+    const pd = Estudo.abs(PRE + "disciplinas/" + d.slug + ".html");
+    const ps = Estudo.abs(PRE + "simulados/simulado_" + d.slug + ".html");
+    if(Estudo.foiLida(pd)) lidas++; else naoLidas.push(d);
+    const n = Estudo.nota(ps);
+    if(n && n.total){ feitos++; soma += n.melhor / n.total; notas.push({ d: d, p: n.melhor / n.total, n: n }); }
+  });
+  const total = Estudo.DISC.length;
+  const nErros = Estudo.erros().length;
+  document.getElementById("p-lidas").textContent = lidas + "/" + total;
+  document.getElementById("p-sims").textContent = feitos + "/" + total;
+  document.getElementById("p-media").textContent = feitos ? Math.round(soma / feitos * 100) + "%" : "–";
+  document.getElementById("p-erros").textContent = nErros;
+  document.getElementById("p-barra").style.width = ((lidas + feitos) / (total * 2) * 100) + "%";
 
-let escolhidas=copia.slice(0,2);
-
-document.getElementById("estudo").innerHTML=
-escolhidas[0]+"<br>"+escolhidas[1];
-
+  /* sugestão de estudo: 1) disciplinas não lidas 2) simulados com nota mais baixa */
+  est.innerHTML = "";
+  function linha(rotulo, texto, href){
+    const div = document.createElement("div"); div.style.marginBottom = "6px";
+    div.append(rotulo + " ");
+    const a = document.createElement("a"); a.href = href; a.textContent = texto; div.append(a);
+    est.append(div);
+  }
+  const fracos = notas.filter(x => x.p < 0.8).sort((a, b) => a.p - b.p);
+  const naoFeitos = Estudo.DISC.filter(d => !notas.some(x => x.d === d) && naoLidas.indexOf(d) < 0);
+  let sug = 0;
+  naoLidas.slice(0, 2).forEach(d => { linha(TXT.comece, nome(d), PRE + "disciplinas/" + d.slug + ".html"); sug++; });
+  naoFeitos.slice(0, 2 - sug).forEach(d => { linha(TXT.reforce, nome(d), PRE + "simulados/simulado_" + d.slug + ".html"); sug++; });
+  fracos.slice(0, 2 - sug).forEach(x => { linha(TXT.reforce, nome(x.d) + " (" + TXT.nota + " " + x.n.melhor + "/" + x.n.total + ")", PRE + "simulados/simulado_" + x.d.slug + ".html"); sug++; });
+  if(!sug) linha(TXT.parabens, TXT.geral, PRE + "simulados/simulado_geral.html");
+})();
 </script>
 
 

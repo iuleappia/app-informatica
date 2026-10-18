@@ -136,12 +136,41 @@ grid-template-columns:1fr 1fr;
 }
 }
 
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../js/estudo.js"></script>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div id="main-wrapper">
+
+<a href="../page/simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Voltar</a>
+
 
 <div id="quiz-container">
 
@@ -157,6 +186,10 @@ grid-template-columns:1fr 1fr;
 
 <div id="options-container"></div>
 
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
+
 <p id="result"></p>
 
 <button id="restart-btn">Refazer Simulado</button>
@@ -168,226 +201,225 @@ grid-template-columns:1fr 1fr;
 <script>
 
 const questions = [
-{
-question: "Qual componente é responsável por executar instruções e realizar o processamento principal do computador?",
-options: ["a) Memória RAM", "b) Processador (CPU)", "c) Disco rígido", "d) Placa de rede"],
-correctAnswer: 1
-},
-{
-question: "Qual é a função principal da memória RAM em um computador?",
-options: ["a) Armazenar dados permanentemente", "b) Executar cálculos matemáticos", "c) Armazenar temporariamente dados e programas em execução", "d) Conectar dispositivos externos"],
-correctAnswer: 2
-},
-{
-question: "Qual dispositivo é responsável pelo armazenamento permanente de arquivos e programas?",
-options: ["a) Memória cache", "b) Registradores", "c) HD ou SSD", "d) BIOS"],
-correctAnswer: 2
-},
-{
-question: "Qual é a principal função da placa-mãe em um computador?",
-options: ["a) Processar gráficos", "b) Conectar e permitir comunicação entre os componentes", "c) Armazenar o sistema operacional", "d) Controlar a internet"],
-correctAnswer: 1
-},
-{
-question: "Qual componente é responsável pelo processamento de gráficos e imagens em um computador?",
-options: ["a) GPU ou placa de vídeo", "b) Memória RAM", "c) Chipset", "d) BIOS"],
-correctAnswer: 0
-},
-{
-question: "O que caracteriza um SSD em comparação a um HD tradicional?",
-options: ["a) Utiliza discos magnéticos", "b) É mais lento no acesso aos dados", "c) Utiliza memória flash e possui maior velocidade", "d) Não permite armazenamento de arquivos"],
-correctAnswer: 2
-},
-{
-question: "Qual componente da placa-mãe controla a comunicação entre o processador, memória e periféricos?",
-options: ["a) Chipset", "b) Fonte de alimentação", "c) Memória cache", "d) Cooler"],
-correctAnswer: 0
-},
-{
-question: "Qual é a função da fonte de alimentação em um computador?",
-options: ["a) Armazenar dados", "b) Fornecer energia elétrica aos componentes", "c) Controlar o sistema operacional", "d) Processar gráficos"],
-correctAnswer: 1
-},
-{
-question: "Qual tipo de dispositivo é considerado periférico de entrada?",
-options: ["a) Monitor", "b) Impressora", "c) Teclado", "d) Caixa de som"],
-correctAnswer: 2
-},
-{
-question: "Qual dispositivo é considerado periférico de saída?",
-options: ["a) Mouse", "b) Teclado", "c) Scanner", "d) Monitor"],
-correctAnswer: 3
-},
-{
-question: "O que é BIOS em um computador?",
-options: ["a) Sistema básico que inicializa o hardware", "b) Um tipo de memória RAM", "c) Um dispositivo de armazenamento", "d) Um software antivírus"],
-correctAnswer: 0
-},
-{
-question: "Qual é a função da memória cache no processador?",
-options: ["a) Armazenar arquivos do usuário", "b) Acelerar o acesso a dados frequentemente utilizados", "c) Substituir a memória RAM", "d) Armazenar o sistema operacional"],
-correctAnswer: 1
-},
-{
-question: "O que é um barramento (bus) em um computador?",
-options: ["a) Um dispositivo de armazenamento", "b) Um caminho de comunicação entre os componentes", "c) Um tipo de processador", "d) Um programa do sistema operacional"],
-correctAnswer: 1
-},
-{
-question: "Qual barramento é responsável por transportar dados entre os componentes do computador?",
-options: ["a) Barramento de controle", "b) Barramento de endereços", "c) Barramento de dados", "d) Barramento gráfico"],
-correctAnswer: 2
-},
-{
-question: "Qual tecnologia permite utilizar vários discos para melhorar desempenho ou segurança de dados?",
-options: ["a) RAID", "b) BIOS", "c) GPU", "d) HDMI"],
-correctAnswer: 0
-},
-{
-question: "Qual porta é amplamente utilizada para conectar periféricos como teclado, mouse e pen drives?",
-options: ["a) HDMI", "b) USB", "c) VGA", "d) PS/2"],
-correctAnswer: 1
-},
-{
-question: "Qual porta é utilizada principalmente para transmissão de vídeo digital em alta definição?",
-options: ["a) HDMI", "b) USB", "c) Ethernet", "d) Serial"],
-correctAnswer: 0
-},
-{
-question: "Qual componente é responsável por manter a temperatura adequada do processador?",
-options: ["a) Cooler", "b) Chipset", "c) BIOS", "d) Barramento"],
-correctAnswer: 0
-},
-{
-question: "Qual dispositivo permite conectar o computador a uma rede de computadores ou à internet?",
-options: ["a) Placa de rede", "b) Placa de vídeo", "c) Memória RAM", "d) Processador"],
-correctAnswer: 0
-},
-{
-question: "Qual é a principal diferença entre HD e SSD?",
-options: ["a) O SSD utiliza partes mecânicas", "b) O HD é mais rápido que o SSD", "c) O SSD utiliza memória flash e possui acesso mais rápido aos dados", "d) O SSD não armazena arquivos"],
-correctAnswer: 2
-}
+  {
+    question: "Qual componente é responsável por executar instruções e realizar o processamento principal do computador?",
+    options: ["Memória RAM","Processador (CPU)","Disco rígido","Placa de rede"],
+    correctAnswer: 1,
+    explanation: "O processador (CPU) executa as instruções dos programas e coordena o processamento. É o \"cérebro\" do computador."
+  },
+  {
+    question: "Qual é a função principal da memória RAM em um computador?",
+    options: ["Armazenar dados permanentemente","Executar cálculos matemáticos","Armazenar temporariamente dados e programas em execução","Conectar dispositivos externos"],
+    correctAnswer: 2,
+    explanation: "A RAM guarda temporariamente os programas e dados em uso, para a CPU acessar rápido. É volátil: apaga ao desligar."
+  },
+  {
+    question: "Qual dispositivo é responsável pelo armazenamento permanente de arquivos e programas?",
+    options: ["Memória cache","Registradores","HD ou SSD","BIOS"],
+    correctAnswer: 2,
+    explanation: "HD e SSD são memórias de armazenamento permanente (não voláteis): mantêm arquivos, programas e o sistema operacional sem energia."
+  },
+  {
+    question: "Qual é a principal função da placa-mãe em um computador?",
+    options: ["Processar gráficos","Conectar e permitir comunicação entre os componentes","Armazenar o sistema operacional","Controlar a internet"],
+    correctAnswer: 1,
+    explanation: "A placa-mãe é a placa principal: interliga processador, memória, armazenamento e periféricos e permite que eles se comuniquem."
+  },
+  {
+    question: "Qual componente é responsável pelo processamento de gráficos e imagens em um computador?",
+    options: ["GPU ou placa de vídeo","Memória RAM","Chipset","BIOS"],
+    correctAnswer: 0,
+    explanation: "A GPU (placa de vídeo) processa gráficos, imagens e vídeos, aliviando a CPU. Também é usada em jogos e IA."
+  },
+  {
+    question: "O que caracteriza um SSD em comparação a um HD tradicional?",
+    options: ["Utiliza discos magnéticos","É mais lento no acesso aos dados","Utiliza memória flash e possui maior velocidade","Não permite armazenamento de arquivos"],
+    correctAnswer: 2,
+    explanation: "O SSD usa memória flash, sem partes mecânicas: é mais rápido, silencioso e resistente a impactos que o HD."
+  },
+  {
+    question: "Qual componente da placa-mãe controla a comunicação entre o processador, memória e periféricos?",
+    options: ["Chipset","Fonte de alimentação","Memória cache","Cooler"],
+    correctAnswer: 0,
+    explanation: "O chipset é o conjunto de chips da placa-mãe que gerencia a comunicação entre processador, memória, barramentos e periféricos."
+  },
+  {
+    question: "Qual é a função da fonte de alimentação em um computador?",
+    options: ["Armazenar dados","Fornecer energia elétrica aos componentes","Controlar o sistema operacional","Processar gráficos"],
+    correctAnswer: 1,
+    explanation: "A fonte converte a corrente alternada da tomada em corrente contínua nas tensões que os componentes usam."
+  },
+  {
+    question: "Qual tipo de dispositivo é considerado periférico de entrada?",
+    options: ["Monitor","Impressora","Teclado","Caixa de som"],
+    correctAnswer: 2,
+    explanation: "Periféricos de entrada enviam dados ao computador: teclado, mouse, scanner, microfone, webcam."
+  },
+  {
+    question: "Qual dispositivo é considerado periférico de saída?",
+    options: ["Mouse","Teclado","Scanner","Monitor"],
+    correctAnswer: 3,
+    explanation: "Periféricos de saída mostram ou entregam resultados: monitor, impressora, caixas de som."
+  },
+  {
+    question: "O que é BIOS em um computador?",
+    options: ["Sistema básico que inicializa o hardware","Um tipo de memória RAM","Um dispositivo de armazenamento","Um software antivírus"],
+    correctAnswer: 0,
+    explanation: "A BIOS (ou UEFI, a versão moderna) é o firmware gravado na placa-mãe que testa o hardware (POST) e inicia o sistema operacional."
+  },
+  {
+    question: "Qual é a função da memória cache no processador?",
+    options: ["Armazenar arquivos do usuário","Acelerar o acesso a dados frequentemente utilizados","Substituir a memória RAM","Armazenar o sistema operacional"],
+    correctAnswer: 1,
+    explanation: "A cache é uma memória muito rápida junto da CPU que guarda os dados mais usados, reduzindo o tempo de espera pela RAM."
+  },
+  {
+    question: "O que é um barramento (bus) em um computador?",
+    options: ["Um dispositivo de armazenamento","Um caminho de comunicação entre os componentes","Um tipo de processador","Um programa do sistema operacional"],
+    correctAnswer: 1,
+    explanation: "Barramento é o conjunto de vias (fios/trilhas) por onde os componentes trocam dados, endereços e sinais de controle."
+  },
+  {
+    question: "Qual barramento é responsável por transportar dados entre os componentes do computador?",
+    options: ["Barramento de controle","Barramento de endereços","Barramento de dados","Barramento gráfico"],
+    correctAnswer: 2,
+    explanation: "O barramento de dados transporta os dados entre CPU, memória e periféricos. O de endereço indica o local e o de controle coordena."
+  },
+  {
+    question: "Qual tecnologia permite utilizar vários discos para melhorar desempenho ou segurança de dados?",
+    options: ["RAID","BIOS","GPU","HDMI"],
+    correctAnswer: 0,
+    explanation: "RAID combina vários discos para ganhar desempenho (RAID 0), segurança/espelhamento (RAID 1) ou ambos (RAID 5, RAID 10)."
+  },
+  {
+    question: "Qual porta é amplamente utilizada para conectar periféricos como teclado, mouse e pen drives?",
+    options: ["HDMI","USB","VGA","PS/2"],
+    correctAnswer: 1,
+    explanation: "USB é a porta padrão para periféricos como teclado, mouse, pen drive e impressora, com plug and play."
+  },
+  {
+    question: "Qual porta é utilizada principalmente para transmissão de vídeo digital em alta definição?",
+    options: ["HDMI","USB","Ethernet","Serial"],
+    correctAnswer: 0,
+    explanation: "HDMI transmite vídeo e áudio digitais em alta definição em um só cabo (monitores, TVs, projetores)."
+  },
+  {
+    question: "Qual componente é responsável por manter a temperatura adequada do processador?",
+    options: ["Cooler","Chipset","BIOS","Barramento"],
+    correctAnswer: 0,
+    explanation: "O cooler (dissipador com ventoinha) retira o calor do processador e evita superaquecimento e travamentos."
+  },
+  {
+    question: "Qual dispositivo permite conectar o computador a uma rede de computadores ou à internet?",
+    options: ["Placa de rede","Placa de vídeo","Memória RAM","Processador"],
+    correctAnswer: 0,
+    explanation: "A placa de rede (NIC), com cabo ou Wi-Fi, conecta o computador a uma rede local e à internet."
+  },
+  {
+    question: "Qual é a principal diferença entre HD e SSD?",
+    options: ["O SSD utiliza partes mecânicas","O HD é mais rápido que o SSD","O SSD utiliza memória flash e possui acesso mais rápido aos dados","O SSD não armazena arquivos"],
+    correctAnswer: 2,
+    explanation: "O HD grava em discos magnéticos giratórios. O SSD usa memória flash, sem partes móveis, e é bem mais rápido."
+  }
 ];
 
-let currentQuestion=0;
-let score=0;
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Pergunta","of":"de","ok":"✅ Correto!","bad":"❌ Incorreto. Resposta certa:","next":"Próxima pergunta ▶","finish":"Ver resultado 🏁","final":"Resultado final","best":"Sua melhor nota neste simulado:","m1":"🏆 Excelente! Você domina este conteúdo.","m2":"👍 Bom resultado! Revise os pontos que errou.","m3":"📚 Continue estudando: releia a disciplina e tente de novo."};
+function scoreText(s, n){ return `Você acertou ${s} de ${n} perguntas (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
 
 function loadQuestion(){
-
-const questionContainer=document.getElementById("question-container");
-const optionsContainer=document.getElementById("options-container");
-const progressText=document.getElementById("progress-text");
-const progress=document.getElementById("progress");
-
-progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
-
-progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
-
-questionContainer.textContent=questions[currentQuestion].question;
-
-optionsContainer.innerHTML="";
-
-questions[currentQuestion].options.forEach((option,index)=>{
-
-const button=document.createElement("button");
-
-button.textContent=option;
-
-button.classList.add("option");
-
-button.dataset.index=index;
-
-button.onclick=selectOption;
-
-optionsContainer.appendChild(button);
-
-});
-
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
 
 function selectOption(event){
-
-const buttons=document.querySelectorAll(".option");
-
-buttons.forEach(btn=>btn.disabled=true);
-
-const selected=parseInt(event.target.dataset.index);
-
-const correct=questions[currentQuestion].correctAnswer;
-
-let delay;
-
-if(selected===correct){
-
-event.target.classList.add("correct");
-
-document.getElementById("result").textContent="Correto!";
-
-score++;
-
-delay=1000;
-
-}else{
-
-event.target.classList.add("wrong");
-
-buttons[correct].classList.add("correct");
-
-document.getElementById("result").textContent=
-`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
-
-delay=2000;
-
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
-currentQuestion++;
-
-setTimeout(()=>{
-
-document.getElementById("result").textContent="";
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
-}
-
-},delay);
-
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
 }
 
 function showResult(){
-
-document.getElementById("progress").style.width="100%";
-
-document.getElementById("question-container").textContent="Resultado Final";
-
-document.getElementById("options-container").innerHTML="";
-
-document.getElementById("result").textContent=
-`Você acertou ${score} de ${questions.length} perguntas!`;
-
-document.getElementById("restart-btn").style.display="inline-block";
-
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Revisar meus erros ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
 
+document.getElementById("next-btn").onclick=nextQuestion;
 document.getElementById("restart-btn").onclick=function(){
-
-currentQuestion=0;
-
-score=0;
-
-this.style.display="none";
-
-loadQuestion();
-
+  this.style.display="none"; prepareQuiz(); loadQuestion();
 };
 
+prepareQuiz();
 loadQuestion();
 
 </script>

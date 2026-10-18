@@ -237,7 +237,23 @@ transform:translateY(0);
 }
 }
 
+
+/* === PROGRESSO E CONTEÚDO DO DIA === */
+.progresso{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;margin-bottom:18px;}
+.progresso h3{font-size:17px;margin-bottom:12px;}
+.prog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:700px){.prog-grid{grid-template-columns:repeat(4,1fr);}}
+.prog-item{background:#f4f6f8;border-radius:10px;padding:10px 12px;text-decoration:none;color:inherit;display:block;}
+.prog-item b{display:block;font-size:22px;color:#0891b2;}
+.prog-item span{font-size:12px;color:#555;}
+.prog-item.erros b{color:#d97706;}
+.prog-barra{height:8px;background:#e9ecef;border-radius:10px;overflow:hidden;margin-top:14px;}
+.prog-barra div{height:100%;width:0;background:linear-gradient(90deg,#00B8D4,#16213E);border-radius:10px;transition:width .6s;}
+.outra{margin-top:4px;background:none;border:none;color:#0891b2;font-size:14px;font-weight:bold;cursor:pointer;padding:10px 12px 10px 0;min-height:40px;}
+.bloco p a{color:#0891b2;font-weight:bold;text-decoration:none;}
 </style>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
@@ -248,6 +264,18 @@ Welcome to the Computer Science App
 
 <div class="texto">
 Use the bottom menu to access subjects, practice tests, Excel, and courses.
+</div>
+
+<!-- PROGRESSO -->
+<div class="progresso">
+<h3>📈 Your progress</h3>
+<div class="prog-grid">
+<div class="prog-item"><b id="p-lidas">0/8</b><span>subjects read</span></div>
+<div class="prog-item"><b id="p-sims">0/8</b><span>tests taken</span></div>
+<div class="prog-item"><b id="p-media">–</b><span>average score</span></div>
+<a class="prog-item erros" href="simulados/revisao.html"><b id="p-erros">0</b><span>mistakes to review</span></a>
+</div>
+<div class="prog-barra"><div id="p-barra"></div></div>
 </div>
 
 <div class="grid">
@@ -283,7 +311,7 @@ Use the bottom menu to access subjects, practice tests, Excel, and courses.
 
 <div class="imagem-produto">
 <span class="badge">🔥 Best Seller</span>
-<img src="../img/excel.jpg">
+<img loading="lazy" src="../img/excel.webp">
 </div>
 
 <div class="conteudo-produto">
@@ -314,7 +342,7 @@ Complete guide with advanced functions and features.
 
 <div class="imagem-produto">
 <span class="badge">🔥 Hotmart</span>
-<img src="../img/power.jpg">
+<img loading="lazy" src="../img/power.webp">
 </div>
 
 <div class="conteudo-produto">
@@ -341,63 +369,172 @@ Learn to create interactive dashboards and reports.
 
 </div>
 
+<!-- EBOOK VERSIONS (new site) -->
+<div class="versoes-ebook"></div>
+
+<script src="../js/versoes.js"></script>
+<script src="../js/estudo.js"></script>
 <script>
-
-/* TIPS */
-const dicas=[
+/* ===== Conteúdo do dia + progresso =====
+   Dica, função e curiosidade mudam a cada dia (e no botão "Outra").
+   A sugestão de estudo usa o progresso salvo no aparelho. */
+const dicas = [
 "Ctrl + C copies and Ctrl + V pastes.",
-"Ctrl + Z undoes the last action.",
+"Ctrl + Z undoes the last action and Ctrl + Y redoes it.",
 "Alt + Tab switches between open programs.",
-"Ctrl + S quickly saves a file.",
-"F5 refreshes pages in the browser."
+"Ctrl + S saves your file instantly. Use it often!",
+"F5 refreshes the page in your browser.",
+"Win + D shows the desktop (minimizes everything).",
+"Win + E opens File Explorer.",
+"Win + L locks your computer when you step away.",
+"Win + V opens clipboard history (turn it on in Settings).",
+"Win + Shift + S takes a screenshot of part of the screen.",
+"Ctrl + Shift + Esc opens Task Manager directly.",
+"F2 renames the selected file or folder.",
+"Ctrl + F finds a word on the page or in a document.",
+"Ctrl + T opens a new browser tab and Ctrl + W closes the current one.",
+"Ctrl + Shift + T reopens the last closed tab.",
+"Ctrl + A selects everything.",
+"Ctrl + X cuts: the item leaves its place and goes to the clipboard.",
+"Shift + Delete deletes a file without sending it to the Recycle Bin. Careful!",
+"Alt + F4 closes the active window.",
+"Ctrl + mouse wheel zooms in or out.",
+"Win + left/right arrow snaps the window to half of the screen.",
+"Ctrl + P opens the print dialog.",
+"Ctrl + N opens a new window or document.",
+"In Word, Ctrl + B makes text bold and Ctrl + I makes it italic.",
+"In Word, Shift + F3 toggles between uppercase and lowercase.",
+"Ctrl + Home jumps to the start of a document; Ctrl + End, to the end.",
+"Win + . (period) opens the emoji panel in Windows.",
+"Win + I opens Windows Settings.",
+"Ctrl + click on a link opens it in a new tab without leaving the page.",
+"Shift + click selects files in a row; Ctrl + click picks individual files.",
+"Use long passwords (passphrases) and turn on two-step verification.",
+"Be suspicious of links asking for your password by email or text: it may be phishing."
 ];
-
-/* EXCEL */
-const excel=[
+const excel = [
 "SUM() → adds values. Ex: =SUM(A1:A10)",
-"AVERAGE() → calculates the average. Ex: =AVERAGE(A1:A10)",
-"IF() → creates a logical condition.",
-"COUNTA() → counts non-empty cells.",
-"VLOOKUP() → looks up values in tables."
+"AVERAGE() → calculates the average. Ex: =AVERAGE(B2:B20)",
+"IF() → tests a condition. Ex: =IF(A1>=7,\"Pass\",\"Fail\")",
+"VLOOKUP() → finds a value in the 1st column and returns another. Ex: =VLOOKUP(A2,Table,2,0)",
+"XLOOKUP() → modern lookup in any direction. Ex: =XLOOKUP(A2,C:C,D:D)",
+"COUNTIF() → counts cells that meet a criterion. Ex: =COUNTIF(A:A,\"NY\")",
+"SUMIF() → sums with one condition. Ex: =SUMIF(A:A,\"NY\",B:B)",
+"SUMIFS() → sums with several conditions.",
+"COUNTA() → counts non-empty cells. Ex: =COUNTA(A1:A100)",
+"COUNT() → counts only cells with numbers.",
+"MAX() and MIN() → largest and smallest value in a range.",
+"ROUND() → rounds a number. Ex: =ROUND(A1,2) keeps 2 decimals.",
+"IFERROR() → replaces errors with another value. Ex: =IFERROR(VLOOKUP(...),\"Not found\")",
+"TODAY() → today's date. NOW() → date and time.",
+"DAYS() → days between two dates. Ex: =DAYS(B1,A1)",
+"CONCAT() → joins text. Ex: =CONCAT(A1,\" \",B1)",
+"LEFT() → takes characters from the start. Ex: =LEFT(A1,3)",
+"RIGHT() → takes characters from the end. Ex: =RIGHT(A1,4)",
+"MID() → takes a piece from the middle. Ex: =MID(A1,2,5)",
+"TRIM() → removes extra spaces from text.",
+"LEN() → counts the characters in a text.",
+"UPPER() and LOWER() → change text to uppercase or lowercase.",
+"AND() → TRUE if ALL conditions are true.",
+"OR() → TRUE if AT LEAST ONE condition is true.",
+"INDEX() + MATCH() → the classic pair for flexible lookups.",
+"FILTER() → returns only the rows that meet a condition.",
+"UNIQUE() → lists values without duplicates. Ex: =UNIQUE(A2:A100)",
+"SORT() → sorts a range with a formula.",
+"TEXT() → formats a number or date. Ex: =TEXT(A1,\"mm/dd/yyyy\")",
+"Shortcut: Ctrl + ; inserts today's date in the cell.",
+"Shortcut: F4 locks the reference with $ (e.g. $A$1) while editing a formula.",
+"Shortcut: Ctrl + T turns a range into a Table, with filters and formatting."
 ];
-
-/* SUBJECTS */
-const disciplinas=[
-"💻 Introduction to Computer Science",
-"🖥 Hardware",
-"⚙️ Software",
-"🌐 Computer Networks",
-"🧠 Computer Architecture",
-"🔌 Data Buses",
-"📊 Algorithms and Programming",
-"📡 Network Protocols"
+const curiosidades = [
+"A byte is made of 8 bits.",
+"ENIAC, unveiled in 1946, weighed about 30 tons.",
+"The internet began as ARPANET, a project linked to the US Department of Defense.",
+"The first mouse, created by Douglas Engelbart in the 1960s, was made of wood.",
+"The word \"bug\" became famous when a moth was found inside a computer in 1947.",
+"Ray Tomlinson sent the first email in 1971 and picked @ to separate user and machine.",
+"The first website ever, created by Tim Berners-Lee, is still online at CERN.",
+"Wi-Fi doesn't stand for \"Wireless Fidelity\": a marketing agency made up the name.",
+"1 KB is 1,024 bytes in binary, not 1,000.",
+"The QWERTY layout was designed for 19th-century typewriters.",
+"Linus Torvalds created Linux in 1991, while he was a student.",
+"Android is built on the Linux kernel.",
+"The first version of Windows came out in 1985.",
+"Excel launched first on the Macintosh, in 1985, and only later on Windows.",
+"Binary code uses just two digits: 0 and 1.",
+"IBM's first commercial hard drive (1956) held about 5 MB and was the size of two closets.",
+"The Bluetooth logo combines the runic initials of Viking king Harald Bluetooth.",
+"CAPTCHA exists to prove you're a human, not a bot.",
+"Cookies are small files websites save in your browser to remember you.",
+"Moore's Law predicted the number of transistors on chips would double about every two years.",
+"Google was originally called BackRub.",
+"Brain, the first known PC virus, was created in 1986.",
+"\"Pixel\" comes from \"picture element\", the smallest dot of a digital image.",
+"A modern processor has billions of transistors.",
+"The QR code was invented in Japan in 1994 to track car parts.",
+"The first commercial cell phone, the Motorola DynaTAC (1983), weighed almost 1 kg.",
+"Ctrl + Alt + Del was created by an IBM engineer to restart the computer.",
+"Emoji were born in Japan in the late 1990s.",
+"IPv6 has enough addresses to give trillions of IPs to every person on Earth.",
+"The cloud is, in practice, another company's computer in a data center.",
+"The first .com domain ever registered was symbolics.com, in 1985.",
+"Weak passwords like \"123456\" are still among the most used in the world."
 ];
+const TXT = {"prog": "📈 Your progress", "lidas": "subjects read", "sims": "tests taken", "media": "average score", "erros": "mistakes to review", "outra": "↻ Another", "comece": "📖 Start with:", "reforce": "🎯 Strengthen:", "parabens": "🏆 You read everything and did well on every test! Take the General Exam:", "geral": "General Practice Exam", "nota": "score", "vazio": "Start by reading a subject and taking its test."};
+const PRE = "";
 
-/* FUN FACTS */
-const curiosidades=[
-"A byte consists of 8 bits.",
-"The first electronic computer was created in 1946.",
-"Windows is the most used operating system in the world.",
-"The Internet started as a military project in the USA.",
-"The first mouse was created in 1964."
-];
+const diaDoAno = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+const pos = { dica: diaDoAno, excel: diaDoAno + 7, curiosidade: diaDoAno + 13 };
+const listas = { dica: dicas, excel: excel, curiosidade: curiosidades };
 
-function aleatorio(lista){
-return lista[Math.floor(Math.random()*lista.length)];
-}
+function mostrar(id){ const l = listas[id]; document.getElementById(id).textContent = l[((pos[id] % l.length) + l.length) % l.length]; }
+["dica","excel","curiosidade"].forEach(id => {
+  mostrar(id);
+  const p = document.getElementById(id);
+  const b = document.createElement("button");
+  b.className = "outra"; b.textContent = TXT.outra;
+  b.onclick = () => { pos[id]++; mostrar(id); };
+  p.after(b);
+});
 
-document.getElementById("dica").innerHTML=aleatorio(dicas);
-document.getElementById("excel").innerHTML=aleatorio(excel);
-document.getElementById("curiosidade").innerHTML=aleatorio(curiosidades);
+/* progresso */
+(function(){
+  const est = document.getElementById("estudo");
+  if(!window.Estudo){ est.textContent = TXT.vazio; return; }
+  const nome = d => d.icon + " " + d.nome[Estudo.LANG];
+  let lidas = 0, feitos = 0, soma = 0;
+  const naoLidas = [], notas = [];
+  Estudo.DISC.forEach(d => {
+    const pd = Estudo.abs(PRE + "disciplinas/" + d.slug + ".html");
+    const ps = Estudo.abs(PRE + "simulados/simulado_" + d.slug + ".html");
+    if(Estudo.foiLida(pd)) lidas++; else naoLidas.push(d);
+    const n = Estudo.nota(ps);
+    if(n && n.total){ feitos++; soma += n.melhor / n.total; notas.push({ d: d, p: n.melhor / n.total, n: n }); }
+  });
+  const total = Estudo.DISC.length;
+  const nErros = Estudo.erros().length;
+  document.getElementById("p-lidas").textContent = lidas + "/" + total;
+  document.getElementById("p-sims").textContent = feitos + "/" + total;
+  document.getElementById("p-media").textContent = feitos ? Math.round(soma / feitos * 100) + "%" : "–";
+  document.getElementById("p-erros").textContent = nErros;
+  document.getElementById("p-barra").style.width = ((lidas + feitos) / (total * 2) * 100) + "%";
 
-let copia=[...disciplinas];
-copia.sort(()=>Math.random()-0.5);
-
-let escolhidas=copia.slice(0,2);
-
-document.getElementById("estudo").innerHTML=
-escolhidas[0]+"<br>"+escolhidas[1];
-
+  /* sugestão de estudo: 1) disciplinas não lidas 2) simulados com nota mais baixa */
+  est.innerHTML = "";
+  function linha(rotulo, texto, href){
+    const div = document.createElement("div"); div.style.marginBottom = "6px";
+    div.append(rotulo + " ");
+    const a = document.createElement("a"); a.href = href; a.textContent = texto; div.append(a);
+    est.append(div);
+  }
+  const fracos = notas.filter(x => x.p < 0.8).sort((a, b) => a.p - b.p);
+  const naoFeitos = Estudo.DISC.filter(d => !notas.some(x => x.d === d) && naoLidas.indexOf(d) < 0);
+  let sug = 0;
+  naoLidas.slice(0, 2).forEach(d => { linha(TXT.comece, nome(d), PRE + "disciplinas/" + d.slug + ".html"); sug++; });
+  naoFeitos.slice(0, 2 - sug).forEach(d => { linha(TXT.reforce, nome(d), PRE + "simulados/simulado_" + d.slug + ".html"); sug++; });
+  fracos.slice(0, 2 - sug).forEach(x => { linha(TXT.reforce, nome(x.d) + " (" + TXT.nota + " " + x.n.melhor + "/" + x.n.total + ")", PRE + "simulados/simulado_" + x.d.slug + ".html"); sug++; });
+  if(!sug) linha(TXT.parabens, TXT.geral, PRE + "simulados/simulado_geral.html");
+})();
 </script>
 
 

@@ -47,9 +47,10 @@ concursos/              ← Standalone concursos section
 
 ```
 img/
+  (each image also exists as .webp — pages use the .webp)
   capa.jpg      — Ebook de Informática cover
   concurso.jpg  — Concursos Públicos card
-  crf.png       — Produtos Exclusivos card (used in home.html)
+  crf.jpg       — Produtos Exclusivos card (used in home.html)
   excel.jpg     — Bíblia do Excel
   point.jpg     — PowerPoint product
   power.jpg     — Power BI product
@@ -105,7 +106,7 @@ The home page has two sections:
 | Card | Image | Link behavior |
 |---|---|---|
 | Concursos Públicos | `../img/concurso.jpg` | `window.top.location.href` — escapes the iframe to navigate the full page |
-| Produtos Exclusivos | `../img/crf.png` | Detects `AndroidPay`: if in app → `window.location.href='produtos.html'`; if browser → `window.open('produtos.html','_blank')` |
+| Produtos Exclusivos | `../img/crf.jpg` | Detects `AndroidPay`: if in app → `window.location.href='produtos.html'`; if browser → `window.open('produtos.html','_blank')` |
 | Ebook de Informática (R$47,90) | `../img/capa.jpg` | External Google Play link in new tab |
 
 > **Important:** The Concursos card uses `window.top.location.href` (not `abrirPagina`) because `concursos/index.html` is a standalone page that should replace the full shell, not load inside the iframe.
@@ -149,11 +150,46 @@ To add a new product: copy an `.item-produto` block, change `AndroidPay.abrirPro
 | `redes` | Redes de Computadores |
 | `arquitetura` | Arquitetura de Computadores |
 | `barramentos` | Barramentos |
-| `algoritimo` | Algoritmo e Programação |
+| `algoritmo` | Algoritmo e Programação |
 | `protocolos` | Protocolo de Rede |
 
 Naming: `disciplinas/<slug>.html` / `simulados/simulado_<slug>.html`  
-(Note: `algoritimo` has a typo — keep consistent with existing filename when adding simulado links.)
+
+### Simulado pages
+
+Each simulado has a `questions` array: `{ question, options, correctAnswer, explanation }`. `correctAnswer` is the index in `options` as written in the file; options and question order are shuffled at runtime (`prepareQuiz()`), so never prefix options with "a)", "b)"… After each answer the page shows the `explanation` and a "Próxima pergunta" button. Best score is stored in `localStorage` (`simulado_best:<path>`), and `simulado_concluido` is sent to GA via the parent shell's `gtag`. ES/EN files mirror the PT questions in the same order (PT algoritmo has 40, ES/EN 20).
+
+Discipline and simulado pages have a `.btn-voltar` link (uses `history.back()`, falls back to the list page).
+
+### Progresso do aluno (`js/estudo.js`)
+
+Shared script loaded by home, list pages, discipline pages, simulados, `revisao.html` and `simulado_geral.html` (path `../js/` or `../../js/`). Everything is saved in `localStorage` on the device:
+
+- `lida:<pathname>` — discipline read (marked when the student scrolls to the end or clicks "Iniciar Simulado")
+- `nota:<pathname>` — `{melhor,total,ultima,vezes,data}` for each simulado (and for `simulado_geral.html`)
+- `erros:<pt|es|en>` — wrong questions (added on a wrong answer, removed when answered right anywhere)
+
+`Estudo.decorarListas()` adds "✓ Lida" / "Melhor nota" badges to `a.card` links on the list pages. `Estudo.DISC` holds the 8 slugs, icons and names in 3 languages.
+
+New pages in each simulados folder (PT/ES/EN), generated with the same strings:
+- `revisao.html` — practice only the saved mistakes, with explanations
+- `simulado_geral.html` — exam mode: 20 q/30 min or 40 q/60 min, balanced across subjects, no feedback until the end, then score by subject + answer key. It loads questions by fetching the 8 simulado HTML files and parsing their `questions` array, so the array must keep the format `const questions = [ ... \n];`.
+
+Home (`page/home.html`, `es/home.html`, `en/home.html`): progress card, "Sugestão de Estudo" based on progress, and tip/Excel/fact of the day (32 items each, rotate by day of year, "↻ Outra" button).
+
+### Visual: marca, modo escuro e imagens
+
+- Shell top bar uses the brand palette (navy `#0B1020→#16213E`, cyan `#00E5FF/#00B8D4`, yellow `#FFD60A`) with "IuleApp ·" before the page title. Excel pages use Excel green `#1D6F42`.
+- **Dark mode:** every page has `<link rel="stylesheet" href="…/css/escuro.css">` + `<script src="…/js/tema.js">` right before `</head>`. `tema.js` sets `html.escuro` before render (saved choice in `localStorage.tema`, otherwise the system theme). The 🌙/☀️ button (`#btnTema`) is in the shell top bar and also updates the page inside the iframe. All dark rules live in `css/escuro.css` (scoped to `html.escuro`). **New pages must include both tags.**
+- Images: pages use `img/*.webp` (≈75% smaller) with `loading="lazy"`; the `.jpg` files stay only for `og:image`.
+
+### Versões do ebook (site novo)
+
+`js/versoes.js` renders the "Escolha a sua versão" cards (PT-BR, PT-PT, ES, MX, EN → `https://iuleappia.github.io/iuleapp-com/<versão>/`) into any `<div class="versoes-ebook"></div>`. Used on Home and Cursos; each language shows only its own versions (PT: PT-BR + PT-PT · ES: ES + MX · EN: EN). Edit prices/links in its `VERSOES` object. The ebook cards on Home/Cursos also point to the new site (PT `pt-br/`, ES `es/`, EN `en/`).
+
+### concursos/index.html
+
+Status is computed from the dates (`statusAtual()`): after `inscricaoAte` → "Inscrições Encerradas"; after `dataProva` → "Prova Realizada". The `status` field only matters while registrations are still open (`inscricoes_abertas` or `previsto`). Past contests are sorted to the end and faded.
 
 ---
 
@@ -163,6 +199,10 @@ Naming: `disciplinas/<slug>.html` / `simulados/simulado_<slug>.html`
 - **`js/meta-pixel.js`** — Meta Pixel `1255142006053516`. Tracks `PageView`, scroll past 50% (`ScrollPage`), and the same Hotmart link as `Biblia_do_Excel`.
 
 Both scripts must be placed **as the first tags inside `<head>`**, before `<meta charset>`.
+
+- **`js/rastreio-app.js`** — loaded only by the 3 shells (`index.html`, `es/index.html`, `en/index.html`), right after the pixel. Tracks what happens *inside the iframe*: GA `page_view` + Pixel `PageView` on every page opened in the app (skips the first home load, already counted by the shell), `clique_link` on any link, and on sales links (Hotmart, Google Play store, `/ebook-informatica/`, `/iuleapp-com/`) GA `clique_venda` + Pixel `InitiateCheckout` and `Clique_Venda`. Also keeps `Biblia_do_Excel`.
+- Study events sent via `Estudo.evento()` (to the parent shell's `gtag`): `simulado_concluido`, `simulado_geral_concluido`, `revisao_concluida`, `oferta_exibida`.
+- **Offer card** at the end of simulados, Simulado Geral and Revisão: `Estudo.oferta()` in `js/estudo.js`. Change the product per language in the `OFERTA` object (PT/ES: Ebook de Informática Completo; EN: Complete Computer Basics Ebook — all linking to the new site https://iuleappia.github.io/iuleapp-com/ pt-br/, es/, en/).
 
 ### Pages that include tracking scripts
 

@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Network Protocols</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"What does the acronym TCP stand for in network protocols?",options:["Transmission Control Protocol","Time Clock Protocol","Terminal Connection Protocol","Text Compression Protocol"],correctAnswer:0},
-{question:"What is the main function of the IP protocol in a network?",options:["Traffic control","Data routing","Data compression","Data encryption"],correctAnswer:1},
-{question:"What is a MAC address in computer networks?",options:["Mask of Controlled Access","Central Access Module","Media Access Control","Modulation of Access Connection"],correctAnswer:2},
-{question:"What is the difference between TCP and UDP?",options:["TCP is connection-oriented, UDP is not","TCP is faster than UDP","UDP is connection-oriented, TCP is not","TCP and UDP are identical in functionality"],correctAnswer:0},
-{question:"What is a routing protocol in networks?",options:["A protocol for configuring routers","A protocol for controlling data traffic","A protocol for sending and receiving emails","A protocol for managing IP addresses"],correctAnswer:0},
-{question:"What is the purpose of the DNS protocol?",options:["Packet routing","Name resolution to IP addresses","Quality of service control","File transfer"],correctAnswer:1},
-{question:"What is the DHCP protocol and what is its function?",options:["Dynamic Host Control Protocol, responsible for network security","Dynamic Host Configuration Protocol, responsible for automatically assigning IP addresses","Dynamic Routing Protocol, responsible for managing routes in the network","Dynamic Connection Security Protocol, responsible for data encryption"],correctAnswer:1},
-{question:"What is NAT in computer networks?",options:["New Address Translation","Network Address Translation","Node Access Technology","National Authentication Token"],correctAnswer:1},
-{question:"What is a firewall in terms of computer networks?",options:["A device to amplify the network signal","A physical barrier protecting servers","Software or hardware that blocks or allows data traffic","A tool for monitoring network bandwidth"],correctAnswer:2},
-{question:"What is the main function of the ARP protocol?",options:["Packet routing","Resolving IP addresses to names","Resolving MAC addresses to IP addresses","Network congestion control"],correctAnswer:2},
-{question:"What is a tunneling protocol?",options:["A protocol for creating tunnels in underground networks","A protocol for encapsulating one protocol inside another for transmission across a network","A protocol for creating virtual private networks","A protocol for increasing network bandwidth"],correctAnswer:1},
-{question:"What does QoS stand for in networks?",options:["Quality of Service","Quick Online Support","Quantum Operating System","Query of Standards"],correctAnswer:0},
-{question:"What is the difference between a switch and a hub in a local network?",options:["Both are identical devices","A switch filters network traffic, while a hub does not","A hub is faster than a switch","A switch only supports wireless connections"],correctAnswer:1},
-{question:"What is the ICMP protocol and what is it used for?",options:["Internet Control Message Protocol, used for network diagnostics and error reporting","Internet Communication Management Protocol, used to manage online communications","Integrated Control and Monitoring Protocol, used for integrated control and monitoring","Internet Configuration and Management Protocol, used to configure network devices"],correctAnswer:0},
-{question:"What is the FTP protocol and what is its function?",options:["File Transfer Protocol, used for file transmission","Fast Transmission Protocol, used for rapid data transfer","File Tracking Protocol, used for tracking file changes","File Type Protocol, used for identifying file types"],correctAnswer:0},
-{question:"What is the SSL/TLS protocol and what is it used for?",options:["Secure Socket Layer/Transport Layer Security, used to encrypt web communications","Simple Service Locator/Transport Layer Security","System Security Layer/Transmission Level Security","Software Service Locator/Total Link Security"],correctAnswer:0},
-{question:"What is an IPv6 address and why was it developed?",options:["An Internet version 6 address to replace IPv4 due to address exhaustion","To improve connection speed","For virtual private networks","To support only wireless devices"],correctAnswer:0},
-{question:"What is a DDoS attack in terms of networks?",options:["Direct and Decentralized Overloading","Data Distribution and Secure Operations","Distributed Denial of Service","Duplication of Sessions and Secure Operations"],correctAnswer:2},
-{question:"Which protocol is used for sending emails?",options:["SMTP","FTP","DNS","ARP"],correctAnswer:0},
-{question:"Which protocol is used to receive emails in mail clients?",options:["POP3 or IMAP","HTTP","ICMP","DHCP"],correctAnswer:0}
+  {
+    question: "What does the acronym TCP stand for in network protocols?",
+    options: ["Transmission Control Protocol","Time Clock Protocol","Terminal Connection Protocol","Text Compression Protocol"],
+    correctAnswer: 0,
+    explanation: "TCP = Transmission Control Protocol. It guarantees reliable, in-order delivery with acknowledgments and retransmission."
+  },
+  {
+    question: "What is the main function of the IP protocol in a network?",
+    options: ["Traffic control","Data routing","Data compression","Data encryption"],
+    correctAnswer: 1,
+    explanation: "IP (Internet Protocol) addresses and routes packets from source to destination across multiple networks."
+  },
+  {
+    question: "What is a MAC address in computer networks?",
+    options: ["Mask of Controlled Access","Central Access Module","Media Access Control","Modulation of Access Connection"],
+    correctAnswer: 2,
+    explanation: "MAC = Media Access Control. It's the 48-bit physical address burned into the network card (e.g. 00:1A:2B:3C:4D:5E)."
+  },
+  {
+    question: "What is the difference between TCP and UDP?",
+    options: ["TCP is connection-oriented, UDP is not","TCP is faster than UDP","UDP is connection-oriented, TCP is not","TCP and UDP are identical in functionality"],
+    correctAnswer: 0,
+    explanation: "TCP is connection-oriented (handshake, acknowledgments, retransmission). UDP is connectionless: faster, but with no delivery guarantee."
+  },
+  {
+    question: "What is a routing protocol in networks?",
+    options: ["A protocol that lets routers exchange routes with each other","A protocol for controlling data traffic","A protocol for sending and receiving emails","A protocol for managing IP addresses"],
+    correctAnswer: 0,
+    explanation: "Routing protocols (RIP, OSPF, BGP) let routers exchange information and build their routing tables automatically."
+  },
+  {
+    question: "What is the purpose of the DNS protocol?",
+    options: ["Packet routing","Name resolution to IP addresses","Quality of service control","File transfer"],
+    correctAnswer: 1,
+    explanation: "DNS translates domain names (www.google.com) into IP addresses, which is what computers actually use."
+  },
+  {
+    question: "What is the DHCP protocol and what is its function?",
+    options: ["Dynamic Host Control Protocol, responsible for network security","Dynamic Host Configuration Protocol, responsible for automatically assigning IP addresses","Dynamic Routing Protocol, responsible for managing routes in the network","Dynamic Connection Security Protocol, responsible for data encryption"],
+    correctAnswer: 1,
+    explanation: "DHCP = Dynamic Host Configuration Protocol. It automatically assigns IP address, subnet mask, gateway and DNS to devices on the network."
+  },
+  {
+    question: "What is NAT in computer networks?",
+    options: ["New Address Translation","Network Address Translation","Node Access Technology","National Authentication Token"],
+    correctAnswer: 1,
+    explanation: "NAT = Network Address Translation. It translates private IP addresses on the internal network into a public IP when going out to the internet."
+  },
+  {
+    question: "What is a firewall in terms of computer networks?",
+    options: ["A device to amplify the network signal","A physical barrier protecting servers","Software or hardware that blocks or allows data traffic","A tool for monitoring network bandwidth"],
+    correctAnswer: 2,
+    explanation: "A firewall (software or hardware) inspects traffic and allows or blocks connections based on security rules."
+  },
+  {
+    question: "What is the main function of the ARP protocol?",
+    options: ["Packet routing","Resolving IP addresses to names","Resolving IP addresses to MAC addresses","Network congestion control"],
+    correctAnswer: 2,
+    explanation: "ARP (Address Resolution Protocol) finds the MAC address that matches a known IP address on the local network."
+  },
+  {
+    question: "What is a tunneling protocol?",
+    options: ["A protocol for creating tunnels in underground networks","A protocol for encapsulating one protocol inside another for transmission across a network","A protocol for creating virtual private networks","A protocol for increasing network bandwidth"],
+    correctAnswer: 1,
+    explanation: "Tunneling wraps one protocol inside another to cross a network; it's the basis of VPNs (e.g. GRE, L2TP, IPsec)."
+  },
+  {
+    question: "What does QoS stand for in networks?",
+    options: ["Quality of Service","Quick Online Support","Quantum Operating System","Query of Standards"],
+    correctAnswer: 0,
+    explanation: "QoS = Quality of Service. It prioritizes certain traffic (voice, video) to ensure quality and lower delay."
+  },
+  {
+    question: "What is the difference between a switch and a hub in a local network?",
+    options: ["Both are identical devices","A switch filters network traffic, while a hub does not","A hub is faster than a switch","A switch only supports wireless connections"],
+    correctAnswer: 1,
+    explanation: "A hub repeats data to every port. A switch learns MAC addresses and sends data only to the destination port."
+  },
+  {
+    question: "What is the ICMP protocol and what is it used for?",
+    options: ["Internet Control Message Protocol, used for network diagnostics and error reporting","Internet Communication Management Protocol, used to manage online communications","Integrated Control and Monitoring Protocol, used for integrated control and monitoring","Internet Configuration and Management Protocol, used to configure network devices"],
+    correctAnswer: 0,
+    explanation: "ICMP = Internet Control Message Protocol. It sends error and diagnostic messages and is used by ping and traceroute."
+  },
+  {
+    question: "What is the FTP protocol and what is its function?",
+    options: ["File Transfer Protocol, used for file transmission","Fast Transmission Protocol, used for rapid data transfer","File Tracking Protocol, used for tracking file changes","File Type Protocol, used for identifying file types"],
+    correctAnswer: 0,
+    explanation: "FTP = File Transfer Protocol. It transfers files between client and server (ports 20 and 21)."
+  },
+  {
+    question: "What is the SSL/TLS protocol and what is it used for?",
+    options: ["Secure Socket Layer/Transport Layer Security, used to encrypt web communications","Simple Service Locator/Transport Layer Security","System Security Layer/Transmission Level Security","Software Service Locator/Total Link Security"],
+    correctAnswer: 0,
+    explanation: "SSL/TLS encrypts communication between client and server. It's the \"S\" in HTTPS (SSL has been replaced by TLS)."
+  },
+  {
+    question: "What is an IPv6 address and why was it developed?",
+    options: ["An Internet version 6 address to replace IPv4 due to address exhaustion","To improve connection speed","For virtual private networks","To support only wireless devices"],
+    correctAnswer: 0,
+    explanation: "IPv6 uses 128-bit addresses and was created because IPv4 addresses (32 bits, about 4.3 billion) were running out."
+  },
+  {
+    question: "What is a DDoS attack in terms of networks?",
+    options: ["Direct and Decentralized Overloading","Data Distribution and Secure Operations","Distributed Denial of Service","Duplication of Sessions and Secure Operations"],
+    correctAnswer: 2,
+    explanation: "DDoS = Distributed Denial of Service: many devices overload a target until it goes offline."
+  },
+  {
+    question: "Which protocol is used for sending emails?",
+    options: ["SMTP","FTP","DNS","ARP"],
+    correctAnswer: 0,
+    explanation: "SMTP (Simple Mail Transfer Protocol) is the protocol for sending email, from client to server and between servers."
+  },
+  {
+    question: "Which protocol is used to receive emails in mail clients?",
+    options: ["POP3 or IMAP","HTTP","ICMP","DHCP"],
+    correctAnswer: 0,
+    explanation: "POP3 downloads emails to the device. IMAP syncs them: they stay on the server and look the same on every device."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

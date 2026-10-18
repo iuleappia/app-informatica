@@ -70,6 +70,10 @@ body{background:#f4f6f8;margin:0;}
 .status-aberto{background:#dcfce7;color:#15803d;}
 .status-previsto{background:#fef9c3;color:#92400e;}
 .status-andamento{background:#dbeafe;color:#1d4ed8;}
+.status-encerrado{background:#fee2e2;color:#b91c1c;}
+.status-realizado{background:#e5e7eb;color:#4b5563;}
+.card.passado{opacity:.6;}
+.card.passado .salario-valor{color:inherit;}
 
 .area-tag{font-size:11px;font-weight:bold;padding:4px 10px;border-radius:20px;background:#f0f4ff;color:#1e3a8a;}
 
@@ -121,7 +125,12 @@ body{background:#f4f6f8;margin:0;}
 @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr);}}
 @media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:700px){.footer-grid{grid-template-columns:1fr;text-align:center;}}
+
+/* toque confortável no celular */
+.footer a{display:block;padding:8px 0;margin-bottom:0;}
 </style>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 <body>
 
@@ -159,7 +168,7 @@ body{background:#f4f6f8;margin:0;}
 </div>
 
 <div class="aviso">
-⚠️ <strong>Atenção:</strong> Verifique sempre as datas e informações diretamente no edital oficial. Os dados aqui são atualizados manualmente e podem conter variações.
+⚠️ <strong>Atenção:</strong> Verifique sempre as datas e informações diretamente no edital oficial. Os dados aqui são atualizados manualmente (última atualização: 18/10/2026) e podem conter variações.
 </div>
 
 <div class="contador" id="contador"></div>
@@ -200,190 +209,175 @@ body{background:#f4f6f8;margin:0;}
    Para adicionar ou editar: modifique este array.
    Campos obrigatórios: orgao, cargo, area, nivel,
    vagas, salario, dataProva, inscricaoAte, edital, status
+   Opcional: inscricaoDe (antes dessa data aparece "Inscrições em breve")
+   O status muda sozinho pela data: encerrado após inscricaoAte, realizado após dataProva
    Status possíveis: "inscricoes_abertas" | "previsto" | "em_andamento"
    ============================================= */
 const concursos = [
   {
-    orgao: "Receita Federal do Brasil",
-    cargo: "Auditor Fiscal da Receita Federal",
-    area: "Fiscal",
+    orgao: "Câmara dos Deputados",
+    cargo: "Analista Legislativo (diversas áreas)",
+    area: "Legislativa",
     nivel: "Superior",
-    vagas: 699,
-    salario: "R$ 21.029,90",
-    dataProva: "2026-08-10",
-    inscricaoAte: "2026-06-20",
-    edital: "https://www.gov.br/concursos",
-    status: "inscricoes_abertas",
-    produto: { id: "resumao_informatica_rfb", nome: "Resumão Receita Federal", preco: "R$ 19,90" }
-  },
-  {
-    orgao: "INSS",
-    cargo: "Analista do Seguro Social",
-    area: "Administrativa",
-    nivel: "Superior",
-    vagas: 1000,
-    salario: "R$ 8.547,26",
-    dataProva: "2026-09-14",
-    inscricaoAte: "2026-07-15",
-    edital: "https://www.gov.br/concursos",
-    status: "inscricoes_abertas",
-    produto: { id: "resumao_informatica_inss", nome: "Resumão INSS", preco: "R$ 19,90" }
-  },
-  {
-    orgao: "Correios",
-    cargo: "Carteiro",
-    area: "Operacional",
-    nivel: "Médio",
-    vagas: 3523,
-    salario: "R$ 2.429,27",
-    dataProva: "2026-07-20",
-    inscricaoAte: "2026-06-05",
-    edital: "https://www.correios.com.br",
-    status: "inscricoes_abertas",
-    produto: { id: "resumao_informatica_correios", nome: "Resumão Correios", preco: "R$ 19,90" }
-  },
-  {
-    orgao: "Banco do Brasil",
-    cargo: "Escriturário — Agente de Tecnologia",
-    area: "Tecnologia",
-    nivel: "Médio",
-    vagas: 2000,
-    salario: "R$ 3.622,23",
-    dataProva: "2026-10-05",
-    inscricaoAte: "2026-08-20",
-    edital: "https://www.bb.com.br",
-    status: "previsto"
-  },
-  {
-    orgao: "TRE-SP",
-    cargo: "Técnico Judiciário — Área Administrativa",
-    area: "Judiciário",
-    nivel: "Médio",
-    vagas: 30,
-    salario: "R$ 7.591,43",
-    dataProva: "2026-08-23",
-    inscricaoAte: "2026-06-30",
-    edital: "https://www.tre-sp.jus.br",
+    vagas: "66 + CR",
+    salario: "R$ 32.070,88",
+    inscricaoDe: "2026-10-15",
+    inscricaoAte: "2026-11-17",
+    dataProva: "2027-01-17",
+    edital: "https://www.cebraspe.org.br/concursos",
     status: "inscricoes_abertas"
   },
   {
-    orgao: "SERPRO",
-    cargo: "Analista — Tecnologia da Informação",
-    area: "Tecnologia",
+    orgao: "Controladoria-Geral da União (CGU)",
+    cargo: "Auditor Federal de Finanças e Controle (inclui TI)",
+    area: "Controle",
     nivel: "Superior",
-    vagas: 602,
-    salario: "R$ 12.803,48",
-    dataProva: "2026-09-28",
-    inscricaoAte: "2026-08-10",
-    edital: "https://www.serpro.gov.br",
-    status: "previsto"
+    vagas: 60,
+    salario: "R$ 20.000,00",
+    inscricaoDe: "2026-10-10",
+    inscricaoAte: "2026-11-04",
+    dataProva: "2026-12-13",
+    edital: "https://www.cebraspe.org.br/concursos",
+    status: "inscricoes_abertas"
   },
   {
-    orgao: "Polícia Rodoviária Federal",
-    cargo: "Policial Rodoviário Federal",
+    orgao: "Polícia Civil de Pernambuco (PC PE)",
+    cargo: "Agente, Escrivão e Delegado de Polícia",
     area: "Segurança",
     nivel: "Superior",
-    vagas: 1500,
-    salario: "R$ 15.829,07",
-    dataProva: "2026-11-08",
-    inscricaoAte: "2026-09-01",
-    edital: "https://www.gov.br/prf",
-    status: "previsto"
+    vagas: 1315,
+    salario: "Até R$ 13.560,00",
+    inscricaoDe: "2026-10-15",
+    inscricaoAte: "2026-12-16",
+    dataProva: "2027-03-07",
+    edital: "https://www.cebraspe.org.br/concursos",
+    status: "inscricoes_abertas"
   },
   {
-    orgao: "STJ",
-    cargo: "Analista Judiciário — Suporte em TI",
-    area: "Judiciário",
+    orgao: "Polícia Militar de Pernambuco (PM PE)",
+    cargo: "Soldado e Oficial",
+    area: "Segurança",
+    nivel: "Médio / Superior",
+    vagas: 1320,
+    salario: "Até R$ 12.937,33",
+    inscricaoDe: "2026-10-05",
+    inscricaoAte: "2026-11-05",
+    dataProva: "2027-02-21",
+    edital: "https://www.institutoaocp.org.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Sefaz SP",
+    cargo: "Analista em Planejamento, Orçamento e Finanças Públicas",
+    area: "Fiscal",
     nivel: "Superior",
-    vagas: 21,
-    salario: "R$ 13.994,78",
-    dataProva: "2026-07-06",
-    inscricaoAte: "2026-05-31",
-    edital: "https://www.stj.jus.br",
+    vagas: 60,
+    salario: "R$ 11.359,50",
+    inscricaoAte: "2026-11-03",
+    dataProva: "2026-12-13",
+    edital: "https://www.concursosfcc.com.br",
     status: "inscricoes_abertas"
   },
   {
-    orgao: "Caixa Econômica Federal",
-    cargo: "Técnico Bancário Novo",
-    area: "Administrativa",
+    orgao: "Tribunal de Contas do Estado de Goiás (TCE GO)",
+    cargo: "Técnico de Controle Externo (Administrativa e TI)",
+    area: "Controle",
     nivel: "Médio",
-    vagas: 4000,
-    salario: "R$ 3.762,91",
-    dataProva: "2026-07-13",
-    inscricaoAte: "2026-06-08",
-    edital: "https://www.caixa.gov.br",
+    vagas: 16,
+    salario: "R$ 11.862,19",
+    inscricaoDe: "2026-10-05",
+    inscricaoAte: "2026-11-06",
+    dataProva: "2027-01-17",
+    edital: "https://www.concursosfcc.com.br",
     status: "inscricoes_abertas"
   },
   {
-    orgao: "Prefeitura de São Paulo",
-    cargo: "Agente de Apoio Educacional",
+    orgao: "Banestes (ES)",
+    cargo: "Técnico Bancário, Assistente Securitário e Téc. Segurança do Trabalho",
+    area: "Bancária",
+    nivel: "Médio / Técnico",
+    vagas: "936 CR",
+    salario: "Até R$ 5.618,71",
+    inscricaoDe: "2026-10-19",
+    inscricaoAte: "2026-11-17",
+    dataProva: "2027-01-24",
+    edital: "https://www.concursosfcc.com.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Indústrias Nucleares do Brasil (INB)",
+    cargo: "Diversos cargos (inclui Analista de Sistemas e Técnicos)",
+    area: "Estatal",
+    nivel: "Médio / Superior",
+    vagas: "CR",
+    salario: "Até R$ 8.374,00",
+    inscricaoDe: "2026-10-13",
+    inscricaoAte: "2026-11-11",
+    dataProva: "2027-01-10",
+    edital: "https://conhecimento.fgv.br/concursos",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Universidade Federal da Bahia (UFBA)",
+    cargo: "Técnico-Administrativo (Assistente em Administração, TI e outros)",
     area: "Educação",
-    nivel: "Médio",
-    vagas: 1421,
-    salario: "R$ 2.344,59",
-    dataProva: "2026-08-02",
-    inscricaoAte: "2026-06-25",
-    edital: "https://www.prefeitura.sp.gov.br",
+    nivel: "Médio / Superior",
+    vagas: 139,
+    salario: "Até R$ 5.215,39",
+    inscricaoDe: "2026-09-28",
+    inscricaoAte: "2026-10-29",
+    dataProva: "2026-12-20",
+    edital: "https://www.institutoavalia.com.br",
     status: "inscricoes_abertas"
   },
   {
-    orgao: "EBSERH",
-    cargo: "Técnico em Tecnologia da Informação",
-    area: "Tecnologia",
-    nivel: "Médio",
-    vagas: 85,
-    salario: "R$ 4.452,10",
-    dataProva: "2026-09-07",
-    inscricaoAte: "2026-07-20",
-    edital: "https://www.ebserh.gov.br",
-    status: "previsto"
-  },
-  {
-    orgao: "ANATEL",
-    cargo: "Especialista em Regulação de Telecomunicações",
-    area: "Tecnologia",
-    nivel: "Superior",
-    vagas: 52,
-    salario: "R$ 19.197,00",
-    dataProva: "2026-10-18",
-    inscricaoAte: "2026-08-30",
-    edital: "https://www.anatel.gov.br",
-    status: "previsto"
-  },
-  {
-    orgao: "MPU",
-    cargo: "Analista do Ministério Público da União",
-    area: "Judiciário",
-    nivel: "Superior",
-    vagas: 295,
-    salario: "R$ 13.994,78",
-    dataProva: "2026-11-22",
-    inscricaoAte: "2026-09-30",
-    edital: "https://www.mpu.mp.br",
-    status: "previsto"
-  },
-  {
-    orgao: "Prefeitura do Rio de Janeiro",
-    cargo: "Médico — Clínica Geral",
-    area: "Saúde",
-    nivel: "Superior",
-    vagas: 200,
-    salario: "R$ 7.800,00",
-    dataProva: "2026-08-16",
-    inscricaoAte: "2026-07-01",
-    edital: "https://www.rio.rj.gov.br",
+    orgao: "Instituto Federal do Pará (IFPA)",
+    cargo: "Técnico-Administrativo (inclui Técnico e Analista de TI)",
+    area: "Educação",
+    nivel: "Médio / Superior",
+    vagas: 65,
+    salario: "Até R$ 5.215,39",
+    inscricaoDe: "2026-09-23",
+    inscricaoAte: "2026-10-20",
+    dataProva: "2026-12-20",
+    edital: "https://www.institutoaocp.org.br",
     status: "inscricoes_abertas"
   },
   {
-    orgao: "Secretaria de Saúde — MG",
-    cargo: "Técnico em Enfermagem",
-    area: "Saúde",
-    nivel: "Médio",
-    vagas: 780,
-    salario: "R$ 2.913,74",
-    dataProva: "2026-07-26",
-    inscricaoAte: "2026-06-15",
-    edital: "https://www.saude.mg.gov.br",
+    orgao: "EMATER MG",
+    cargo: "Assistente Administrativo, Extensionista, Analista de Sistemas e outros",
+    area: "Administrativa",
+    nivel: "Médio / Superior",
+    vagas: 120,
+    salario: "Até R$ 7.321,75",
+    inscricaoDe: "2026-09-30",
+    inscricaoAte: "2026-10-30",
+    dataProva: "2026-11-29",
+    edital: "https://www.gestaodeconcursos.com.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Prefeitura de Montenegro (RS)",
+    cargo: "Diversos cargos (TI, administrativa, saúde, educação)",
+    area: "Municipal",
+    nivel: "Fundamental a Superior",
+    vagas: "84 + CR",
+    salario: "Até R$ 9.848,34",
+    inscricaoAte: "2026-11-13",
+    dataProva: "2026-12-12",
+    edital: "https://www.fundatec.org.br",
+    status: "inscricoes_abertas"
+  },
+  {
+    orgao: "Prefeitura de Matão (SP)",
+    cargo: "Diversos cargos (administrativa, educação, jurídica)",
+    area: "Municipal",
+    nivel: "Fundamental a Superior",
+    vagas: 28,
+    salario: "Até R$ 9.717,96",
+    inscricaoAte: "2026-11-18",
+    dataProva: "2027-01-24",
+    edital: "https://www.ibamsp-concursos.org.br",
     status: "inscricoes_abertas"
   }
 ];
@@ -393,9 +387,38 @@ const concursos = [
    ============================================= */
 const statusInfo = {
   inscricoes_abertas: { label: "Inscrições Abertas", cls: "status-aberto" },
-  previsto:           { label: "Previsto",            cls: "status-previsto" },
-  em_andamento:       { label: "Em Andamento",        cls: "status-andamento" }
+  previsto:           { label: "Inscrições em breve", cls: "status-previsto" },
+  em_andamento:       { label: "Em Andamento",        cls: "status-andamento" },
+  encerrado:          { label: "Inscrições Encerradas", cls: "status-encerrado" },
+  realizado:          { label: "Prova Realizada",     cls: "status-realizado" }
 };
+
+/* Status calculado automaticamente pela data de hoje:
+   - antes do fim das inscrições → usa o status do cadastro (aberto/previsto)
+   - depois das inscrições e antes da prova → "Inscrições Encerradas"
+   - depois da prova → "Prova Realizada" */
+const hojeISO = (() => {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+})();
+
+function statusAtual(c) {
+  if (c.dataProva && hojeISO > c.dataProva) return 'realizado';
+  if (c.inscricaoDe && hojeISO < c.inscricaoDe) return 'previsto';
+  if (c.inscricaoAte && hojeISO > c.inscricaoAte) return 'encerrado';
+  return c.status || 'previsto';
+}
+
+const ordemStatus = { inscricoes_abertas: 0, em_andamento: 1, previsto: 2, encerrado: 3, realizado: 4 };
+
+function ordenar(lista) {
+  return lista.slice().sort((a, b) => {
+    const sa = ordemStatus[statusAtual(a)] ?? 2, sb = ordemStatus[statusAtual(b)] ?? 2;
+    if (sa !== sb) return sa - sb;
+    // ativos: prazo mais próximo primeiro; passados: mais recente primeiro
+    return sa >= 3 ? b.dataProva.localeCompare(a.dataProva) : a.inscricaoAte.localeCompare(b.inscricaoAte);
+  });
+}
 
 function formatarData(d) {
   const [a, m, dia] = d.split('-');
@@ -421,7 +444,7 @@ function renderizar() {
   const semRes = document.getElementById('sem-resultados');
   const contador = document.getElementById('contador');
 
-  const filtrados = concursos.filter(c => {
+  const filtrados = ordenar(concursos).filter(c => {
     const matchArea = areaAtiva === 'todos' || c.area === areaAtiva;
     const q = textoBusca.toLowerCase();
     const matchBusca = !q ||
@@ -441,12 +464,15 @@ function renderizar() {
 
   semRes.style.display = 'none';
   const n = filtrados.length;
-  contador.innerHTML = `<strong>${n}</strong> concurso${n !== 1 ? 's' : ''} encontrado${n !== 1 ? 's' : ''}`;
+  const abertos = filtrados.filter(c => statusAtual(c) === 'inscricoes_abertas').length;
+  contador.innerHTML = `<strong>${n}</strong> concurso${n !== 1 ? 's' : ''} encontrado${n !== 1 ? 's' : ''} · <strong>${abertos}</strong> com inscrições abertas`;
 
   filtrados.forEach(c => {
-    const s = statusInfo[c.status] || statusInfo.previsto;
+    const st = statusAtual(c);
+    const s = statusInfo[st] || statusInfo.previsto;
+    const passado = st === 'encerrado' || st === 'realizado';
     lista.innerHTML += `
-      <div class="card">
+      <div class="card${passado ? ' passado' : ''}">
         <div class="card-topo">
           <span class="status-badge ${s.cls}">${s.label}</span>
           <span class="area-tag">${c.area}</span>
@@ -468,10 +494,10 @@ function renderizar() {
           </div>
           <div class="info-item">
             <span class="info-label">🎓 Nível | Vagas</span>
-            <span class="info-valor">${c.nivel} | ${c.vagas} vg</span>
+            <span class="info-valor">${c.nivel} | ${typeof c.vagas === 'number' ? c.vagas.toLocaleString('pt-BR') + ' vagas' : c.vagas}</span>
           </div>
         </div>
-        ${c.produto ? `<button class="btn-produto" onclick="comprarProduto('${c.produto.id}')">📖 ${c.produto.nome} — ${c.produto.preco}</button>` : ''}
+        ${c.produto && st !== 'realizado' ? `<button class="btn-produto" onclick="comprarProduto('${c.produto.id}')">📖 ${c.produto.nome} — ${c.produto.preco}</button>` : ''}
       </div>`;
   });
 }

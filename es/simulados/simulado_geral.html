@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulacro General</title>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
+<script src="../../js/estudo.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:linear-gradient(135deg,#4CAF50,#2E7D32);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;}
+#main-wrapper{width:95%;max-width:680px;margin:auto;padding:16px 0;}
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.caixa{background:#fff;padding:24px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.2);text-align:center;animation:fadeIn .4s;}
+h1,h2{color:#2E7D32;margin-bottom:10px;}
+h1{font-size:22px;}
+.sub{color:#555;font-size:15px;line-height:1.5;margin-bottom:18px;}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;color:#fff;background:#2E7D32;margin-top:10px;text-decoration:none;text-align:center;}
+.btn:active{transform:scale(0.98);}
+.btn.azul{background:#1565C0;}
+.btn.laranja{background:#f59e0b;}
+.btn.cinza{background:#78909c;}
+.btn.linha{background:#fff;color:#C62828;border:2px solid #C62828;}
+.topo-prova{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#555;margin-bottom:10px;}
+.timer{font-weight:bold;color:#1565C0;font-size:16px;}
+.timer.alerta{color:#C62828;}
+.barra{width:100%;height:10px;background:#ddd;border-radius:20px;overflow:hidden;margin-bottom:16px;}
+.barra div{height:100%;width:0;background:#4CAF50;transition:.3s;}
+.tag{display:inline-block;font-size:12px;color:#2E7D32;background:#e8f5e9;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.pergunta{font-weight:bold;margin-bottom:16px;line-height:1.4;}
+.opcoes{display:grid;grid-template-columns:1fr;gap:10px;}
+.option{width:100%;background:#4CAF50;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;font-size:16px;transition:.2s;}
+.option.sel{background:#1565C0;box-shadow:0 0 0 3px #90caf9;}
+.option:disabled{cursor:default;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct{background:#2E7D32!important;}
+.option.wrong{background:#C62828!important;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+.nav{display:flex;gap:10px;margin-top:14px;}
+.nav .btn{margin-top:0;}
+.mapa{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;}
+.mapa button{width:34px;height:34px;border-radius:8px;border:1px solid #cfd8dc;background:#fff;font-size:13px;cursor:pointer;}
+.mapa button.resp{background:#c8e6c9;border-color:#81c784;}
+.mapa button.atual{outline:3px solid #1565C0;}
+.aviso{color:#C62828;font-size:14px;margin-top:8px;min-height:18px;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+.fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+.fb-texto{color:#444;}
+.nota{font-size:20px;font-weight:bold;margin:8px 0;}
+.msg{color:#444;margin-bottom:6px;}
+.mini{color:#777;font-size:13px;}
+.secao{text-align:left;margin-top:22px;}
+.secao h3{color:#2E7D32;font-size:16px;margin-bottom:10px;}
+.linha-mat{margin-bottom:10px;font-size:14px;}
+.linha-mat .rot{display:flex;justify-content:space-between;margin-bottom:4px;}
+.linha-mat .trilho{height:8px;background:#eee;border-radius:10px;overflow:hidden;}
+.linha-mat .trilho div{height:100%;border-radius:10px;}
+.item-erro{border:1px solid #eee;border-left:5px solid #C62828;border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;line-height:1.45;}
+.item-erro .pq{font-weight:bold;margin-bottom:6px;}
+.item-erro .sua{color:#C62828;}
+.item-erro .certa{color:#2E7D32;font-weight:bold;}
+.item-erro .exp{color:#555;margin-top:6px;}
+@media(min-width:600px){.opcoes{grid-template-columns:1fr 1fr;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Volver</a>
+
+<div class="caixa" id="app">
+
+</div>
+
+</div>
+
+<script>
+
+/* ===== Simulado Geral (estilo prova) =====
+   Busca as perguntas dos 8 simulados desta pasta, sorteia de forma
+   equilibrada entre as matérias e aplica com cronômetro. */
+const T = Object.assign({"gTitle":"Simulacro General","gSub":"Estilo examen: preguntas de todas las materias, sin corrección durante la prueba y con cronómetro. Al final ves las respuestas comentadas.","gCurto":"20 preguntas · 30 min","gLongo":"40 preguntas · 60 min","gCarregando":"Cargando preguntas…","gErroCarga":"No se pudieron cargar las preguntas. Revisa tu conexión e inténtalo de nuevo.","gFinalizar":"Terminar examen","gTempo":"⏰ ¡Se acabó el tiempo!","gResultado":"Resultado del Simulacro General","gTempoUsado":"Tiempo usado","gPorMateria":"Rendimiento por materia","gGabarito":"Preguntas que fallaste","gSuaResp":"Tu respuesta","gEmBranco":"En blanco","gCerta":"Respuesta correcta","gNova":"Hacer nuevo examen","gRevisar":"📌 Repasar mis errores","gMelhor":"Tu mejor nota en el Simulacro General","gTudoCerto":"🏆 ¡No fallaste ninguna! ¡Felicitaciones!","m1":"🏆 ¡Excelente! Estás listo para el examen.","m2":"👍 ¡Buen resultado! Refuerza las materias con menor nota.","m3":"📚 Sigue estudiando: empieza por las materias con menor nota.","q":"Pregunta","of":"de","next":"Siguiente ▶","prev":"◀ Anterior"}, {
+  gFaltam: (n) => `Dejaste ${n} en blanco. Toca de nuevo para terminar.`,
+  gNota: (a, n) => `Acertaste ${a} de ${n} (${Math.round(a / n * 100)}%)`
+});
+const app = document.getElementById("app");
+const NOMES = {}; Estudo.DISC.forEach(d => NOMES[d.slug] = d.icon + " " + d.nome[Estudo.LANG]);
+let banco = null, prova = [], resp = [], atual = 0, fimEm = 0, inicioEm = 0, relogio = null, confirmar = false;
+
+function el(tag, cls, txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+function mmss(ms){ const s=Math.max(0,Math.round(ms/1000)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+
+function inicio(){
+  app.innerHTML = "";
+  app.append(el("h1", null, "🏆 " + T.gTitle));
+  app.append(el("p","sub",T.gSub));
+  const b1 = el("button","btn azul",T.gCurto); b1.onclick = () => preparar(20, 30);
+  const b2 = el("button","btn",T.gLongo); b2.onclick = () => preparar(40, 60);
+  app.append(b1, b2);
+  const n = Estudo.nota(location.pathname);
+  if(n && n.total) app.append(el("p","mini", T.gMelhor + ": " + n.melhor + "/" + n.total));
+  app.append(el("p","aviso"));
+}
+
+function carregarBanco(){
+  if(banco) return Promise.resolve(banco);
+  return Promise.all(Estudo.DISC.map(d =>
+    Estudo.carregarQuestoes("simulado_" + d.slug + ".html").then(qs => qs.map(q => Object.assign({}, q, { disciplina: d.slug })))
+  )).then(listas => (banco = listas));
+}
+
+function preparar(qtd, minutos){
+  app.querySelectorAll(".btn").forEach(b => b.disabled = true);
+  app.querySelector(".aviso").textContent = T.gCarregando;
+  carregarBanco().then(listas => {
+    const porMat = Math.floor(qtd / listas.length);
+    let escolhidas = [], sobras = [];
+    listas.forEach(l => { const e = Estudo.embaralhar(l.slice()); escolhidas = escolhidas.concat(e.slice(0, porMat)); sobras = sobras.concat(e.slice(porMat)); });
+    escolhidas = escolhidas.concat(Estudo.embaralhar(sobras).slice(0, qtd - escolhidas.length));
+    prova = Estudo.embaralhar(escolhidas).map(Estudo.embaralharAlternativas);
+    resp = prova.map(() => null);
+    atual = 0; confirmar = false;
+    inicioEm = Date.now(); fimEm = inicioEm + minutos * 60000;
+    clearInterval(relogio); relogio = setInterval(tique, 1000);
+    mostrar();
+  }).catch(() => {
+    app.querySelector(".aviso").textContent = T.gErroCarga;
+    app.querySelectorAll(".btn").forEach(b => b.disabled = false);
+  });
+}
+
+function tique(){
+  const r = fimEm - Date.now();
+  const t = document.getElementById("timer");
+  if(t){ t.textContent = "⏱ " + mmss(r); t.classList.toggle("alerta", r < 5*60000); }
+  if(r <= 0){ clearInterval(relogio); finalizar(true); }
+}
+
+function mostrar(){
+  const q = prova[atual];
+  app.innerHTML = "";
+  const topo = el("div","topo-prova");
+  topo.append(el("span", null, T.q + " " + (atual+1) + " " + T.of + " " + prova.length));
+  const tm = el("span","timer"); tm.id = "timer"; topo.append(tm);
+  app.append(topo);
+  const barra = el("div","barra"); const bi = el("div"); bi.style.width = (resp.filter(x => x !== null).length/prova.length*100)+"%"; barra.append(bi); app.append(barra);
+  app.append(el("span","tag",NOMES[q.disciplina] || ""));
+  app.append(el("div","pergunta",q.question));
+  const ops = el("div","opcoes");
+  q.options.forEach((o,i) => {
+    const b = el("button","option" + (resp[atual] === i ? " sel" : ""), o);
+    b.onclick = () => { resp[atual] = i; confirmar = false; if(atual < prova.length-1){ atual++; } mostrar(); };
+    ops.append(b);
+  });
+  app.append(ops);
+  const nav = el("div","nav");
+  const p = el("button","btn cinza",T.prev); p.disabled = atual === 0; p.onclick = () => { atual--; mostrar(); };
+  const n = el("button","btn azul",T.next); n.disabled = atual === prova.length-1; n.onclick = () => { atual++; mostrar(); };
+  nav.append(p, n); app.append(nav);
+  const mapa = el("div","mapa");
+  prova.forEach((_,i) => {
+    const b = el("button", (resp[i] !== null ? "resp" : "") + (i === atual ? " atual" : ""), String(i+1));
+    b.onclick = () => { atual = i; mostrar(); };
+    mapa.append(b);
+  });
+  app.append(mapa);
+  const f = el("button","btn",T.gFinalizar); f.onclick = () => finalizar(false); app.append(f);
+  app.append(el("p","aviso"));
+  tique();
+}
+
+function finalizar(acabouTempo){
+  const brancos = resp.filter(x => x === null).length;
+  if(!acabouTempo && brancos && !confirmar){
+    confirmar = true;
+    app.querySelector(".aviso").textContent = T.gFaltam(brancos);
+    return;
+  }
+  clearInterval(relogio);
+  const usado = Math.min(Date.now(), fimEm) - inicioEm;
+  let acertos = 0;
+  const porMat = {};
+  prova.forEach((q,i) => {
+    const ok = resp[i] === q.correctAnswer;
+    if(ok) acertos++;
+    const m = porMat[q.disciplina] || (porMat[q.disciplina] = { a:0, n:0 });
+    m.n++; if(ok) m.a++;
+    Estudo.registrarResposta(q, ok, q.disciplina);
+  });
+  const n = prova.length, pct = acertos/n;
+  const nota = Estudo.salvarNota(acertos, n);
+  Estudo.evento("simulado_geral_concluido", { acertos: acertos, total: n });
+
+  app.innerHTML = "";
+  if(acabouTempo) app.append(el("p","aviso",T.gTempo));
+  app.append(el("h1", null, "🏆 " + T.gResultado));
+  app.append(el("p","nota",T.gNota(acertos, n)));
+  app.append(el("p","msg", pct >= 0.8 ? T.m1 : pct >= 0.6 ? T.m2 : T.m3));
+  app.append(el("p","mini", T.gTempoUsado + ": " + mmss(usado) + " · " + T.gMelhor + ": " + nota.melhor + "/" + n));
+
+  const sec = el("div","secao"); sec.append(el("h3",null,T.gPorMateria));
+  Object.keys(porMat).sort((x,y) => porMat[x].a/porMat[x].n - porMat[y].a/porMat[y].n).forEach(k => {
+    const m = porMat[k], p = m.a/m.n;
+    const linha = el("div","linha-mat");
+    const rot = el("div","rot"); rot.append(el("span",null,NOMES[k]), el("b",null,m.a + "/" + m.n));
+    const tr = el("div","trilho"); const f = el("div"); f.style.width = (p*100)+"%"; f.style.background = p >= 0.8 ? "#2E7D32" : p >= 0.6 ? "#f59e0b" : "#C62828"; tr.append(f);
+    linha.append(rot, tr); sec.append(linha);
+  });
+  app.append(sec);
+
+  const gab = el("div","secao"); gab.append(el("h3",null,T.gGabarito));
+  let errou = 0;
+  prova.forEach((q,i) => {
+    if(resp[i] === q.correctAnswer) return;
+    errou++;
+    const it = el("div","item-erro");
+    it.append(el("div","pq", (i+1) + ". " + q.question));
+    it.append(el("div","sua", T.gSuaResp + ": " + (resp[i] === null ? T.gEmBranco : q.options[resp[i]])));
+    it.append(el("div","certa", T.gCerta + ": " + q.options[q.correctAnswer]));
+    it.append(el("div","exp", q.explanation));
+    gab.append(it);
+  });
+  if(!errou) gab.append(el("p","msg",T.gTudoCerto));
+  app.append(gab);
+
+  const nova = el("button","btn azul",T.gNova); nova.onclick = inicio; app.append(nova);
+  if(errou){ const r = el("a","btn laranja",T.gRevisar); r.href = "revisao.html"; app.append(r); }
+  Estudo.oferta(app, pct);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+inicio();
+
+</script>
+
+</body>
+</html>

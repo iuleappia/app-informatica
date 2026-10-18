@@ -1,0 +1,73 @@
+/* =========================================================
+   MODO ESCURO — só vale quando <html class="escuro"> (js/tema.js)
+   Paleta: fundo #0f1420 · cartões #1a2130 · cartões 2 #232b3d
+           texto #e6e9ef · texto suave #b8c1d1 · bordas #2e3850
+   ========================================================= */
+
+html.escuro { color-scheme: dark; }
+html.escuro body { background: #0f1420 !important; color: #e6e9ef; }
+
+/* ---------- shell (topo + menu) ---------- */
+html.escuro .menu { background: #151b28; box-shadow: 0 -3px 10px rgba(0,0,0,.5); }
+html.escuro .menu button { color: #cfd6e2; }
+html.escuro .menu button.ativo { color: #00E5FF; }
+
+/* ---------- cartões e caixas brancas ---------- */
+html.escuro :where(.bloco, .card-produto, .card, .progresso, .titulo-box, #app-container, #quiz-container,
+  .caixa, .item-produto, .tabela-container, .modal-box, .busca-input, .filtro-btn, .info,
+  .cards-destaque > div, table) {
+  background: #1a2130 !important;
+  color: #e6e9ef;
+  box-shadow: 0 4px 16px rgba(0,0,0,.35);
+}
+html.escuro :where(.prog-item, .info-item, .mapa button, .sem-resultados) { background: #232b3d !important; color: #e6e9ef; border-color: #2e3850 !important; }
+html.escuro .filtro-btn.active { background: #00B8D4 !important; color: #0f1420 !important; border-color: #00B8D4 !important; }
+html.escuro .mapa button.resp { background: #1f4a2a !important; border-color: #2e7d32 !important; }
+
+/* ---------- textos ---------- */
+html.escuro :where(h1, h3, h4, .nome, .titulo, .titulo-box h1, .orgao, .info-valor, #question-container, .pergunta,
+  .fb-titulo, .item-erro .pq, .subtitulo, .preco-novo, .preco, td, th, strong, label) { color: #e6e9ef; }
+html.escuro :where(p, li, .desc, .texto, .leitores, .avaliacao span, .sub, .msg, .fb-texto, .mini, .info-label,
+  .prog-item span, .cargo, .contador, #progress-text, .topo-prova, .item-erro .exp, .linha-mat, .preco-antigo) { color: #b8c1d1; }
+html.escuro .bloco p a, html.escuro .outra { color: #22d3ee; }
+html.escuro .prog-item b { color: #22d3ee; }
+html.escuro .prog-item.erros b { color: #fbbf24; }
+
+/* elementos com id (precisam de especificidade de id) */
+html.escuro #question-container, html.escuro #result { color: #e6e9ef; }
+html.escuro #progress-text { color: #b8c1d1; }
+
+/* títulos verdes das disciplinas e simulados ficam mais claros */
+html.escuro :where(#app-container h1, #app-container h2, #quiz-container h2, .caixa h1, .caixa h2, .secao h3, .highlight) { color: #6fcf73 !important; }
+
+/* ---------- simulados ---------- */
+html.escuro :where(#progress-bar, .barra, .prog-barra, .linha-mat .trilho) { background: #2e3850 !important; }
+html.escuro .option:disabled:not(.correct):not(.wrong) { background: #3a4357 !important; color: #b8c1d1; }
+html.escuro #feedback.ok { background: #13301c !important; }
+html.escuro #feedback.erro { background: #3a1519 !important; }
+html.escuro .tag { background: #13301c; color: #8be08f; }
+html.escuro .item-erro { border-color: #2e3850; border-left-color: #C62828; }
+html.escuro .item-erro .sua { color: #ff8a80; }
+html.escuro .item-erro .certa { color: #8be08f; }
+html.escuro .btn.linha { background: transparent; }
+
+/* ---------- listas (disciplinas/simulados) ---------- */
+html.escuro .titulo-box { box-shadow: none; }
+
+/* ---------- tabelas (Excel) ---------- */
+html.escuro .container > h2 { background: #1f2a24 !important; color: #8be08f !important; }
+html.escuro tr:nth-child(even) { background: #1f2737 !important; }
+html.escuro tr:hover { background: #24324a !important; }
+html.escuro :where(td, th) { border-color: #2e3850 !important; }
+html.escuro td:first-child { color: #6fcf73; }
+
+/* ---------- concursos ---------- */
+html.escuro .container > .aviso { background: #3a2f12 !important; color: #f5d58a; }
+html.escuro .busca-input { border-color: #2e3850 !important; }
+html.escuro .busca-input::placeholder { color: #8892a6; }
+html.escuro .area-tag { background: #232b3d; color: #93c5fd; }
+html.escuro .salario-valor { color: #6fcf73 !important; }
+
+/* ---------- links e campos ---------- */
+html.escuro input, html.escuro select, html.escuro textarea { background: #232b3d; color: #e6e9ef; border-color: #2e3850; }
+html.escuro hr { border-color: #2e3850; }

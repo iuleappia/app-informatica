@@ -110,12 +110,23 @@ li {
         padding: 18px;
     }
 }
+
+/* === MELHORIAS: voltar + botão do simulado === */
+.btn-voltar{display:inline-block;margin-bottom:14px;color:#2E7D32;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:#e8f5e9;}
+.btn-voltar:hover{background:#c8e6c9;}
+a#start-button{display:block;text-align:center;text-decoration:none;}
 </style>
+<script src="../js/estudo.js"></script>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div id="app-container">
+
+<a href="../page/disciplinas.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Voltar às disciplinas</a>
+
 
 <h1>Algoritmo e Programação</h1>
 
@@ -217,11 +228,25 @@ Além disso, o estudo de algoritmos desenvolve o raciocínio lógico e a capacid
 Compreender algoritmos e programação é fundamental para entender como os softwares são criados e como os computadores executam tarefas. Esse conhecimento é a base para o desenvolvimento de sistemas, aplicativos e soluções tecnológicas que fazem parte da sociedade digital.
 </p>
 
-<a href="../simulados/simulado_algoritmo.html">
-<button id="start-button">
-🚀 Iniciar Simulado
-</button>
-</a>
+<a href="../simulados/simulado_algoritmo.html" id="start-button">🚀 Iniciar Simulado</a>
+
+</div>
+
+<script>
+/* marca a disciplina como lida ao chegar no fim do texto ou iniciar o simulado */
+(function(){
+  if(!window.Estudo) return;
+  var feito=false;
+  function marcar(){ if(!feito){ feito=true; Estudo.marcarLida(); } }
+  function checar(){
+    var fim=(window.scrollY+window.innerHeight)/document.documentElement.scrollHeight;
+    if(fim>0.85) marcar();
+  }
+  window.addEventListener("scroll",checar,{passive:true});
+  var b=document.getElementById("start-button"); if(b) b.addEventListener("click",marcar);
+  setTimeout(checar,1500);
+})();
+</script>
 
 </body>
 </html>

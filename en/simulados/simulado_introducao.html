@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Introduction to Computer Science</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"Which of the following programs is a web browser?",options:["Google Chrome","Microsoft Word","Excel","PowerPoint"],correctAnswer:0},
-{question:"What is the main function of a web browser?",options:["Edit text documents","Access web pages","Create spreadsheets","Install programs"],correctAnswer:1},
-{question:"Which Microsoft Office program is used to create spreadsheets?",options:["Word","PowerPoint","Excel","Access"],correctAnswer:2},
-{question:"In Microsoft Word, what is the program's main function?",options:["Create presentations","Edit text and documents","Create databases","Manage networks"],correctAnswer:1},
-{question:"Which Office program is used to create slide presentations?",options:["Excel","PowerPoint","Word","Outlook"],correctAnswer:1},
-{question:"Which operating system was developed by Microsoft?",options:["Linux","Windows","Android","macOS"],correctAnswer:1},
-{question:"What is the function of an operating system?",options:["Create web pages","Manage the computer's hardware and software","Edit videos","Create spreadsheets"],correctAnswer:1},
-{question:"Which of the following is an operating system?",options:["Windows","Google Chrome","Word","Excel"],correctAnswer:0},
-{question:"What does the acronym URL stand for in internet usage?",options:["The address of a resource on the internet","Text editing program","Operating system","Type of virus"],correctAnswer:0},
-{question:"What is the function of a search engine like Google?",options:["Edit documents","Search for information on the internet","Create spreadsheets","Install programs"],correctAnswer:1},
-{question:"Which of these is a web browser?",options:["Mozilla Firefox","Microsoft Excel","Adobe Photoshop","Notepad"],correctAnswer:0},
-{question:"What is the common shortcut to copy text on Windows?",options:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + Z"],correctAnswer:0},
-{question:"What is the common shortcut to paste copied content?",options:["Ctrl + A","Ctrl + C","Ctrl + V","Ctrl + S"],correctAnswer:2},
-{question:"In Excel, a cell is:",options:["A chart","A space where data is entered","A file","A slide"],correctAnswer:1},
-{question:"What do you need to access the internet?",options:["Only a keyboard","A network connection","Only a monitor","A printer"],correctAnswer:1},
-{question:"Which of these services allows you to send electronic messages?",options:["Email","Spreadsheet","Slide","Operating system"],correctAnswer:0},
-{question:"What is the function of the 'Refresh' button in a browser?",options:["Close the browser","Reload the current page","Save the page","Print the page"],correctAnswer:1},
-{question:"What is a download?",options:["Sending a file to the internet","Saving a file from the internet to your device","Deleting files","Creating files"],correctAnswer:1},
-{question:"What is the function of the Recycle Bin in the operating system?",options:["Temporarily store deleted files","Create backups","Install programs","Open web pages"],correctAnswer:0},
-{question:"Which of these is a mobile operating system?",options:["Android","Excel","Word","PowerPoint"],correctAnswer:0}
+  {
+    question: "Which of the following programs is a web browser?",
+    options: ["Google Chrome","Microsoft Word","Excel","PowerPoint"],
+    correctAnswer: 0,
+    explanation: "Google Chrome is a web browser, a program for visiting websites. Other examples: Firefox, Edge, Safari and Opera."
+  },
+  {
+    question: "What is the main function of a web browser?",
+    options: ["Edit text documents","Access web pages","Create spreadsheets","Install programs"],
+    correctAnswer: 1,
+    explanation: "A browser interprets web pages (HTML) and displays websites, videos and online services."
+  },
+  {
+    question: "Which Microsoft Office program is used to create spreadsheets?",
+    options: ["Word","PowerPoint","Excel","Access"],
+    correctAnswer: 2,
+    explanation: "Excel is Office's spreadsheet program: it organizes data in cells and calculates with formulas and functions."
+  },
+  {
+    question: "In Microsoft Word, what is the program's main function?",
+    options: ["Create presentations","Edit text and documents","Create databases","Manage networks"],
+    correctAnswer: 1,
+    explanation: "Word is Office's word processor, used to create and format documents, letters and reports."
+  },
+  {
+    question: "Which Office program is used to create slide presentations?",
+    options: ["Excel","PowerPoint","Word","Outlook"],
+    correctAnswer: 1,
+    explanation: "PowerPoint creates slide presentations with text, images, animations and transitions."
+  },
+  {
+    question: "Which operating system was developed by Microsoft?",
+    options: ["Linux","Windows","Android","macOS"],
+    correctAnswer: 1,
+    explanation: "Windows is Microsoft's operating system. Linux is free and open, and macOS is Apple's."
+  },
+  {
+    question: "What is the function of an operating system?",
+    options: ["Create web pages","Manage the computer's hardware and software","Edit videos","Create spreadsheets"],
+    correctAnswer: 1,
+    explanation: "The operating system manages the hardware (memory, processor, disks) and is the base other programs run on."
+  },
+  {
+    question: "Which of the following is an operating system?",
+    options: ["Windows","Google Chrome","Word","Excel"],
+    correctAnswer: 0,
+    explanation: "Windows is an operating system. Word, Excel and Chrome are applications that run on top of it."
+  },
+  {
+    question: "What does the acronym URL stand for in internet usage?",
+    options: ["The address of a resource on the internet","Text editing program","Operating system","Type of virus"],
+    correctAnswer: 0,
+    explanation: "A URL (Uniform Resource Locator) is the address of a resource on the internet. E.g. https://www.site.com/page."
+  },
+  {
+    question: "What is the function of a search engine like Google?",
+    options: ["Edit documents","Search for information on the internet","Create spreadsheets","Install programs"],
+    correctAnswer: 1,
+    explanation: "Search engines (Google, Bing) index the web so you can find pages by searching for keywords."
+  },
+  {
+    question: "Which of these is a web browser?",
+    options: ["Mozilla Firefox","Microsoft Excel","Adobe Photoshop","Notepad"],
+    correctAnswer: 0,
+    explanation: "Mozilla Firefox is an open-source browser, an alternative to Chrome and Edge."
+  },
+  {
+    question: "What is the common shortcut to copy text on Windows?",
+    options: ["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + Z"],
+    correctAnswer: 0,
+    explanation: "Ctrl + C copies the selected item to the clipboard without removing it. (Ctrl + X cuts.)"
+  },
+  {
+    question: "What is the common shortcut to paste copied content?",
+    options: ["Ctrl + A","Ctrl + C","Ctrl + V","Ctrl + S"],
+    correctAnswer: 2,
+    explanation: "Ctrl + V pastes whatever is on the clipboard."
+  },
+  {
+    question: "In Excel, a cell is:",
+    options: ["A chart","A space where data is entered","A file","A slide"],
+    correctAnswer: 1,
+    explanation: "A cell is where a row meets a column, identified by an address like A1. It's where you type data and formulas."
+  },
+  {
+    question: "What do you need to access the internet?",
+    options: ["Only a keyboard","A network connection","Only a monitor","A printer"],
+    correctAnswer: 1,
+    explanation: "To access the internet you need a network connection (Wi-Fi, cable, mobile data), usually provided by an ISP."
+  },
+  {
+    question: "Which of these services allows you to send electronic messages?",
+    options: ["Email","Spreadsheet","Slide","Operating system"],
+    correctAnswer: 0,
+    explanation: "Email sends messages and attachments to an address in the format user@domain."
+  },
+  {
+    question: "What is the function of the 'Refresh' button in a browser?",
+    options: ["Close the browser","Reload the current page","Save the page","Print the page"],
+    correctAnswer: 1,
+    explanation: "The Refresh button (F5) reloads the current page, fetching the content from the server again."
+  },
+  {
+    question: "What is a download?",
+    options: ["Sending a file to the internet","Saving a file from the internet to your device","Deleting files","Creating files"],
+    correctAnswer: 1,
+    explanation: "Downloading means transferring a file from the internet to your device. Sending it the other way is uploading."
+  },
+  {
+    question: "What is the function of the Recycle Bin in the operating system?",
+    options: ["Temporarily store deleted files","Create backups","Install programs","Open web pages"],
+    correctAnswer: 0,
+    explanation: "The Recycle Bin temporarily keeps deleted files so you can restore them. Shift + Delete skips it."
+  },
+  {
+    question: "Which of these is a mobile operating system?",
+    options: ["Android","Excel","Word","PowerPoint"],
+    correctAnswer: 0,
+    explanation: "Android, by Google, is the most used mobile operating system. iOS is Apple's."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

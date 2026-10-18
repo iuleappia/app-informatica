@@ -136,12 +136,41 @@ grid-template-columns:1fr 1fr;
 }
 }
 
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../js/estudo.js"></script>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div id="main-wrapper">
+
+<a href="../page/simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Voltar</a>
+
 
 <div id="quiz-container">
 
@@ -157,6 +186,10 @@ grid-template-columns:1fr 1fr;
 
 <div id="options-container"></div>
 
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
+
 <p id="result"></p>
 
 <button id="restart-btn">Refazer Simulado</button>
@@ -168,226 +201,225 @@ grid-template-columns:1fr 1fr;
 <script>
 
 const questions = [
-{
-question: "No modelo de Von Neumann, qual característica é fundamental?",
-options: ["Memória separada para dados e instruções", "Memória única para dados e instruções", "Processador sem registradores", "Uso exclusivo de memória cache"],
-correctAnswer: 1
-},
-{
-question: "Qual componente é responsável por executar instruções em um computador?",
-options: ["HD", "CPU", "Fonte de alimentação", "Placa de rede"],
-correctAnswer: 1
-},
-{
-question: "Qual unidade da CPU realiza operações matemáticas e lógicas?",
-options: ["Unidade de Controle", "ULA", "Barramento de dados", "Memória cache"],
-correctAnswer: 1
-},
-{
-question: "O que são registradores em um processador?",
-options: ["Memórias externas de grande capacidade", "Áreas de armazenamento muito rápidas dentro da CPU", "Dispositivos de entrada de dados", "Memórias usadas apenas para backup"],
-correctAnswer: 1
-},
-{
-question: "Na hierarquia de memória, qual é a memória mais rápida?",
-options: ["HD", "RAM", "Cache", "SSD"],
-correctAnswer: 2
-},
-{
-question: "Qual memória é considerada volátil?",
-options: ["ROM", "HD", "RAM", "SSD"],
-correctAnswer: 2
-},
-{
-question: "Qual dispositivo é usado para armazenamento permanente de dados?",
-options: ["RAM", "Cache", "Registradores", "HD ou SSD"],
-correctAnswer: 3
-},
-{
-question: "Na hierarquia de memória, qual é mais rápida que a RAM e mais lenta que os registradores?",
-options: ["Cache", "HD", "SSD", "Memória virtual"],
-correctAnswer: 0
-},
-{
-question: "Qual é a função da Unidade de Controle dentro da CPU?",
-options: ["Executar cálculos matemáticos", "Gerar gráficos", "Controlar a execução das instruções", "Armazenar arquivos"],
-correctAnswer: 2
-},
-{
-question: "O que caracteriza a arquitetura RISC?",
-options: ["Grande quantidade de instruções complexas", "Conjunto reduzido de instruções simples", "Ausência de registradores", "Uso exclusivo de memória RAM"],
-correctAnswer: 1
-},
-{
-question: "O que caracteriza a arquitetura CISC?",
-options: ["Instruções simples e poucas", "Conjunto complexo de instruções", "Ausência de memória cache", "Processadores sem pipeline"],
-correctAnswer: 1
-},
-{
-question: "Qual das alternativas representa corretamente a hierarquia de memória do mais rápido para o mais lento?",
-options: ["HD → RAM → Cache → Registradores", "Registradores → Cache → RAM → HD/SSD", "RAM → Registradores → Cache → HD", "Cache → HD → RAM → Registradores"],
-correctAnswer: 1
-},
-{
-question: "Qual é a principal função da memória cache?",
-options: ["Armazenar arquivos do usuário", "Acelerar o acesso a dados frequentemente usados", "Substituir o HD", "Armazenar o sistema operacional permanentemente"],
-correctAnswer: 1
-},
-{
-question: "No modelo de Von Neumann, qual componente armazena instruções e dados?",
-options: ["Memória principal", "CPU", "ULA", "Registrador de controle"],
-correctAnswer: 0
-},
-{
-question: "Qual componente executa operações como soma, subtração e comparações?",
-options: ["ULA", "Cache", "Barramento", "Fonte"],
-correctAnswer: 0
-},
-{
-question: "Qual tipo de memória mantém os dados mesmo sem energia?",
-options: ["RAM", "Cache", "Registradores", "HD ou SSD"],
-correctAnswer: 3
-},
-{
-question: "Qual é a principal diferença entre RISC e CISC?",
-options: ["RISC possui instruções simples e CISC possui instruções complexas", "RISC usa HD e CISC usa SSD", "RISC não usa memória", "CISC não usa registradores"],
-correctAnswer: 0
-},
-{
-question: "Qual componente da CPU armazena temporariamente dados que estão sendo processados?",
-options: ["Registradores", "HD", "Fonte", "Placa-mãe"],
-correctAnswer: 0
-},
-{
-question: "O que significa a sigla CPU?",
-options: ["Central Processing Unit", "Computer Processing Unit", "Central Peripheral Unit", "Control Processing Unit"],
-correctAnswer: 0
-},
-{
-question: "Qual é a principal vantagem do SSD em relação ao HD?",
-options: ["Maior tamanho físico", "Maior velocidade de acesso aos dados", "Uso exclusivo em servidores", "Menor capacidade de armazenamento"],
-correctAnswer: 1
-}
+  {
+    question: "No modelo de Von Neumann, qual característica é fundamental?",
+    options: ["Memória separada para dados e instruções","Memória única para dados e instruções","Processador sem registradores","Uso exclusivo de memória cache"],
+    correctAnswer: 1,
+    explanation: "No modelo de Von Neumann, dados e instruções ficam na mesma memória e usam o mesmo barramento. Memórias separadas caracterizam a arquitetura Harvard."
+  },
+  {
+    question: "Qual componente é responsável por executar instruções em um computador?",
+    options: ["HD","CPU","Fonte de alimentação","Placa de rede"],
+    correctAnswer: 1,
+    explanation: "A CPU (processador) busca, decodifica e executa as instruções dos programas. É o \"cérebro\" do computador."
+  },
+  {
+    question: "Qual unidade da CPU realiza operações matemáticas e lógicas?",
+    options: ["Unidade de Controle","ULA","Barramento de dados","Memória cache"],
+    correctAnswer: 1,
+    explanation: "A ULA (Unidade Lógica e Aritmética) faz contas (soma, subtração) e operações lógicas (E, OU, comparações)."
+  },
+  {
+    question: "O que são registradores em um processador?",
+    options: ["Memórias externas de grande capacidade","Áreas de armazenamento muito rápidas dentro da CPU","Dispositivos de entrada de dados","Memórias usadas apenas para backup"],
+    correctAnswer: 1,
+    explanation: "Registradores são pequenas memórias dentro da CPU, as mais rápidas do computador, que guardam dados e instruções em uso no momento."
+  },
+  {
+    question: "Entre as memórias abaixo, qual é a mais rápida?",
+    options: ["HD","RAM","Cache","SSD"],
+    correctAnswer: 2,
+    explanation: "Entre as opções, a cache é a mais rápida: fica no processador ou muito perto dele. (Na hierarquia completa, só os registradores são mais rápidos.)"
+  },
+  {
+    question: "Qual memória é considerada volátil?",
+    options: ["ROM","HD","RAM","SSD"],
+    correctAnswer: 2,
+    explanation: "RAM é volátil: perde todo o conteúdo quando o computador é desligado. Por isso os arquivos precisam ser salvos no HD/SSD."
+  },
+  {
+    question: "Qual dispositivo é usado para armazenamento permanente de dados?",
+    options: ["RAM","Cache","Registradores","HD ou SSD"],
+    correctAnswer: 3,
+    explanation: "HD e SSD são memórias secundárias, não voláteis: guardam arquivos e programas permanentemente, mesmo sem energia."
+  },
+  {
+    question: "Na hierarquia de memória, qual é mais rápida que a RAM e mais lenta que os registradores?",
+    options: ["Cache","HD","SSD","Memória virtual"],
+    correctAnswer: 0,
+    explanation: "A cache fica entre os registradores e a RAM: é mais rápida que a RAM e mais lenta que os registradores."
+  },
+  {
+    question: "Qual é a função da Unidade de Controle dentro da CPU?",
+    options: ["Executar cálculos matemáticos","Gerar gráficos","Controlar a execução das instruções","Armazenar arquivos"],
+    correctAnswer: 2,
+    explanation: "A Unidade de Controle coordena a CPU: busca a instrução, decodifica e envia sinais para a ULA e os demais componentes executarem."
+  },
+  {
+    question: "O que caracteriza a arquitetura RISC?",
+    options: ["Grande quantidade de instruções complexas","Conjunto reduzido de instruções simples","Ausência de registradores","Uso exclusivo de memória RAM"],
+    correctAnswer: 1,
+    explanation: "RISC (Reduced Instruction Set Computer) usa poucas instruções simples, geralmente executadas em um ciclo. Ex.: processadores ARM dos celulares."
+  },
+  {
+    question: "O que caracteriza a arquitetura CISC?",
+    options: ["Instruções simples e poucas","Conjunto complexo de instruções","Ausência de memória cache","Processadores sem pipeline"],
+    correctAnswer: 1,
+    explanation: "CISC (Complex Instruction Set Computer) tem muitas instruções complexas, que fazem mais trabalho cada uma. Ex.: processadores x86 (Intel/AMD)."
+  },
+  {
+    question: "Qual das alternativas representa corretamente a hierarquia de memória do mais rápido para o mais lento?",
+    options: ["HD → RAM → Cache → Registradores","Registradores → Cache → RAM → HD/SSD","RAM → Registradores → Cache → HD","Cache → HD → RAM → Registradores"],
+    correctAnswer: 1,
+    explanation: "Do mais rápido ao mais lento (e do menor ao maior): registradores → cache → RAM → HD/SSD."
+  },
+  {
+    question: "Qual é a principal função da memória cache?",
+    options: ["Armazenar arquivos do usuário","Acelerar o acesso a dados frequentemente usados","Substituir o HD","Armazenar o sistema operacional permanentemente"],
+    correctAnswer: 1,
+    explanation: "A cache guarda cópias dos dados e instruções mais usados, evitando que a CPU espere pela RAM, que é mais lenta."
+  },
+  {
+    question: "No modelo de Von Neumann, qual componente armazena instruções e dados?",
+    options: ["Memória principal","CPU","ULA","Registrador de controle"],
+    correctAnswer: 0,
+    explanation: "Na arquitetura de Von Neumann, a memória principal guarda tanto os programas (instruções) quanto os dados que eles usam."
+  },
+  {
+    question: "Qual componente executa operações como soma, subtração e comparações?",
+    options: ["ULA","Cache","Barramento","Fonte"],
+    correctAnswer: 0,
+    explanation: "A ULA é a parte da CPU que executa cálculos aritméticos e comparações lógicas."
+  },
+  {
+    question: "Qual tipo de memória mantém os dados mesmo sem energia?",
+    options: ["RAM","Cache","Registradores","HD ou SSD"],
+    correctAnswer: 3,
+    explanation: "HD e SSD são não voláteis: mantêm os dados sem energia. RAM e cache são voláteis."
+  },
+  {
+    question: "Qual é a principal diferença entre RISC e CISC?",
+    options: ["RISC possui instruções simples e CISC possui instruções complexas","RISC usa HD e CISC usa SSD","RISC não usa memória","CISC não usa registradores"],
+    correctAnswer: 0,
+    explanation: "RISC tem instruções simples e rápidas (mais instruções por programa). CISC tem instruções complexas (menos instruções por programa)."
+  },
+  {
+    question: "Qual componente da CPU armazena temporariamente dados que estão sendo processados?",
+    options: ["Registradores","HD","Fonte","Placa-mãe"],
+    correctAnswer: 0,
+    explanation: "Os registradores guardam temporariamente os dados e endereços que a CPU está processando naquele instante."
+  },
+  {
+    question: "O que significa a sigla CPU?",
+    options: ["Central Processing Unit","Computer Processing Unit","Central Peripheral Unit","Control Processing Unit"],
+    correctAnswer: 0,
+    explanation: "CPU = Central Processing Unit (Unidade Central de Processamento)."
+  },
+  {
+    question: "Qual é a principal vantagem do SSD em relação ao HD?",
+    options: ["Maior tamanho físico","Maior velocidade de acesso aos dados","Uso exclusivo em servidores","Menor capacidade de armazenamento"],
+    correctAnswer: 1,
+    explanation: "O SSD usa memória flash, sem partes móveis, e acessa os dados muito mais rápido que o HD, que usa discos giratórios e cabeça de leitura."
+  }
 ];
 
-let currentQuestion=0;
-let score=0;
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Pergunta","of":"de","ok":"✅ Correto!","bad":"❌ Incorreto. Resposta certa:","next":"Próxima pergunta ▶","finish":"Ver resultado 🏁","final":"Resultado final","best":"Sua melhor nota neste simulado:","m1":"🏆 Excelente! Você domina este conteúdo.","m2":"👍 Bom resultado! Revise os pontos que errou.","m3":"📚 Continue estudando: releia a disciplina e tente de novo."};
+function scoreText(s, n){ return `Você acertou ${s} de ${n} perguntas (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
 
 function loadQuestion(){
-
-const questionContainer=document.getElementById("question-container");
-const optionsContainer=document.getElementById("options-container");
-const progressText=document.getElementById("progress-text");
-const progress=document.getElementById("progress");
-
-progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
-
-progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
-
-questionContainer.textContent=questions[currentQuestion].question;
-
-optionsContainer.innerHTML="";
-
-questions[currentQuestion].options.forEach((option,index)=>{
-
-const button=document.createElement("button");
-
-button.textContent=option;
-
-button.classList.add("option");
-
-button.dataset.index=index;
-
-button.onclick=selectOption;
-
-optionsContainer.appendChild(button);
-
-});
-
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
 
 function selectOption(event){
-
-const buttons=document.querySelectorAll(".option");
-
-buttons.forEach(btn=>btn.disabled=true);
-
-const selected=parseInt(event.target.dataset.index);
-
-const correct=questions[currentQuestion].correctAnswer;
-
-let delay;
-
-if(selected===correct){
-
-event.target.classList.add("correct");
-
-document.getElementById("result").textContent="Correto!";
-
-score++;
-
-delay=1000;
-
-}else{
-
-event.target.classList.add("wrong");
-
-buttons[correct].classList.add("correct");
-
-document.getElementById("result").textContent=
-`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
-
-delay=2000;
-
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
-currentQuestion++;
-
-setTimeout(()=>{
-
-document.getElementById("result").textContent="";
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
-}
-
-},delay);
-
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
 }
 
 function showResult(){
-
-document.getElementById("progress").style.width="100%";
-
-document.getElementById("question-container").textContent="Resultado Final";
-
-document.getElementById("options-container").innerHTML="";
-
-document.getElementById("result").textContent=
-`Você acertou ${score} de ${questions.length} perguntas!`;
-
-document.getElementById("restart-btn").style.display="inline-block";
-
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Revisar meus erros ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
 
+document.getElementById("next-btn").onclick=nextQuestion;
 document.getElementById("restart-btn").onclick=function(){
-
-currentQuestion=0;
-
-score=0;
-
-this.style.display="none";
-
-loadQuestion();
-
+  this.style.display="none"; prepareQuiz(); loadQuestion();
 };
 
+prepareQuiz();
 loadQuestion();
 
 </script>

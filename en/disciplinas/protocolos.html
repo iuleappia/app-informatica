@@ -110,12 +110,23 @@ li {
         padding: 18px;
     }
 }
+
+/* === MELHORIAS: voltar + botão do simulado === */
+.btn-voltar{display:inline-block;margin-bottom:14px;color:#2E7D32;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:#e8f5e9;}
+.btn-voltar:hover{background:#c8e6c9;}
+a#start-button{display:block;text-align:center;text-decoration:none;}
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 
 <body>
 
 <div id="app-container">
+
+<a href="../disciplinas.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back to subjects</a>
+
 
 <h1>Network Protocols</h1>
 
@@ -163,11 +174,25 @@ Protocols are essential to ensuring that networks function correctly. They organ
 Network protocols are fundamental to digital communication. Thanks to them, connected devices can exchange information and access internet services in an organized and standardized way.
 </p>
 
-<a href="../simulados/simulado_protocolos.html">
-<button id="start-button">
-🚀 Start Practice Test
-</button>
-</a>
+<a href="../simulados/simulado_protocolos.html" id="start-button">🚀 Start Practice Test</a>
+
+</div>
+
+<script>
+/* marca a disciplina como lida ao chegar no fim do texto ou iniciar o simulado */
+(function(){
+  if(!window.Estudo) return;
+  var feito=false;
+  function marcar(){ if(!feito){ feito=true; Estudo.marcarLida(); } }
+  function checar(){
+    var fim=(window.scrollY+window.innerHeight)/document.documentElement.scrollHeight;
+    if(fim>0.85) marcar();
+  }
+  window.addEventListener("scroll",checar,{passive:true});
+  var b=document.getElementById("start-button"); if(b) b.addEventListener("click",marcar);
+  setTimeout(checar,1500);
+})();
+</script>
 
 </body>
 </html>

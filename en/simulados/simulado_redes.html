@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Computer Networks</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"What is the function of the TCP protocol?",options:["Transfer files","Send emails","Reliably transfer data","Browse the web"],correctAnswer:2},
-{question:"What does the acronym IP stand for?",options:["Internet Protocol","Internal Protocol","Intranet Port","Internet Port"],correctAnswer:0},
-{question:"What is the purpose of DNS in a network?",options:["Assign IP addresses","Translate domain names into IP addresses","Forward data packets","Encrypt data"],correctAnswer:1},
-{question:"What is a firewall?",options:["Antivirus software","A device or software to block unauthorized traffic","A communication protocol","Network management software"],correctAnswer:1},
-{question:"What is the function of a router in a network?",options:["Connect devices on the same subnet","Forward packets between different networks","Filter email spam","Manage file servers"],correctAnswer:1},
-{question:"What is a MAC address?",options:["A static IP address","A unique identifier for network devices","A communication protocol","A type of firewall"],correctAnswer:1},
-{question:"What does the acronym LAN stand for?",options:["Local Area Network","Long-range Area Network","Large Array Network","Low-latency Access Network"],correctAnswer:0},
-{question:"What is a DDoS (Distributed Denial of Service) attack?",options:["An attack that tries to steal confidential information","An attack that overwhelms a system making it inaccessible","A computer virus attack","An attack that modifies data in transit"],correctAnswer:1},
-{question:"What is the difference between IPv4 and IPv6?",options:["IPv4 uses 32-bit addresses, while IPv6 uses 128-bit addresses","IPv4 is newer than IPv6","IPv4 is more secure than IPv6","IPv4 does not support wireless communication"],correctAnswer:0},
-{question:"What is a proxy?",options:["A type of firewall","A server that forwards requests between client and server","A security protocol","A type of computer virus"],correctAnswer:1},
-{question:"What is the function of the ICMP protocol?",options:["Forward packets between networks","Check the availability of a host on the network","Encrypt communications","Dynamically assign IP addresses"],correctAnswer:1},
-{question:"What is NAT (Network Address Translation)?",options:["A security protocol","A type of IP address","A method for mapping private IP addresses to a single public IP address","A type of network cable"],correctAnswer:2},
-{question:"What is a routing protocol?",options:["A protocol for file transfer","A set of rules for secure communication","A protocol for forwarding packets between networks","An encryption protocol"],correctAnswer:2},
-{question:"What is SSL/TLS?",options:["A protocol for file transfer","A security protocol for web communication","A type of IP address","A firewall protocol"],correctAnswer:1},
-{question:"What is the main function of a switch in a network?",options:["Forward packets between networks","Connect devices on the same subnet","Control internet access","Block unauthorized traffic"],correctAnswer:1},
-{question:"What is a phishing attack?",options:["An attack that tries to overload a system","An attack that steals confidential information by deceiving the user","A type of firewall","An encryption protocol"],correctAnswer:1},
-{question:"What is a private IP address?",options:["An IP address assigned to a web server","An IP address that cannot be accessed from the internet","An IP address assigned to a mobile device","A static IP address"],correctAnswer:1},
-{question:"What is the difference between UDP and TCP?",options:["UDP is more secure than TCP","TCP is connection-oriented, while UDP is not","UDP is used only for file transfers","TCP is not suitable for large-scale networks"],correctAnswer:1},
-{question:"What is a VLAN?",options:["A type of IP address","A security protocol","A virtual local area network that segments a physical network into logical networks","A type of network cable"],correctAnswer:2},
-{question:"What is a gateway?",options:["A device that connects different networks","A type of security protocol","A type of computer virus","An encryption protocol"],correctAnswer:0}
+  {
+    question: "What is the function of the TCP protocol?",
+    options: ["Transfer files","Send emails","Reliably transfer data","Browse the web"],
+    correctAnswer: 2,
+    explanation: "TCP guarantees reliable delivery: it numbers packets, acknowledges receipt and resends lost ones."
+  },
+  {
+    question: "What does the acronym IP stand for?",
+    options: ["Internet Protocol","Internal Protocol","Intranet Port","Internet Port"],
+    correctAnswer: 0,
+    explanation: "IP = Internet Protocol, responsible for addressing and routing packets across the network."
+  },
+  {
+    question: "What is the purpose of DNS in a network?",
+    options: ["Assign IP addresses","Translate domain names into IP addresses","Forward data packets","Encrypt data"],
+    correctAnswer: 1,
+    explanation: "DNS works like the internet's phone book: it converts domain names into IP addresses."
+  },
+  {
+    question: "What is a firewall?",
+    options: ["Antivirus software","A device or software to block unauthorized traffic","A communication protocol","Network management software"],
+    correctAnswer: 1,
+    explanation: "A firewall is a security system, in hardware or software, that filters traffic and blocks unauthorized access."
+  },
+  {
+    question: "What is the function of a router in a network?",
+    options: ["Connect devices on the same subnet","Forward packets between different networks","Filter email spam","Manage file servers"],
+    correctAnswer: 1,
+    explanation: "A router connects different networks (e.g. your home and the internet) and chooses the path packets take to their destination."
+  },
+  {
+    question: "What is a MAC address?",
+    options: ["A static IP address","A unique identifier for network devices","A communication protocol","A type of firewall"],
+    correctAnswer: 1,
+    explanation: "A MAC address is the network card's physical identifier, set by the manufacturer."
+  },
+  {
+    question: "What does the acronym LAN stand for?",
+    options: ["Local Area Network","Long-range Area Network","Large Array Network","Low-latency Access Network"],
+    correctAnswer: 0,
+    explanation: "LAN = Local Area Network, a network covering a limited area such as a home, office or school."
+  },
+  {
+    question: "What is a DDoS (Distributed Denial of Service) attack?",
+    options: ["An attack that tries to steal confidential information","An attack that overwhelms a system making it inaccessible","A computer virus attack","An attack that modifies data in transit"],
+    correctAnswer: 1,
+    explanation: "A DDoS uses many devices at once to flood a server with requests until it becomes unreachable."
+  },
+  {
+    question: "What is the difference between IPv4 and IPv6?",
+    options: ["IPv4 uses 32-bit addresses, while IPv6 uses 128-bit addresses","IPv4 is newer than IPv6","IPv4 is more secure than IPv6","IPv4 does not support wireless communication"],
+    correctAnswer: 0,
+    explanation: "IPv4 is 32 bits (e.g. 192.168.0.1). IPv6 is 128 bits, written in hexadecimal (e.g. 2001:db8::1), with vastly more addresses."
+  },
+  {
+    question: "What is a proxy?",
+    options: ["A type of firewall","A server that forwards requests between client and server","A security protocol","A type of computer virus"],
+    correctAnswer: 1,
+    explanation: "A proxy is a middleman: it receives the client's requests and forwards them to the server. It can filter access, cache content and hide your IP."
+  },
+  {
+    question: "What is the function of the ICMP protocol?",
+    options: ["Forward packets between networks","Check the availability of a host on the network","Encrypt communications","Dynamically assign IP addresses"],
+    correctAnswer: 1,
+    explanation: "ICMP sends control and error messages. Ping uses ICMP to check whether a host is reachable."
+  },
+  {
+    question: "What is NAT (Network Address Translation)?",
+    options: ["A security protocol","A type of IP address","A method for mapping private IP addresses to a single public IP address","A type of network cable"],
+    correctAnswer: 2,
+    explanation: "NAT lets many devices with private IPs share a single public IP to reach the internet."
+  },
+  {
+    question: "What is a routing protocol?",
+    options: ["A protocol for file transfer","A set of rules for secure communication","A protocol for forwarding packets between networks","An encryption protocol"],
+    correctAnswer: 2,
+    explanation: "Routing protocols (RIP, OSPF, BGP) define how routers share information to choose paths for packets between networks."
+  },
+  {
+    question: "What is SSL/TLS?",
+    options: ["A protocol for file transfer","A security protocol for web communication","A type of IP address","A firewall protocol"],
+    correctAnswer: 1,
+    explanation: "SSL/TLS encrypts data exchanged between browser and server, protecting passwords and payments (HTTPS)."
+  },
+  {
+    question: "What is the main function of a switch in a network?",
+    options: ["Forward packets between networks","Connect devices on the same subnet","Control internet access","Block unauthorized traffic"],
+    correctAnswer: 1,
+    explanation: "A switch connects devices on the same local network and forwards data only to the destination port, using MAC addresses."
+  },
+  {
+    question: "What is a phishing attack?",
+    options: ["An attack that tries to overload a system","An attack that steals confidential information by deceiving the user","A type of firewall","An encryption protocol"],
+    correctAnswer: 1,
+    explanation: "Phishing uses fake messages or websites that imitate real companies to trick victims into giving up passwords and data."
+  },
+  {
+    question: "What is a private IP address?",
+    options: ["An IP address assigned to a web server","An IP address that cannot be accessed from the internet","An IP address assigned to a mobile device","A static IP address"],
+    correctAnswer: 1,
+    explanation: "Private IPs (10.x.x.x, 172.16–31.x.x, 192.168.x.x) are used on internal networks and aren't routed directly on the internet."
+  },
+  {
+    question: "What is the difference between UDP and TCP?",
+    options: ["UDP is more secure than TCP","TCP is connection-oriented, while UDP is not","UDP is used only for file transfers","TCP is not suitable for large-scale networks"],
+    correctAnswer: 1,
+    explanation: "TCP sets up a connection and guarantees delivery. UDP sends without a connection: faster, ideal for streaming, games and calls."
+  },
+  {
+    question: "What is a VLAN?",
+    options: ["A type of IP address","A security protocol","A virtual local area network that segments a physical network into logical networks","A type of network cable"],
+    correctAnswer: 2,
+    explanation: "A VLAN (Virtual LAN) logically splits one physical network into separate networks, improving security and organization."
+  },
+  {
+    question: "What is a gateway?",
+    options: ["A device that connects different networks","A type of security protocol","A type of computer virus","An encryption protocol"],
+    correctAnswer: 0,
+    explanation: "A gateway is the link between different networks. At home, the router is the default gateway to the internet."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

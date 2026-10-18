@@ -192,27 +192,35 @@ grid-template-columns:1fr;
 }
 }
 
+
+/* toque confortável no celular */
+.footer a{display:block;padding:8px 0;margin-bottom:0;}
 </style>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div class="container">
+<div class="versoes-ebook"></div>
 <div class="cards-destaque">
 
-<!-- CARD 1 -->
+<!-- CARD PC RÁPIDA Y SEGURA -->
 <div class="card-produto">
 <div class="imagem-produto">
-<span class="badge">🔥 Hotmart</span>
-<img src="../img/capa.jpg">
+<span class="badge">🆕 Nuevo</span>
+<div style="height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#0f1733,#2f5fd0);color:#fff;text-align:center;padding:20px;">
+<div style="font-size:44px;">⚡🛡️</div>
+<div style="font-size:22px;font-weight:bold;line-height:1.2;">PC Rápida y Segura<br><span style="color:#FFD60A;">en 30 minutos</span></div>
+</div>
 </div>
 <div class="conteudo-produto">
-<h3>📚 Ebook de Informática Completo</h3>
-<p class="desc">De lo básico a lo avanzado para el estudio y el mercado laboral.</p>
-<div class="avaliacao">⭐⭐⭐⭐⭐ 4.8</div>
-<div class="leitores">👥 1.812 estudiantes</div>
+<h3>⚡ PC Rápida y Segura en 30 minutos</h3>
+<p class="desc">Guía práctica para acelerar y proteger tu computadora con Windows 10 y 11.</p>
+<div class="leitores">💲 US$ 9,90 · Ebook digital</div>
 <div class="botoes">
-<a href="https://pay.hotmart.com/H105774995T?checkoutMode=10" target="_blank" class="btn btn-comprar">Obtener acceso</a>
+<a href="https://go.hotmart.com/I107934053N" target="_blank" class="btn btn-comprar">Ver ebook</a>
 </div>
 </div>
 </div>
@@ -221,7 +229,7 @@ grid-template-columns:1fr;
 <div class="card-produto">
 <div class="imagem-produto">
 <span class="badge">🚀 Más vendido</span>
-<img src="../img/excel.jpg">
+<img loading="lazy" src="../img/excel.webp">
 </div>
 <div class="conteudo-produto">
 <h3>Biblia de Excel</h3>
@@ -265,6 +273,8 @@ grid-template-columns:1fr;
 © 2026 IuleApp - Todos los derechos reservados
 </div>
 </footer>
+
+<script src="../js/versoes.js"></script>
 
 </body>
 </html>

@@ -136,12 +136,41 @@ grid-template-columns:1fr 1fr;
 }
 }
 
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../js/estudo.js"></script>
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
 
 <div id="main-wrapper">
+
+<a href="../page/simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Voltar</a>
+
 
 <div id="quiz-container">
 
@@ -157,6 +186,10 @@ grid-template-columns:1fr 1fr;
 
 <div id="options-container"></div>
 
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
+
 <p id="result"></p>
 
 <button id="restart-btn">Refazer Simulado</button>
@@ -168,226 +201,225 @@ grid-template-columns:1fr 1fr;
 <script>
 
 const questions = [
-{
-question: "O que significa a sigla TCP em protocolos de rede?",
-options: ["Transmission Control Protocol", "Time Clock Protocol", "Terminal Connection Protocol", "Text Compression Protocol"],
-correctAnswer: 0
-},
-{
-question: "Qual é a função principal do protocolo IP em uma rede?",
-options: ["Controle de tráfego", "Encaminhamento de dados", "Compactação de dados", "Criptografia de dados"],
-correctAnswer: 1
-},
-{
-question: "O que é um endereço MAC em redes de computadores?",
-options: ["Máscara de Acesso Controlado", "Módulo de Acesso Central", "Media Access Control", "Modulação de Acesso à Conexão"],
-correctAnswer: 2
-},
-{
-question: "Qual é a diferença entre TCP e UDP?",
-options: ["TCP é orientado à conexão, UDP não é", "TCP é mais rápido que UDP", "UDP é orientado à conexão, TCP não é", "TCP e UDP são idênticos em funcionalidade"],
-correctAnswer: 0
-},
-{
-question: "O que é um protocolo de roteamento em redes?",
-options: ["Um protocolo para configurar roteadores", "Um protocolo para controlar o tráfego de dados", "Um protocolo para enviar e receber emails", "Um protocolo para gerenciar endereços IP"],
-correctAnswer: 0
-},
-{
-question: "Qual é a finalidade do protocolo DNS?",
-options: ["Roteamento de pacotes", "Resolução de nomes para endereços IP", "Controle de qualidade de serviço", "Transferência de arquivos"],
-correctAnswer: 1
-},
-{
-question: "O que é o protocolo DHCP e qual é sua função?",
-options: ["Protocolo de Controle Dinâmico de Hosts, responsável pela segurança da rede", "Protocolo de Configuração Dinâmica de Hosts, responsável pela atribuição automática de endereços IP", "Protocolo de Roteamento Dinâmico, responsável pelo gerenciamento de rotas na rede", "Protocolo de Segurança de Conexão Dinâmica, responsável pela criptografia de dados"],
-correctAnswer: 1
-},
-{
-question: "O que é NAT em redes de computadores?",
-options: ["New Address Translation", "Network Address Translation", "Node Access Technology", "National Authentication Token"],
-correctAnswer: 1
-},
-{
-question: "O que é um firewall em termos de redes de computadores?",
-options: ["Um dispositivo para amplificar o sinal de rede", "Uma barreira física que protege os servidores", "Um software ou hardware que impede ou permite o tráfego de dados", "Uma ferramenta para monitorar a largura de banda da rede"],
-correctAnswer: 2
-},
-{
-question: "Qual é a principal função do protocolo ARP?",
-options: ["Roteamento de pacotes", "Resolução de endereços IP para nomes", "Resolução de endereços MAC para endereços IP", "Controle de congestionamento de rede"],
-correctAnswer: 2
-},
-{
-question: "O que é um protocolo de tunelamento?",
-options: ["Um protocolo para criar túneis em redes subterrâneas", "Um protocolo para encapsular um protocolo em outro para transmissão através de uma rede", "Um protocolo para criar redes virtuais privadas", "Um protocolo para aumentar a largura de banda da rede"],
-correctAnswer: 1
-},
-{
-question: "O que significa QoS em redes?",
-options: ["Quality of Service", "Quick Online Support", "Quantum Operating System", "Query of Standards"],
-correctAnswer: 0
-},
-{
-question: "Qual é a diferença entre um switch e um hub em uma rede local?",
-options: ["Ambos são dispositivos idênticos", "Um switch filtra o tráfego de rede, enquanto um hub não o faz", "Um hub é mais rápido que um switch", "Um switch só suporta conexões sem fio"],
-correctAnswer: 1
-},
-{
-question: "O que é o protocolo ICMP e para que ele é usado?",
-options: ["Internet Control Message Protocol, usado para diagnóstico de rede e relatórios de erro", "Internet Communication Management Protocol, usado para gerenciar comunicações online", "Integrated Control and Monitoring Protocol, usado para controle e monitoramento integrados", "Internet Configuration and Management Protocol, usado para configurar dispositivos de rede"],
-correctAnswer: 0
-},
-{
-question: "O que é o protocolo FTP e qual é sua função?",
-options: ["File Transfer Protocol, usado para transmissão de arquivos", "Fast Transmission Protocol, usado para transferência rápida de dados", "File Tracking Protocol, usado para rastrear mudanças em arquivos", "File Type Protocol, usado para identificar o tipo de arquivo"],
-correctAnswer: 0
-},
-{
-question: "O que é o protocolo SSL/TLS e para que serve?",
-options: ["Secure Socket Layer/Transport Layer Security, usado para criptografar comunicações na web", "Simple Service Locator/Transport Layer Security", "System Security Layer/Transmission Level Security", "Software Service Locator/Total Link Security"],
-correctAnswer: 0
-},
-{
-question: "O que é um endereço IPv6 e por que foi desenvolvido?",
-options: ["Um endereço de Internet versão 6 para substituir o IPv4 devido à escassez de endereços", "Para melhorar a velocidade da conexão", "Para redes virtuais privadas", "Para suportar apenas dispositivos sem fio"],
-correctAnswer: 0
-},
-{
-question: "O que é um ataque DDoS em termos de redes?",
-options: ["Direto e Descentralizado Sobrecarregamento", "Distribuição de Dados e Operações Seguras", "Denegação de Serviço Distribuída", "Duplicação de Sessões e Operações Seguras"],
-correctAnswer: 2
-},
-{
-question: "Qual protocolo é utilizado para envio de e-mails?",
-options: ["SMTP", "FTP", "DNS", "ARP"],
-correctAnswer: 0
-},
-{
-question: "Qual protocolo é utilizado para receber e-mails em clientes de correio eletrônico?",
-options: ["POP3 ou IMAP", "HTTP", "ICMP", "DHCP"],
-correctAnswer: 0
-}
+  {
+    question: "O que significa a sigla TCP em protocolos de rede?",
+    options: ["Transmission Control Protocol","Time Clock Protocol","Terminal Connection Protocol","Text Compression Protocol"],
+    correctAnswer: 0,
+    explanation: "TCP = Transmission Control Protocol. Garante entrega confiável e em ordem, com confirmação e retransmissão de pacotes."
+  },
+  {
+    question: "Qual é a função principal do protocolo IP em uma rede?",
+    options: ["Controle de tráfego","Encaminhamento de dados","Compactação de dados","Criptografia de dados"],
+    correctAnswer: 1,
+    explanation: "O IP (Internet Protocol) endereça e encaminha os pacotes da origem ao destino, passando por várias redes."
+  },
+  {
+    question: "O que é um endereço MAC em redes de computadores?",
+    options: ["Máscara de Acesso Controlado","Módulo de Acesso Central","Media Access Control","Modulação de Acesso à Conexão"],
+    correctAnswer: 2,
+    explanation: "MAC = Media Access Control. É o endereço físico gravado na placa de rede, com 48 bits (ex.: 00:1A:2B:3C:4D:5E)."
+  },
+  {
+    question: "Qual é a diferença entre TCP e UDP?",
+    options: ["TCP é orientado à conexão, UDP não é","TCP é mais rápido que UDP","UDP é orientado à conexão, TCP não é","TCP e UDP são idênticos em funcionalidade"],
+    correctAnswer: 0,
+    explanation: "TCP é orientado à conexão (handshake, confirmação, retransmissão). UDP não estabelece conexão: é mais rápido, mas sem garantia de entrega."
+  },
+  {
+    question: "O que é um protocolo de roteamento em redes?",
+    options: ["Um protocolo que permite aos roteadores trocar rotas entre si","Um protocolo para controlar o tráfego de dados","Um protocolo para enviar e receber emails","Um protocolo para gerenciar endereços IP"],
+    correctAnswer: 0,
+    explanation: "Protocolos de roteamento (RIP, OSPF, BGP) permitem que os roteadores troquem informações e montem automaticamente suas tabelas de rotas."
+  },
+  {
+    question: "Qual é a finalidade do protocolo DNS?",
+    options: ["Roteamento de pacotes","Resolução de nomes para endereços IP","Controle de qualidade de serviço","Transferência de arquivos"],
+    correctAnswer: 1,
+    explanation: "O DNS traduz nomes de domínio (www.google.com) em endereços IP, que é o que os computadores realmente usam."
+  },
+  {
+    question: "O que é o protocolo DHCP e qual é sua função?",
+    options: ["Protocolo de Controle Dinâmico de Hosts, responsável pela segurança da rede","Protocolo de Configuração Dinâmica de Hosts, responsável pela atribuição automática de endereços IP","Protocolo de Roteamento Dinâmico, responsável pelo gerenciamento de rotas na rede","Protocolo de Segurança de Conexão Dinâmica, responsável pela criptografia de dados"],
+    correctAnswer: 1,
+    explanation: "DHCP = Dynamic Host Configuration Protocol. Atribui automaticamente IP, máscara, gateway e DNS aos dispositivos da rede."
+  },
+  {
+    question: "O que é NAT em redes de computadores?",
+    options: ["New Address Translation","Network Address Translation","Node Access Technology","National Authentication Token"],
+    correctAnswer: 1,
+    explanation: "NAT = Network Address Translation. Traduz endereços IP privados da rede interna para um IP público na saída para a internet."
+  },
+  {
+    question: "O que é um firewall em termos de redes de computadores?",
+    options: ["Um dispositivo para amplificar o sinal de rede","Uma barreira física que protege os servidores","Um software ou hardware que impede ou permite o tráfego de dados","Uma ferramenta para monitorar a largura de banda da rede"],
+    correctAnswer: 2,
+    explanation: "Firewall (software ou hardware) analisa o tráfego e permite ou bloqueia conexões conforme regras de segurança."
+  },
+  {
+    question: "Qual é a principal função do protocolo ARP?",
+    options: ["Roteamento de pacotes","Resolução de endereços IP para nomes","Resolução de endereços IP para endereços MAC","Controle de congestionamento de rede"],
+    correctAnswer: 2,
+    explanation: "O ARP (Address Resolution Protocol) descobre o endereço MAC correspondente a um IP conhecido na rede local."
+  },
+  {
+    question: "O que é um protocolo de tunelamento?",
+    options: ["Um protocolo para criar túneis em redes subterrâneas","Um protocolo para encapsular um protocolo em outro para transmissão através de uma rede","Um protocolo para criar redes virtuais privadas","Um protocolo para aumentar a largura de banda da rede"],
+    correctAnswer: 1,
+    explanation: "Tunelamento encapsula um protocolo dentro de outro para atravessar uma rede, base das VPNs (ex.: GRE, L2TP, IPsec)."
+  },
+  {
+    question: "O que significa QoS em redes?",
+    options: ["Quality of Service","Quick Online Support","Quantum Operating System","Query of Standards"],
+    correctAnswer: 0,
+    explanation: "QoS = Quality of Service. Prioriza certos tipos de tráfego (voz, vídeo) para garantir qualidade e menor atraso."
+  },
+  {
+    question: "Qual é a diferença entre um switch e um hub em uma rede local?",
+    options: ["Ambos são dispositivos idênticos","Um switch filtra o tráfego de rede, enquanto um hub não o faz","Um hub é mais rápido que um switch","Um switch só suporta conexões sem fio"],
+    correctAnswer: 1,
+    explanation: "O hub repete os dados para todas as portas. O switch aprende os endereços MAC e envia os dados só para a porta de destino."
+  },
+  {
+    question: "O que é o protocolo ICMP e para que ele é usado?",
+    options: ["Internet Control Message Protocol, usado para diagnóstico de rede e relatórios de erro","Internet Communication Management Protocol, usado para gerenciar comunicações online","Integrated Control and Monitoring Protocol, usado para controle e monitoramento integrados","Internet Configuration and Management Protocol, usado para configurar dispositivos de rede"],
+    correctAnswer: 0,
+    explanation: "ICMP = Internet Control Message Protocol. Envia mensagens de erro e diagnóstico, usado pelos comandos ping e traceroute."
+  },
+  {
+    question: "O que é o protocolo FTP e qual é sua função?",
+    options: ["File Transfer Protocol, usado para transmissão de arquivos","Fast Transmission Protocol, usado para transferência rápida de dados","File Tracking Protocol, usado para rastrear mudanças em arquivos","File Type Protocol, usado para identificar o tipo de arquivo"],
+    correctAnswer: 0,
+    explanation: "FTP = File Transfer Protocol. Transfere arquivos entre cliente e servidor (portas 20 e 21)."
+  },
+  {
+    question: "O que é o protocolo SSL/TLS e para que serve?",
+    options: ["Secure Socket Layer/Transport Layer Security, usado para criptografar comunicações na web","Simple Service Locator/Transport Layer Security","System Security Layer/Transmission Level Security","Software Service Locator/Total Link Security"],
+    correctAnswer: 0,
+    explanation: "SSL/TLS criptografa a comunicação entre cliente e servidor. É o \"S\" do HTTPS (o SSL foi substituído pelo TLS)."
+  },
+  {
+    question: "O que é um endereço IPv6 e por que foi desenvolvido?",
+    options: ["Um endereço de Internet versão 6 para substituir o IPv4 devido à escassez de endereços","Para melhorar a velocidade da conexão","Para redes virtuais privadas","Para suportar apenas dispositivos sem fio"],
+    correctAnswer: 0,
+    explanation: "O IPv6 usa endereços de 128 bits e foi criado porque os endereços do IPv4 (32 bits, cerca de 4,3 bilhões) estavam se esgotando."
+  },
+  {
+    question: "O que é um ataque DDoS em termos de redes?",
+    options: ["Direto e Descentralizado Sobrecarregamento","Distribuição de Dados e Operações Seguras","Negação de Serviço Distribuída","Duplicação de Sessões e Operações Seguras"],
+    correctAnswer: 2,
+    explanation: "DDoS = Distributed Denial of Service (Negação de Serviço Distribuída): muitos dispositivos sobrecarregam um alvo até ele sair do ar."
+  },
+  {
+    question: "Qual protocolo é utilizado para envio de e-mails?",
+    options: ["SMTP","FTP","DNS","ARP"],
+    correctAnswer: 0,
+    explanation: "SMTP (Simple Mail Transfer Protocol) é o protocolo de envio de e-mails, entre cliente e servidor e entre servidores."
+  },
+  {
+    question: "Qual protocolo é utilizado para receber e-mails em clientes de correio eletrônico?",
+    options: ["POP3 ou IMAP","HTTP","ICMP","DHCP"],
+    correctAnswer: 0,
+    explanation: "POP3 baixa os e-mails para o dispositivo. O IMAP sincroniza as mensagens, que ficam no servidor e aparecem iguais em todos os aparelhos."
+  }
 ];
 
-let currentQuestion=0;
-let score=0;
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Pergunta","of":"de","ok":"✅ Correto!","bad":"❌ Incorreto. Resposta certa:","next":"Próxima pergunta ▶","finish":"Ver resultado 🏁","final":"Resultado final","best":"Sua melhor nota neste simulado:","m1":"🏆 Excelente! Você domina este conteúdo.","m2":"👍 Bom resultado! Revise os pontos que errou.","m3":"📚 Continue estudando: releia a disciplina e tente de novo."};
+function scoreText(s, n){ return `Você acertou ${s} de ${n} perguntas (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
 
 function loadQuestion(){
-
-const questionContainer=document.getElementById("question-container");
-const optionsContainer=document.getElementById("options-container");
-const progressText=document.getElementById("progress-text");
-const progress=document.getElementById("progress");
-
-progressText.textContent=`Pergunta ${currentQuestion+1} de ${questions.length}`;
-
-progress.style.width=`${((currentQuestion)/questions.length)*100}%`;
-
-questionContainer.textContent=questions[currentQuestion].question;
-
-optionsContainer.innerHTML="";
-
-questions[currentQuestion].options.forEach((option,index)=>{
-
-const button=document.createElement("button");
-
-button.textContent=option;
-
-button.classList.add("option");
-
-button.dataset.index=index;
-
-button.onclick=selectOption;
-
-optionsContainer.appendChild(button);
-
-});
-
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
 
 function selectOption(event){
-
-const buttons=document.querySelectorAll(".option");
-
-buttons.forEach(btn=>btn.disabled=true);
-
-const selected=parseInt(event.target.dataset.index);
-
-const correct=questions[currentQuestion].correctAnswer;
-
-let delay;
-
-if(selected===correct){
-
-event.target.classList.add("correct");
-
-document.getElementById("result").textContent="Correto!";
-
-score++;
-
-delay=1000;
-
-}else{
-
-event.target.classList.add("wrong");
-
-buttons[correct].classList.add("correct");
-
-document.getElementById("result").textContent=
-`Incorreto. Resposta correta: ${questions[currentQuestion].options[correct]}`;
-
-delay=2000;
-
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
-currentQuestion++;
-
-setTimeout(()=>{
-
-document.getElementById("result").textContent="";
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
-}
-
-},delay);
-
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
 }
 
 function showResult(){
-
-document.getElementById("progress").style.width="100%";
-
-document.getElementById("question-container").textContent="Resultado Final";
-
-document.getElementById("options-container").innerHTML="";
-
-document.getElementById("result").textContent=
-`Você acertou ${score} de ${questions.length} perguntas!`;
-
-document.getElementById("restart-btn").style.display="inline-block";
-
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Revisar meus erros ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
 
+document.getElementById("next-btn").onclick=nextQuestion;
 document.getElementById("restart-btn").onclick=function(){
-
-currentQuestion=0;
-
-score=0;
-
-this.style.display="none";
-
-loadQuestion();
-
+  this.style.display="none"; prepareQuiz(); loadQuestion();
 };
 
+prepareQuiz();
 loadQuestion();
 
 </script>

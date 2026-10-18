@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Hardware</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"Which component is responsible for executing instructions and performing the main processing of a computer?",options:["a) RAM Memory","b) Processor (CPU)","c) Hard Drive","d) Network Card"],correctAnswer:1},
-{question:"What is the main function of RAM in a computer?",options:["a) Permanently store data","b) Perform mathematical calculations","c) Temporarily store data and programs in use","d) Connect external devices"],correctAnswer:2},
-{question:"Which device is responsible for permanently storing files and programs?",options:["a) Cache memory","b) Registers","c) HDD or SSD","d) BIOS"],correctAnswer:2},
-{question:"What is the main function of the motherboard in a computer?",options:["a) Process graphics","b) Connect and enable communication between components","c) Store the operating system","d) Control internet access"],correctAnswer:1},
-{question:"Which component is responsible for processing graphics and images?",options:["a) GPU or graphics card","b) RAM Memory","c) Chipset","d) BIOS"],correctAnswer:0},
-{question:"What characterizes an SSD compared to a traditional HDD?",options:["a) Uses magnetic disks","b) Is slower at accessing data","c) Uses flash memory and has greater speed","d) Cannot store files"],correctAnswer:2},
-{question:"Which motherboard component controls communication between the processor, memory, and peripherals?",options:["a) Chipset","b) Power supply","c) Cache memory","d) Cooler"],correctAnswer:0},
-{question:"What is the function of the power supply in a computer?",options:["a) Store data","b) Supply electrical power to the components","c) Control the operating system","d) Process graphics"],correctAnswer:1},
-{question:"Which type of device is considered an input peripheral?",options:["a) Monitor","b) Printer","c) Keyboard","d) Speaker"],correctAnswer:2},
-{question:"Which device is considered an output peripheral?",options:["a) Mouse","b) Keyboard","c) Scanner","d) Monitor"],correctAnswer:3},
-{question:"What is BIOS in a computer?",options:["a) Basic system that initializes the hardware","b) A type of RAM memory","c) A storage device","d) Antivirus software"],correctAnswer:0},
-{question:"What is the function of cache memory in a processor?",options:["a) Store user files","b) Speed up access to frequently used data","c) Replace RAM","d) Store the operating system"],correctAnswer:1},
-{question:"What is a bus in a computer?",options:["a) A storage device","b) A communication path between components","c) A type of processor","d) An operating system program"],correctAnswer:1},
-{question:"Which bus is responsible for transporting data between computer components?",options:["a) Control bus","b) Address bus","c) Data bus","d) Graphics bus"],correctAnswer:2},
-{question:"What technology allows using multiple disks to improve performance or data security?",options:["a) RAID","b) BIOS","c) GPU","d) HDMI"],correctAnswer:0},
-{question:"Which port is widely used to connect peripherals like keyboards, mice, and USB drives?",options:["a) HDMI","b) USB","c) VGA","d) PS/2"],correctAnswer:1},
-{question:"Which port is primarily used for transmitting high-definition digital video?",options:["a) HDMI","b) USB","c) Ethernet","d) Serial"],correctAnswer:0},
-{question:"Which component is responsible for maintaining the proper temperature of the processor?",options:["a) Cooler","b) Chipset","c) BIOS","d) Bus"],correctAnswer:0},
-{question:"Which device allows connecting the computer to a network or the internet?",options:["a) Network card","b) Graphics card","c) RAM Memory","d) Processor"],correctAnswer:0},
-{question:"What is the main difference between an HDD and an SSD?",options:["a) The SSD uses mechanical parts","b) The HDD is faster than the SSD","c) The SSD uses flash memory and has faster data access","d) The SSD cannot store files"],correctAnswer:2}
+  {
+    question: "Which component is responsible for executing instructions and performing the main processing of a computer?",
+    options: ["RAM Memory","Processor (CPU)","Hard Drive","Network Card"],
+    correctAnswer: 1,
+    explanation: "The processor (CPU) executes program instructions and coordinates processing. It's the computer's \"brain\"."
+  },
+  {
+    question: "What is the main function of RAM in a computer?",
+    options: ["Permanently store data","Perform mathematical calculations","Temporarily store data and programs in use","Connect external devices"],
+    correctAnswer: 2,
+    explanation: "RAM temporarily holds the programs and data in use so the CPU can reach them quickly. It's volatile: it's erased when powered off."
+  },
+  {
+    question: "Which device is responsible for permanently storing files and programs?",
+    options: ["Cache memory","Registers","HDD or SSD","BIOS"],
+    correctAnswer: 2,
+    explanation: "HDDs and SSDs are permanent (non-volatile) storage: they keep files, programs and the operating system without power."
+  },
+  {
+    question: "What is the main function of the motherboard in a computer?",
+    options: ["Process graphics","Connect and enable communication between components","Store the operating system","Control internet access"],
+    correctAnswer: 1,
+    explanation: "The motherboard is the main board: it links the processor, memory, storage and peripherals and lets them communicate."
+  },
+  {
+    question: "Which component is responsible for processing graphics and images?",
+    options: ["GPU or graphics card","RAM Memory","Chipset","BIOS"],
+    correctAnswer: 0,
+    explanation: "The GPU (graphics card) processes graphics, images and video, taking load off the CPU. It's also used for gaming and AI."
+  },
+  {
+    question: "What characterizes an SSD compared to a traditional HDD?",
+    options: ["Uses magnetic disks","Is slower at accessing data","Uses flash memory and has greater speed","Cannot store files"],
+    correctAnswer: 2,
+    explanation: "An SSD uses flash memory with no mechanical parts: it's faster, quieter and more shock-resistant than an HDD."
+  },
+  {
+    question: "Which motherboard component controls communication between the processor, memory, and peripherals?",
+    options: ["Chipset","Power supply","Cache memory","Cooler"],
+    correctAnswer: 0,
+    explanation: "The chipset is the group of chips on the motherboard that manages communication between the processor, memory, buses and peripherals."
+  },
+  {
+    question: "What is the function of the power supply in a computer?",
+    options: ["Store data","Supply electrical power to the components","Control the operating system","Process graphics"],
+    correctAnswer: 1,
+    explanation: "The power supply converts AC from the wall outlet into DC at the voltages the components need."
+  },
+  {
+    question: "Which type of device is considered an input peripheral?",
+    options: ["Monitor","Printer","Keyboard","Speaker"],
+    correctAnswer: 2,
+    explanation: "Input peripherals send data to the computer: keyboard, mouse, scanner, microphone, webcam."
+  },
+  {
+    question: "Which device is considered an output peripheral?",
+    options: ["Mouse","Keyboard","Scanner","Monitor"],
+    correctAnswer: 3,
+    explanation: "Output peripherals show or deliver results: monitor, printer, speakers."
+  },
+  {
+    question: "What is BIOS in a computer?",
+    options: ["Basic system that initializes the hardware","A type of RAM memory","A storage device","Antivirus software"],
+    correctAnswer: 0,
+    explanation: "The BIOS (or UEFI, its modern version) is firmware on the motherboard that tests the hardware (POST) and starts the operating system."
+  },
+  {
+    question: "What is the function of cache memory in a processor?",
+    options: ["Store user files","Speed up access to frequently used data","Replace RAM","Store the operating system"],
+    correctAnswer: 1,
+    explanation: "Cache is very fast memory next to the CPU that keeps the most used data, reducing the wait for RAM."
+  },
+  {
+    question: "What is a bus in a computer?",
+    options: ["A storage device","A communication path between components","A type of processor","An operating system program"],
+    correctAnswer: 1,
+    explanation: "A bus is the set of paths (wires/traces) components use to exchange data, addresses and control signals."
+  },
+  {
+    question: "Which bus is responsible for transporting data between computer components?",
+    options: ["Control bus","Address bus","Data bus","Graphics bus"],
+    correctAnswer: 2,
+    explanation: "The data bus carries data between the CPU, memory and peripherals. The address bus says where, and the control bus coordinates."
+  },
+  {
+    question: "What technology allows using multiple disks to improve performance or data security?",
+    options: ["RAID","BIOS","GPU","HDMI"],
+    correctAnswer: 0,
+    explanation: "RAID combines several disks for performance (RAID 0), safety/mirroring (RAID 1) or both (RAID 5, RAID 10)."
+  },
+  {
+    question: "Which port is widely used to connect peripherals like keyboards, mice, and USB drives?",
+    options: ["HDMI","USB","VGA","PS/2"],
+    correctAnswer: 1,
+    explanation: "USB is the standard port for peripherals such as keyboards, mice, flash drives and printers, with plug and play."
+  },
+  {
+    question: "Which port is primarily used for transmitting high-definition digital video?",
+    options: ["HDMI","USB","Ethernet","Serial"],
+    correctAnswer: 0,
+    explanation: "HDMI carries high-definition digital video and audio over one cable (monitors, TVs, projectors)."
+  },
+  {
+    question: "Which component is responsible for maintaining the proper temperature of the processor?",
+    options: ["Cooler","Chipset","BIOS","Bus"],
+    correctAnswer: 0,
+    explanation: "The cooler (heatsink with a fan) removes heat from the processor and prevents overheating and crashes."
+  },
+  {
+    question: "Which device allows connecting the computer to a network or the internet?",
+    options: ["Network card","Graphics card","RAM Memory","Processor"],
+    correctAnswer: 0,
+    explanation: "The network card (NIC), wired or Wi-Fi, connects the computer to a local network and the internet."
+  },
+  {
+    question: "What is the main difference between an HDD and an SSD?",
+    options: ["The SSD uses mechanical parts","The HDD is faster than the SSD","The SSD uses flash memory and has faster data access","The SSD cannot store files"],
+    correctAnswer: 2,
+    explanation: "An HDD writes to spinning magnetic platters. An SSD uses flash memory with no moving parts and is much faster."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

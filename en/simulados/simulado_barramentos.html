@@ -25,78 +25,276 @@ h2{margin-bottom:10px;color:#2E7D32;}
 #restart-btn:hover{background:#1B5E20;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @media(min-width:600px){#options-container{grid-template-columns:1fr 1fr;}}
+
+/* === MELHORIAS: feedback, próxima, voltar === */
+.btn-voltar{display:inline-block;margin-bottom:12px;color:#fff;text-decoration:none;font-size:14px;font-weight:bold;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.18);}
+.btn-voltar:hover{background:rgba(255,255,255,0.3);}
+body{align-items:flex-start!important;}
+#main-wrapper{margin:auto;padding:16px 0;}
+.option:disabled{transform:none;}
+.option:disabled:not(.correct):not(.wrong){background:#b0b7b0;}
+.option.correct:disabled,.option.wrong:disabled{opacity:1;}
+.option.correct:disabled::before{content:"✔ ";}
+.option.wrong:disabled::before{content:"✖ ";}
+#question-container{line-height:1.4;}
+#feedback{display:none;margin-top:16px;text-align:left;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;animation:fadeIn .3s;}
+#feedback.ok{display:block;background:#e8f5e9;border-left:5px solid #2E7D32;}
+#feedback.erro{display:block;background:#ffebee;border-left:5px solid #C62828;}
+#feedback .fb-titulo{font-weight:bold;margin-bottom:6px;color:#222;}
+#feedback .fb-texto{color:#444;}
+#next-btn{display:none;margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;background:#1565C0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}
+#next-btn:hover{background:#0D47A1;}
+#result .msg{display:block;margin-top:8px;font-weight:normal;color:#444;}
+#result .btn-revisar{display:block;margin:16px auto 0;max-width:320px;padding:12px;border-radius:8px;background:#f59e0b;color:#fff;text-decoration:none;font-weight:bold;}
+#result .best{display:block;margin-top:6px;font-size:13px;font-weight:normal;color:#777;}
+
 </style>
+<script src="../../js/estudo.js"></script>
+<link rel="stylesheet" href="../../css/escuro.css">
+<script src="../../js/tema.js"></script>
 </head>
 <body>
 <div id="main-wrapper">
+
+<a href="../simulados.html" class="btn-voltar" onclick="if(history.length>1){history.back();return false;}">← Back</a>
+
 <div id="quiz-container">
 <h2>Data Buses</h2>
 <div id="progress-text"></div>
 <div id="progress-bar"><div id="progress"></div></div>
 <div id="question-container"></div>
 <div id="options-container"></div>
+
+<div id="feedback"></div>
+
+<button id="next-btn"></button>
 <p id="result"></p>
 <button id="restart-btn">Retake Quiz</button>
 </div>
 </div>
 <script>
 const questions = [
-{question:"What is an address bus in a computer system?",options:["A path for data transfer between devices","A communication channel for peripherals","A way to access the internet","A means of identifying the location in memory"],correctAnswer:3},
-{question:"What is the function of the data bus in a computer system?",options:["Transfer memory addresses","Carry information between components","Control CPU speed","Supply power to peripheral devices"],correctAnswer:1},
-{question:"What is a PCI bus in computers?",options:["Peripherals Connected Internally","Peripheral Component Interconnect","Central Integrated Processor","Internal Communication Protocol"],correctAnswer:1},
-{question:"What is the importance of the USB bus in terms of connectivity?",options:["Connect the CPU to the internet","Facilitate data transfer between devices","Control RAM speed","Manage the computer's electrical power"],correctAnswer:1},
-{question:"What is overclocking in relation to computer buses?",options:["Increasing CPU processing speed","Reducing data bus bandwidth","Disconnecting peripheral devices","Decreasing RAM capacity"],correctAnswer:0},
-{question:"What is the function of a FireWire bus in a computer system?",options:["High-speed data transfer","Electrical power control","Wireless connection with peripherals","BIOS management"],correctAnswer:0},
-{question:"What is an ISA bus in computing?",options:["Instruction of Advanced System","Industry Standard Architecture","Internal System Access","Integrated Software Application"],correctAnswer:1},
-{question:"How is the AGP bus used in a computer?",options:["To connect USB peripherals","To control CPU speed","To improve graphics performance","To manage the BIOS"],correctAnswer:2},
-{question:"What is the SATA bus in relation to data storage?",options:["Serial Advanced Technology Attachment","System Access Time Allocation","Sequential Access Transfer Architecture","Storage Area Network Access"],correctAnswer:0},
-{question:"What is the function of an expansion bus in a computer?",options:["Manage cache memory","Connect additional peripherals","Control the CPU in real time","Reduce the computer's internal temperature"],correctAnswer:1},
-{question:"What does the acronym DDR stand for in relation to RAM?",options:["Dynamic Data Rate","Double Data Rate","Digital Data Readout","Direct Data Retrieval"],correctAnswer:1},
-{question:"What is a system bus in a computer?",options:["An internal communication network","An exclusive path for the CPU","A security protocol","A user interface"],correctAnswer:0},
-{question:"How is the Ethernet bus used in computer networks?",options:["For data transfer between local devices","To control CPU speed","To manage cache memory","To connect wireless devices"],correctAnswer:0},
-{question:"What is a HyperTransport bus in computer systems?",options:["A communication channel between CPU and peripherals","A form of automatic overclocking","An advanced security protocol","A means of connecting USB devices"],correctAnswer:0},
-{question:"What is the function of the Front Side Bus (FSB) on a motherboard?",options:["Manage RAM","Control data bus bandwidth","Connect external peripherals","Facilitate data transfer between CPU and RAM"],correctAnswer:3},
-{question:"What is an InfiniBand bus in terms of data communication?",options:["A wireless communication protocol","An advanced user interface","A high-speed network for computer clusters","A means of electrical power transfer"],correctAnswer:2},
-{question:"How is the HDMI bus used in entertainment systems?",options:["To connect USB devices","To transmit high-definition audio and video","To control the CPU in real time","To manage cache memory"],correctAnswer:1},
-{question:"What is an internal communication bus in a multicore processor?",options:["A means of electrical power transfer","A communication network between processors","An advanced security protocol","A graphical user interface"],correctAnswer:1},
-{question:"What is the function of the control bus in a computer?",options:["Transport data between memory and CPU","Transport memory addresses","Send control and synchronization signals between components","Store system programs"],correctAnswer:2},
-{question:"Which set of buses forms the system bus in a computer?",options:["USB, HDMI and SATA","PCI, AGP and IDE","Data, Address and Control","Ethernet, Wi-Fi and Bluetooth"],correctAnswer:2}
+  {
+    question: "What is an address bus in a computer system?",
+    options: ["A path for data transfer between devices","A communication channel for peripherals","A way to access the internet","A means of identifying the location in memory"],
+    correctAnswer: 3,
+    explanation: "The address bus indicates which memory (or device) location will be read or written. It's one-way: it comes out of the CPU."
+  },
+  {
+    question: "What is the function of the data bus in a computer system?",
+    options: ["Transfer memory addresses","Carry information between components","Control CPU speed","Supply power to peripheral devices"],
+    correctAnswer: 1,
+    explanation: "The data bus carries the actual data between the CPU, memory and peripherals. It's two-way."
+  },
+  {
+    question: "What is a PCI bus in computers?",
+    options: ["Peripherals Connected Internally","Peripheral Component Interconnect","Central Integrated Processor","Internal Communication Protocol"],
+    correctAnswer: 1,
+    explanation: "PCI = Peripheral Component Interconnect, an expansion bus for cards (network, sound, video). It was replaced by PCI Express."
+  },
+  {
+    question: "What is the importance of the USB bus in terms of connectivity?",
+    options: ["Connect the CPU to the internet","Facilitate data transfer between devices","Control RAM speed","Manage the computer's electrical power"],
+    correctAnswer: 1,
+    explanation: "USB (Universal Serial Bus) standardized how peripherals connect, with plug and play and power over the cable."
+  },
+  {
+    question: "What is overclocking in relation to computer buses?",
+    options: ["Increasing CPU processing speed","Reducing data bus bandwidth","Disconnecting peripheral devices","Decreasing RAM capacity"],
+    correctAnswer: 0,
+    explanation: "Overclocking means raising the clock frequency of the CPU, memory or buses above the factory setting to gain performance."
+  },
+  {
+    question: "What is the function of a FireWire bus in a computer system?",
+    options: ["High-speed data transfer","Electrical power control","Wireless connection with peripherals","BIOS management"],
+    correctAnswer: 0,
+    explanation: "FireWire (IEEE 1394) is a high-speed serial bus, widely used in the past for video cameras and professional audio."
+  },
+  {
+    question: "What is an ISA bus in computing?",
+    options: ["Instruction of Advanced System","Industry Standard Architecture","Internal System Access","Integrated Software Application"],
+    correctAnswer: 1,
+    explanation: "ISA = Industry Standard Architecture, an old expansion bus from IBM PCs, replaced by PCI."
+  },
+  {
+    question: "How is the AGP bus used in a computer?",
+    options: ["To connect USB peripherals","To control CPU speed","To improve graphics performance","To manage the BIOS"],
+    correctAnswer: 2,
+    explanation: "AGP (Accelerated Graphics Port) was made just for graphics cards, with better graphics performance than PCI. PCI Express came next."
+  },
+  {
+    question: "What is the SATA bus in relation to data storage?",
+    options: ["Serial Advanced Technology Attachment","System Access Time Allocation","Sequential Access Transfer Architecture","Storage Area Network Access"],
+    correctAnswer: 0,
+    explanation: "SATA = Serial Advanced Technology Attachment, a serial interface that connects HDDs, SSDs and optical drives to the motherboard. It replaced IDE/PATA."
+  },
+  {
+    question: "What is the function of an expansion bus in a computer?",
+    options: ["Manage cache memory","Connect additional peripherals","Control the CPU in real time","Reduce the computer's internal temperature"],
+    correctAnswer: 1,
+    explanation: "Expansion buses (PCI, PCI Express) let you add extra cards to the motherboard, such as video, network and sound."
+  },
+  {
+    question: "What does the acronym DDR stand for in relation to RAM?",
+    options: ["Dynamic Data Rate","Double Data Rate","Digital Data Readout","Direct Data Retrieval"],
+    correctAnswer: 1,
+    explanation: "DDR = Double Data Rate: the memory transfers data twice per clock cycle (on the rising and falling edge). Generations: DDR3, DDR4, DDR5."
+  },
+  {
+    question: "What is a system bus in a computer?",
+    options: ["An internal communication network","An exclusive path for the CPU","A security protocol","A user interface"],
+    correctAnswer: 0,
+    explanation: "The system bus is the set of internal paths (data, address and control) linking the CPU, memory and other components."
+  },
+  {
+    question: "How is the Ethernet bus used in computer networks?",
+    options: ["For data transfer between local devices","To control CPU speed","To manage cache memory","To connect wireless devices"],
+    correctAnswer: 0,
+    explanation: "Ethernet is the most widely used standard for wired local networks (LANs), defining how data travels between devices."
+  },
+  {
+    question: "What is a HyperTransport bus in computer systems?",
+    options: ["A communication channel between CPU and peripherals","A form of automatic overclocking","An advanced security protocol","A means of connecting USB devices"],
+    correctAnswer: 0,
+    explanation: "HyperTransport, created by AMD, is a high-speed point-to-point link between the processor and other system components."
+  },
+  {
+    question: "What is the function of the Front Side Bus (FSB) on a motherboard?",
+    options: ["Manage RAM","Control data bus bandwidth","Connect external peripherals","Facilitate data transfer between CPU and RAM"],
+    correctAnswer: 3,
+    explanation: "The FSB (Front Side Bus) linked the CPU to the chipset (northbridge) and, through it, to RAM. It was replaced by integrated memory controllers."
+  },
+  {
+    question: "What is an InfiniBand bus in terms of data communication?",
+    options: ["A wireless communication protocol","An advanced user interface","A high-speed network for computer clusters","A means of electrical power transfer"],
+    correctAnswer: 2,
+    explanation: "InfiniBand is a very high-speed, low-latency interconnect used in supercomputers, clusters and data centers."
+  },
+  {
+    question: "How is the HDMI bus used in entertainment systems?",
+    options: ["To connect USB devices","To transmit high-definition audio and video","To control the CPU in real time","To manage cache memory"],
+    correctAnswer: 1,
+    explanation: "HDMI carries high-definition digital video and audio over a single cable, connecting PCs, consoles and TVs."
+  },
+  {
+    question: "What is an internal communication bus in a multicore processor?",
+    options: ["A means of electrical power transfer","A communication network between processors","An advanced security protocol","A graphical user interface"],
+    correctAnswer: 1,
+    explanation: "In multicore processors, an internal bus or network (such as a ring bus or mesh) connects the cores to each other and to the shared cache."
+  },
+  {
+    question: "What is the function of the control bus in a computer?",
+    options: ["Transport data between memory and CPU","Transport memory addresses","Send control and synchronization signals between components","Store system programs"],
+    correctAnswer: 2,
+    explanation: "The control bus carries command and timing signals (read, write, clock, interrupts) between components."
+  },
+  {
+    question: "Which set of buses forms the system bus in a computer?",
+    options: ["USB, HDMI and SATA","PCI, AGP and IDE","Data, Address and Control","Ethernet, Wi-Fi and Bluetooth"],
+    correctAnswer: 2,
+    explanation: "The system bus is made of three buses: data (what travels), address (where it goes) and control (how and when)."
+  }
 ];
-let currentQuestion=0;let score=0;
+
+/* ===== Lógica do simulado =====
+   - alternativas e perguntas embaralhadas a cada tentativa
+   - explicação após cada resposta + botão de próxima
+   - melhor nota salva no aparelho */
+const TXT = {"q":"Question","of":"of","ok":"✅ Correct!","bad":"❌ Incorrect. Right answer:","next":"Next question ▶","finish":"See result 🏁","final":"Final result","best":"Your best score on this quiz:","m1":"🏆 Excellent! You master this topic.","m2":"👍 Good result! Review the points you missed.","m3":"📚 Keep studying: reread the lesson and try again."};
+function scoreText(s, n){ return `You got ${s} of ${n} questions right (${Math.round(s / n * 100)}%)`; }
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quiz=[], currentQuestion=0, score=0;
+
+function prepareQuiz(){
+  quiz = shuffle(questions.map(q => {
+    const opts = shuffle(q.options.map((text,i) => ({ text, ok: i === q.correctAnswer })));
+    return { question:q.question, options:opts.map(o=>o.text), correctAnswer:opts.findIndex(o=>o.ok), explanation:q.explanation };
+  }));
+  currentQuestion=0; score=0;
+}
+
 function loadQuestion(){
-const qc=document.getElementById("question-container");
-const oc=document.getElementById("options-container");
-const pt=document.getElementById("progress-text");
-const p=document.getElementById("progress");
-pt.textContent=`Question ${currentQuestion+1} of ${questions.length}`;
-p.style.width=`${((currentQuestion)/questions.length)*100}%`;
-qc.textContent=questions[currentQuestion].question;
-oc.innerHTML="";
-questions[currentQuestion].options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.textContent=option;btn.classList.add("option");btn.dataset.index=index;btn.onclick=selectOption;oc.appendChild(btn);
-});
+  const q = quiz[currentQuestion];
+  document.getElementById("progress-text").textContent = TXT.q+" "+(currentQuestion+1)+" "+TXT.of+" "+quiz.length;
+  document.getElementById("progress").style.width = (currentQuestion/quiz.length*100)+"%";
+  document.getElementById("question-container").textContent = q.question;
+  const fb = document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("result").innerHTML="";
+  const box = document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach((option,index) => {
+    const b=document.createElement("button");
+    b.textContent=option; b.className="option"; b.dataset.index=index; b.onclick=selectOption;
+    box.appendChild(b);
+  });
 }
+
 function selectOption(event){
-const buttons=document.querySelectorAll(".option");
-buttons.forEach(btn=>btn.disabled=true);
-const selected=parseInt(event.target.dataset.index);
-const correct=questions[currentQuestion].correctAnswer;
-let delay;
-if(selected===correct){event.target.classList.add("correct");document.getElementById("result").textContent="Correct!";score++;delay=1000;}
-else{event.target.classList.add("wrong");buttons[correct].classList.add("correct");document.getElementById("result").textContent=`Incorrect. Correct answer: ${questions[currentQuestion].options[correct]}`;delay=2000;}
-currentQuestion++;
-setTimeout(()=>{document.getElementById("result").textContent="";if(currentQuestion<questions.length){loadQuestion();}else{showResult();}},delay);
+  const q = quiz[currentQuestion];
+  const buttons=document.querySelectorAll(".option");
+  buttons.forEach(b=>b.disabled=true);
+  const selected=parseInt(event.currentTarget.dataset.index,10);
+  const fb=document.getElementById("feedback");
+  let titulo;
+  if(selected===q.correctAnswer){
+    event.currentTarget.classList.add("correct"); score++; fb.className="ok"; titulo=TXT.ok;
+  }else{
+    event.currentTarget.classList.add("wrong"); buttons[q.correctAnswer].classList.add("correct"); fb.className="erro";
+    titulo=TXT.bad+" "+q.options[q.correctAnswer];
+  }
+  if(window.Estudo) Estudo.registrarResposta(q, selected===q.correctAnswer);
+  fb.innerHTML='<div class="fb-titulo"></div><div class="fb-texto"></div>';
+  fb.querySelector(".fb-titulo").textContent=titulo;
+  fb.querySelector(".fb-texto").textContent=q.explanation||"";
+  const next=document.getElementById("next-btn");
+  next.textContent = currentQuestion+1<quiz.length ? TXT.next : TXT.finish;
+  next.style.display="block";
+  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion<quiz.length){ loadQuestion(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else showResult();
+}
+
 function showResult(){
-document.getElementById("progress").style.width="100%";
-document.getElementById("question-container").textContent="Final Result";
-document.getElementById("options-container").innerHTML="";
-document.getElementById("result").textContent=`You got ${score} out of ${questions.length} questions right!`;
-document.getElementById("restart-btn").style.display="inline-block";
+  const n=quiz.length, pct=score/n;
+  document.getElementById("progress").style.width="100%";
+  document.getElementById("progress-text").textContent="";
+  document.getElementById("question-container").textContent=TXT.final;
+  document.getElementById("options-container").innerHTML="";
+  const fb=document.getElementById("feedback"); fb.className=""; fb.innerHTML="";
+  document.getElementById("next-btn").style.display="none";
+  let best=score;
+  if(window.Estudo) best=Estudo.salvarNota(score,n).melhor;
+  const r=document.getElementById("result");
+  r.innerHTML="";
+  const a=document.createElement("span"); a.textContent=scoreText(score,n);
+  const m=document.createElement("span"); m.className="msg"; m.textContent= pct>=0.8?TXT.m1 : pct>=0.6?TXT.m2 : TXT.m3;
+  const b=document.createElement("span"); b.className="best"; b.textContent=TXT.best+" "+best+"/"+n;
+  r.append(a,m,b);
+  if(window.Estudo && Estudo.erros().length){
+    const rv=document.createElement("a"); rv.href="revisao.html"; rv.className="btn-revisar";
+    rv.textContent="📌 Review my mistakes ("+Estudo.erros().length+")";
+    r.appendChild(rv);
+  }
+  if(window.Estudo) Estudo.oferta(r, pct);
+  document.getElementById("restart-btn").style.display="inline-block";
+  try{ const g=(typeof gtag==="function")?gtag:(window.parent&&window.parent.gtag); if(g) g("event","simulado_concluido",{simulado:document.title,acertos:score,total:n}); }catch(e){}
 }
-document.getElementById("restart-btn").onclick=function(){currentQuestion=0;score=0;this.style.display="none";loadQuestion();};
+
+document.getElementById("next-btn").onclick=nextQuestion;
+document.getElementById("restart-btn").onclick=function(){
+  this.style.display="none"; prepareQuiz(); loadQuestion();
+};
+
+prepareQuiz();
 loadQuestion();
+
 </script>
 </body>
 </html>

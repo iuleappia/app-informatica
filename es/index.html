@@ -4,6 +4,7 @@
 
 <script src="../js/analytics.js"></script>
 <script src="../js/meta-pixel.js"></script>
+<script src="../js/rastreio-app.js"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +43,7 @@ body{
   left:0;
   width:100%;
   height:55px;
-  background:#0d6efd;
+  background:linear-gradient(135deg,#0B1020,#16213E);
   color:white;
   display:flex;
   align-items:center;
@@ -73,7 +74,8 @@ body{
 }
 
 .idiomas a.ativo{
-  background:rgba(255,255,255,0.25);
+  background:rgba(0,229,255,0.18);
+  color:#FFD60A;
   font-weight:bold;
 }
 
@@ -141,7 +143,7 @@ iframe{
 /* BOTÃO ATIVO */
 
 .menu button.ativo{
-  color:#0d6efd;
+  color:#16213E;
   font-weight:bold;
 }
 
@@ -152,7 +154,7 @@ iframe{
   position:absolute;
   width:40px;
   height:4px;
-  background:#0d6efd;
+  background:#00B8D4;
   bottom:0;
   border-radius:10px;
 }
@@ -179,8 +181,19 @@ iframe{
 
 }
 
+
+/* MARCA + BOTÃO DE TEMA */
+#tituloPagina::before{content:"IuleApp · ";color:#FFD60A;font-weight:bold;}
+.topo{border-bottom:3px solid #00E5FF;}
+#btnTema{background:none;border:1px solid rgba(255,255,255,0.3);color:white;border-radius:8px;font-size:16px;padding:6px 9px;margin-left:4px;cursor:pointer;min-height:36px;}
+#tituloPagina{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:6px;}
+.idiomas{flex-shrink:0;}
+@media(max-width:440px){.topo{font-size:16px;}.idiomas a{font-size:11px;padding:10px 5px;}.idiomas{gap:2px;}}
+@media(max-width:360px){#tituloPagina::before{content:"";}}
 </style>
 
+<link rel="stylesheet" href="../css/escuro.css">
+<script src="../js/tema.js"></script>
 </head>
 
 <body>
@@ -192,6 +205,7 @@ iframe{
     <a href="../index.html" onclick="localStorage.setItem('userLang','pt')">🇧🇷 PT</a>
     <a href="index.html" class="ativo" onclick="localStorage.setItem('userLang','es')">🇪🇸 ES</a>
     <a href="../en/index.html" onclick="localStorage.setItem('userLang','en')">🇺🇸 EN</a>
+    <button id="btnTema" type="button" aria-label="Cambiar modo oscuro" title="Cambiar modo oscuro">🌙</button>
   </div>
 </div>
 

@@ -175,7 +175,7 @@ New pages in each simulados folder (PT/ES/EN), generated with the same strings:
 - `revisao.html` — practice only the saved mistakes, with explanations
 - `simulado_geral.html` — exam mode: 20 q/30 min or 40 q/60 min, balanced across subjects, no feedback until the end, then score by subject + answer key. It loads questions by fetching the 8 simulado HTML files and parsing their `questions` array, so the array must keep the format `const questions = [ ... \n];`.
 
-Home (`page/home.html`, `es/home.html`, `en/home.html`): progress card, "Sugestão de Estudo" based on progress, and tip/Excel/fact of the day (32 items each, rotate by day of year, "↻ Outra" button).
+Home (`page/home.html`, `es/home.html`, `en/home.html`): progress card, Kit Excel na Prática card (PT only, same as in Cursos, right below the progress card → `https://iuleappia.github.io/iuleapp-com/excel-pt/`), "Sugestão de Estudo" based on progress, and tip/Excel/fact of the day (32 items each, rotate by day of year, "↻ Outra" button).
 
 ### Visual: marca, modo escuro e imagens
 
